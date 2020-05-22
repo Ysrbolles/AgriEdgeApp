@@ -14,6 +14,10 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  StatusBar,
+  LayoutAnimation,
+  Image,
+  Button
 } from "react-native";
 
 Facebook.initializeAsync("526885078008360");
@@ -26,6 +30,7 @@ Facebook.initializeAsync("526885078008360");
 //   ? { text: "To get started, provide a valid firebase config in App.js and open this snack on an iOS or Android device."}
 //   : undefined);
 export default class LoginScreen extends React.Component {
+  static navigationOptions = { headerShown: false };
   state = {
     phone: "",
     user: null,
@@ -162,28 +167,32 @@ export default class LoginScreen extends React.Component {
 
     // if (loading) return (
     //   <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-    //     <ActivityIndicator size='large' color='#0000ff' /> 
+    //     <ActivityIndicator size='large' color='#0000ff' />
     //   </View>
     // )
     return (
       <View style={styles.container}>
-        <Text style={styles.greeting}>{`Hello again.\nWelcome back.`}</Text>
-
+        <StatusBar barStyle="light-content"></StatusBar>
+        <Image
+        style={{marginTop: -30,alignSelf:'center', height: 200, width:400}}
+        source={require('../assets/header_illus-min.png')}
+      />
+      <Image
+        style={{marginTop: -45,alignSelf:'center'}}
+        source={require('../assets/logo.png')}
+      />
+        {/* <Text style={styles.greeting}>{`Hello again.\nWelcome back.`}</Text> */}
+      
         <View style={styles.errorMessage}>
           {this.state.errorMessage && (
             <Text style={styles.error}>{this.state.errorMessage}</Text>
           )}
         </View>
-
         <View style={styles.form}>
           <View>
-          {/* <Text style={{fontSize: 24}}>You're in</Text>
           
-          <TouchableOpacity style={styles.btn}
-            onPress = {this.logout}>
-            <Text style={{fontSize: 24, alignSelf: 'center', color: '#FFF'}}>Logout</Text>
-          </TouchableOpacity> */}
-            {/* <PhoneAuth /> */}
+          
+            <PhoneAuth />
             {/* <Text style={styles.inputTitle}>Email Address</Text>
             <TextInput */}
             {/* style={{ marginVertical: 10, fontSize: 17 }}
@@ -195,33 +204,24 @@ export default class LoginScreen extends React.Component {
               onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
             ></TextInput> */}
           </View>
+          {/* <Button rounded title="butt" style={styles.button} /> */}
         </View>
-        {/* 
-        <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
-          <Text style={{ color: "#FFF", fontWeight: "500" }}>Send Code</Text>
-        </TouchableOpacity> */}
-
+       
+        {/* <PhoneAuth /> */}
         <SocialIcon
+        
           title="Sign In With Facebook"
           button
           type="facebook"
           onPress={this.loginWithFacebook}
         />
         <SocialIcon
-          title="Sign In With Facebook"
+          style={styles.button}
+          title="Sign In With Google"
           button
           type="google"
           onPress={this.signInWithGoogleAsync}
         />
-        <TouchableOpacity
-          style={{ alignSelf: "center", marginTop: 32 }}
-          onPress={() => this.props.navigation.navigate("Register")}
-        >
-          <Text style={{ color: "#414959", fontSize: 13 }}>
-            New to SocialApp?{" "}
-            <Text style={{ fontWeight: "500", color: "#E9446A" }}>Sign Up</Text>
-          </Text>
-        </TouchableOpacity>
       </View>
     );
   }
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
   },
   form: {
     marginBottom: 48,
-    marginHorizontal: 30,
+    marginHorizontal: 25,
   },
   inputTitle: {
     color: "#8A8F9E",
@@ -266,11 +266,15 @@ const styles = StyleSheet.create({
     color: "#161F3D",
   },
   button: {
-    marginHorizontal: 30,
-    backgroundColor: "#E9446A",
-    borderRadius: 4,
+    marginHorizontal: 10,
+    backgroundColor: "#5ABD8C",
+    borderRadius: 25,
     height: 52,
+    width:340,
     alignItems: "center",
     justifyContent: "center",
   },
+  stretch:{
+    
+  }
 });

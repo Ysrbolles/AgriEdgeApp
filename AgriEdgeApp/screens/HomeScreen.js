@@ -13,10 +13,16 @@ import {
   View,
   Dimensions,
   TouchableOpacity,
+  StatusBar,
+  Image,
+  LayoutAnimation,
 } from "react-native";
 import * as firebase from "firebase";
 
 export default class HomeScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
   componentDidMount() {
     const { email, displayName } = firebase.auth().currentUser;
 
@@ -98,7 +104,14 @@ export default class HomeScreen extends React.Component {
     const searchData = this.state.userlocation.coords;
     return (
       <View style={styles.container}>
-        <MapView
+        <StatusBar
+          backgroundColor="#b3e6ff"
+          barStyle="dark-content"
+          hidden={true}
+          translucent={true}
+        />
+        <Image source={"../assets/logo.png"} />
+        {/* <MapView
           style={styles.mapStyle}
           mapType="satellite"
           initialRegion={{
@@ -107,12 +120,8 @@ export default class HomeScreen extends React.Component {
             latitudeDelta: 0.003,
             longitudeDelta: 0.003,
           }}
-        >
-         
-        </MapView>
-        <View>
-          <Text>{JSON.stringify(this.state.latitude)}</Text>
-        </View>
+          showsUserLocation={true}
+        ></MapView> */}
         <TouchableOpacity style={{ marginTop: 32 }} onPress={this.signOutUser}>
           <Text>Logout</Text>
         </TouchableOpacity>

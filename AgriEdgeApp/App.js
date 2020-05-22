@@ -32,6 +32,7 @@ export default createAppContainer(
     },
     {
       initialRouteName: "Loading",
+      
     }
   )
 );
