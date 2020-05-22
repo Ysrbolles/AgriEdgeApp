@@ -21,7 +21,7 @@ import * as firebase from "firebase";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    headerShown: false
   };
   componentDidMount() {
     const { email, displayName } = firebase.auth().currentUser;
@@ -110,7 +110,6 @@ export default class HomeScreen extends React.Component {
           hidden={true}
           translucent={true}
         />
-        <Image source={"../assets/logo.png"} />
         {/* <MapView
           style={styles.mapStyle}
           mapType="satellite"
