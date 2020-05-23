@@ -147,13 +147,10 @@ export default class LoginScreen extends React.Component {
         firebase
           .auth()
           .signInAndRetrieveDataWithCredential(crdnt)
-          .then(() => {
-            console.log("aha ana");
-          })
+          .then(() => {})
           .catch((err) => {
-            console.log("mabghitch wae    " + err);
+            console.log(err);
           });
-        console.log("done");
       } else {
         return { cancelled: true };
       }
@@ -163,13 +160,6 @@ export default class LoginScreen extends React.Component {
   }
 
   render() {
-    // let {loading, confirmResult, user} = this.state
-
-    // if (loading) return (
-    //   <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-    //     <ActivityIndicator size='large' color='#0000ff' />
-    //   </View>
-    // )
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content"></StatusBar>

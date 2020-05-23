@@ -80,7 +80,7 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-    LayoutAnimation.easeInEaseOut()
+    LayoutAnimation.easeInEaseOut();
     return (
       <View style={styles.container}>
         <StatusBar
@@ -90,15 +90,16 @@ export default class HomeScreen extends React.Component {
           translucent={true}
         />
         <MapView
+         mapType="satellite"
           style={styles.mapStyle}
-          mapType="satellite"
-          initialRegion={{
+          region={{
             latitude: this.state.latitude,
             longitude: this.state.longitude,
-            latitudeDelta: 0.003,
-            longitudeDelta: 0.003,
+            latitudeDelta: 0.010,
+            longitudeDelta: 0.010,
           }}
           showsUserLocation={true}
+         
         />
       </View>
     );
@@ -114,6 +115,6 @@ const styles = StyleSheet.create({
   },
   mapStyle: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    height: Dimensions.get("window").height - 40,
   },
 });
