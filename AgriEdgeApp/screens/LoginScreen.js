@@ -17,7 +17,7 @@ import {
   StatusBar,
   LayoutAnimation,
   Image,
-  Button
+  Button,
 } from "react-native";
 
 Facebook.initializeAsync("526885078008360");
@@ -174,15 +174,20 @@ export default class LoginScreen extends React.Component {
       <View style={styles.container}>
         <StatusBar barStyle="light-content"></StatusBar>
         <Image
-        style={{marginTop: -30,alignSelf:'center', height: 200, width:400}}
-        source={require('../assets/header_illus-min.png')}
-      />
-      <Image
-        style={{marginTop: -45,alignSelf:'center'}}
-        source={require('../assets/logo.png')}
-      />
+          style={{
+            marginTop: -30,
+            alignSelf: "center",
+            height: 200,
+            width: 400,
+          }}
+          source={require("../assets/header_illus-min.png")}
+        />
+        <Image
+          style={{ marginTop: -45, alignSelf: "center" }}
+          source={require("../assets/logo.png")}
+        />
         {/* <Text style={styles.greeting}>{`Hello again.\nWelcome back.`}</Text> */}
-      
+
         <View style={styles.errorMessage}>
           {this.state.errorMessage && (
             <Text style={styles.error}>{this.state.errorMessage}</Text>
@@ -190,26 +195,12 @@ export default class LoginScreen extends React.Component {
         </View>
         <View style={styles.form}>
           <View>
-          
-          
             <PhoneAuth />
-            {/* <Text style={styles.inputTitle}>Email Address</Text>
-            <TextInput */}
-            {/* style={{ marginVertical: 10, fontSize: 17 }}
-              placeholder="+1 999 999 9999"
-              autoFocus
-              autoCompleteType="tel"
-              keyboardType="phone-pad"
-              textContentType="telephoneNumber"
-              onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
-            ></TextInput> */}
           </View>
-          {/* <Button rounded title="butt" style={styles.button} /> */}
         </View>
-       
+
         {/* <PhoneAuth /> */}
         <SocialIcon
-        
           title="Sign In With Facebook"
           button
           type="facebook"
@@ -273,7 +264,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  stretch:{
-    
-  }
+  stretch: {},
 });

@@ -8,6 +8,7 @@ import {
   Platform,
   Button,
   Image,
+  Dimensions
 } from "react-native";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import * as firebase from "firebase";

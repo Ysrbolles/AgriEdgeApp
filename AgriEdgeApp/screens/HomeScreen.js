@@ -21,7 +21,7 @@ import * as firebase from "firebase";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    headerShown: false
+    headerShown: false,
   };
   componentDidMount() {
     const { email, displayName } = firebase.auth().currentUser;
@@ -37,10 +37,6 @@ export default class HomeScreen extends React.Component {
     });
     console.log(this.state.userlocation);
   }
-  // componentWillMount(){
-  //   this._getuserLocation()
-  // }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -60,12 +56,6 @@ export default class HomeScreen extends React.Component {
 
   _getuserLocation = async () => {
     let { status } = await Location.requestPermissionsAsync();
-    // if (status !== 'granted') {
-    //   setErrorMsg('Permission to access location was denied');
-    // }
-
-    // let location = await Location.getCurrentPositionAsync({});
-
     if (status !== "granted") {
       console.log("Permission not granted");
 
@@ -85,23 +75,12 @@ export default class HomeScreen extends React.Component {
   signOutUser = () => {
     firebase.auth().signOut();
   };
-  getInitialState() {
-    return {
-      region: new AnimatedRegion({
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      }),
-    };
-  }
-
   onRegionChange(region) {
     this.state.region.setValue(region);
   }
 
   render() {
-    const searchData = this.state.userlocation.coords;
+    LayoutAnimation.easeInEaseOut()
     return (
       <View style={styles.container}>
         <StatusBar
@@ -110,7 +89,7 @@ export default class HomeScreen extends React.Component {
           hidden={true}
           translucent={true}
         />
-        {/* <MapView
+        <MapView
           style={styles.mapStyle}
           mapType="satellite"
           initialRegion={{
@@ -120,10 +99,7 @@ export default class HomeScreen extends React.Component {
             longitudeDelta: 0.003,
           }}
           showsUserLocation={true}
-        ></MapView> */}
-        <TouchableOpacity style={{ marginTop: 32 }} onPress={this.signOutUser}>
-          <Text>Logout</Text>
-        </TouchableOpacity>
+        />
       </View>
     );
   }
