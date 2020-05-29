@@ -133,17 +133,18 @@ export default class WeatherScreen extends React.Component {
     console.log(item);
     return (
       <View style={styles.containerForecast}>
+      <View style={styles.dayForecast}>
+          <Text> {dayjs(new Date(item.time * 1000)).format("hh:mm a")}</Text>
+        </View>
         <View style={styles.iconForecast}>
           <Text>{getForecastEmoji(item.icon)}</Text>
         </View>
         <View style={styles.tempreatureForecast}>
           <Text>
-            {Math.round(item.temperature)}
+            {Math.round(item.temperature)}°C
           </Text>
         </View>
-        <View style={styles.dayForecast}>
-          <Text> {dayjs(new Date(item.time * 1000)).format("hh:mm a")}</Text>
-        </View>
+        
       </View>
     );
   };
@@ -352,13 +353,15 @@ const styles = StyleSheet.create({
   tempreatureForecast: {
     justifyContent: "center",
     paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+
     alignItems: "center",
   },
   dayForecast: {
     paddingTop: 10,
+    paddingBottom: 8,
     alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
   separator: {
     marginLeft: 20,
