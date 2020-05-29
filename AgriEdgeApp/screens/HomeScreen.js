@@ -4,6 +4,7 @@ import MapView, {
   Animated,
   Polyline,
   Marker,
+  Polygon,
 } from "react-native-maps";
 import * as Location from "expo-location";
 import {
@@ -94,7 +95,22 @@ export default class HomeScreen extends React.Component {
             longitudeDelta: 0.01,
           }}
           showsUserLocation={true}
+        >
+          <Marker coordinate={{latitude: 32.8025259, longitude:-7.4351431}}/>
+          <Polygon
+        // onPress={alert("Hi")} 
+        tappable={true}
+        editeable={true}
+        coordinates={[
+         { name: '1', latitude: 32.8025259, longitude: -7.4351431},
+         { name: '2', latitude: 32.7946386, longitude: -7.421646},
+         { name: '3', latitude: 32.7665248, longitude: -7.4165628},
+         { name: '4', latitude: 32.7834153, longitude: -7.4527787},
+         { name: '5', latitude: 32.7948105, longitude: -7.4596065},
+        ]}
+        fillColor={'rgba(240, 255, 0, 0.5)'}
         />
+        </MapView>
       </View>
     );
   }
