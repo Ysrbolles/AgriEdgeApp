@@ -8,7 +8,7 @@ import {
   Platform,
   Button,
   Image,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import * as firebase from "firebase";
@@ -32,11 +32,24 @@ export default function App() {
   );
 
   const SendCode = async () => {
+
     try {
+      const applicationVerifier = new firebase.auth.RecaptchaVerifier(
+        'recaptcha-container',{
+          size: 'normal',
+          callback: response => {
+              // reCAPTCHA solved, allow signInWithPhoneNumber.
+              // ...
+          },
+          'expired-callback': () => {
+              // Response expired. Ask user to solve reCAPTCHA again.
+              // ...
+          }
+      });
       const phoneProvider = new firebase.auth.PhoneAuthProvider();
       const verificationId = await phoneProvider.verifyPhoneNumber(
         phoneNumber,
-        recaptchaVerifier.current
+        applicationVerifier
       );
       setVerificationId(verificationId);
       showMessage({
@@ -66,7 +79,7 @@ export default function App() {
         autoCompleteType="tel"
         keyboardType="phone-pad"
         textContentType="telephoneNumber"
-        onChangeText={(phoneNumber) => setPhoneNumber("+212"+phoneNumber)}
+        onChangeText={(phoneNumber) => setPhoneNumber("+212" + phoneNumber)}
       />
       <TouchableOpacity
         rounded
@@ -155,7 +168,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#5ABD8C",
     borderRadius: 20,
     height: 46,
-    width: 340,
+    width: 300,
     alignItems: "center",
     justifyContent: "center",
   },

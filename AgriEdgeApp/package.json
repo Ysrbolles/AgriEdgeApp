@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
+    "axios": "^0.19.2",
+    "dayjs": "^1.8.28",
     "expo": "~37.0.3",
     "expo-facebook": "^8.1.0",
     "expo-firebase-recaptcha": "^1.1.0",

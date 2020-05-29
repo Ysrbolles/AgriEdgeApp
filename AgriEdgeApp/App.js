@@ -53,11 +53,11 @@ const AppTabNavigator = createBottomTabNavigator(
     },
   },
   {
-    tabBarOptions:{
-      activeTintColor: '#161F3D',
-      inactiveTintColor: '#B8BBC4',
-      showLabel: false
-    }
+    tabBarOptions: {
+      activeTintColor: "#161F3D",
+      inactiveTintColor: "#B8BBC4",
+      showLabel: false,
+    },
   }
 );
 

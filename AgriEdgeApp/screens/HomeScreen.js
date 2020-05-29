@@ -5,7 +5,6 @@ import MapView, {
   Polyline,
   Marker,
 } from "react-native-maps";
-// import {Location} from 'expo'
 import * as Location from "expo-location";
 import {
   StyleSheet,
@@ -24,18 +23,14 @@ export default class HomeScreen extends React.Component {
     headerShown: false,
   };
   componentDidMount() {
-    const { email, displayName } = firebase.auth().currentUser;
-
-    this.setState({ email, displayName });
-    this._getuserLocation().then((poseition) => {
-      console.log(poseition.coords);
+    this._getuserLocation().then((position) => {
+      console.log(position.coords);
       this.setState({
-        userlocation: poseition,
-        latitude: poseition.coords.latitude,
-        longitude: poseition.coords.longitude,
+        userlocation: position,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
       });
     });
-    console.log(this.state.userlocation);
   }
   constructor(props) {
     super(props);
@@ -90,16 +85,15 @@ export default class HomeScreen extends React.Component {
           translucent={true}
         />
         <MapView
-         mapType="satellite"
+          mapType="satellite"
           style={styles.mapStyle}
           region={{
             latitude: this.state.latitude,
             longitude: this.state.longitude,
-            latitudeDelta: 0.010,
-            longitudeDelta: 0.010,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
           }}
           showsUserLocation={true}
-         
         />
       </View>
     );
