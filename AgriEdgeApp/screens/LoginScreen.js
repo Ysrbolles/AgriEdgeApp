@@ -188,7 +188,7 @@ export default class LoginScreen extends React.Component {
             <PhoneAuth />
           </View>
         </View>
-
+          <Text style={{textAlign: 'center', marginBottom: 30}}>______________________ OR ______________________</Text>
         {/* <PhoneAuth /> */}
         <SocialIcon
           title="Sign In With Facebook"

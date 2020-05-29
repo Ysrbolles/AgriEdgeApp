@@ -71,7 +71,7 @@ export default function App() {
         ref={recaptchaVerifier}
         firebaseConfig={firebaseConfig}
       />
-      <Text>Enter phone number</Text>
+      {/* <Text>Enter phone number</Text> */}
       <Input
         style={{ marginVertical: 10, fontSize: 17 }}
         placeholder="Phone Number"
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#5ABD8C",
     borderRadius: 20,
     height: 46,
-    width: 300,
+    width: 290,
     alignItems: "center",
     justifyContent: "center",
   },

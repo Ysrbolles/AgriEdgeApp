@@ -60,14 +60,11 @@ export default class WeatherScreen extends React.Component {
     axios
       .get(
         `https://api.darksky.net/forecast/7efd1aae347e80f7b870e069d3d60233/${this.state.latitude},${this.state.longitude}?units=ca&&lang=ar`
-        // `https://api.darksky.net/forecast/7efd1aae347e80f7b870e069d3d60233/${this.state.latitude},${this.state.longitude}?lang=ar`
       )
       .then((WeatherData) => {
-        // console.log(WeatherData.data.daily.data[0]);
         this.setState({ currently: WeatherData.data.currently });
-        let WeatherDays = WeatherData.data.daily.data;
+        // get hourly data 
         let hours = WeatherData.data.hourly.data;
-        // console.log(WeatherDays);
         let hourly = [];
         hours.forEach((element, index) => {
           hourly = hourly.concat([
@@ -81,6 +78,8 @@ export default class WeatherScreen extends React.Component {
             },
           ]);
         });
+        // get daily data
+        let WeatherDays = WeatherData.data.daily.data;
         var daily = [];
         WeatherDays.forEach((element, index) => {
           daily = daily.concat([
@@ -95,7 +94,6 @@ export default class WeatherScreen extends React.Component {
             },
           ]);
         });
-
         this.setState({ days: daily, hourly: hourly });
       })
       .catch((err) => {
@@ -112,8 +110,6 @@ export default class WeatherScreen extends React.Component {
 
   listDays() {
     return this.state.days.map((element) => {
-      console.log("**************************************");
-      console.log(element);
       return (
         <View style={styles.fivecolumns}>
           <Text style={styles.columntitle}>
@@ -133,18 +129,15 @@ export default class WeatherScreen extends React.Component {
     console.log(item);
     return (
       <View style={styles.containerForecast}>
-      <View style={styles.dayForecast}>
+        <View style={styles.dayForecast}>
           <Text> {dayjs(new Date(item.time * 1000)).format("hh:mm a")}</Text>
         </View>
         <View style={styles.iconForecast}>
           <Text>{getForecastEmoji(item.icon)}</Text>
         </View>
         <View style={styles.tempreatureForecast}>
-          <Text>
-            {Math.round(item.temperature)}°C
-          </Text>
+          <Text>{Math.round(item.temperature)}°C</Text>
         </View>
-        
       </View>
     );
   };
@@ -156,7 +149,7 @@ export default class WeatherScreen extends React.Component {
           source={require("../assets/test.jpg")}
         >
           <View style={styles.innerupperregion}>
-          <Text style={[styles.addwhite, { fontSize: 20 }]}>
+            <Text style={[styles.addwhite, { fontSize: 20 }]}>
               {dayjs(new Date(this.state.currently.time * 1000)).format(
                 "hh:mm a"
               )}
@@ -176,48 +169,26 @@ export default class WeatherScreen extends React.Component {
           </View>
 
           <View style={styles.lowerinnerregion}>
-            {/* <Text style={[styles.addwhite, { fontSize: 18 }]}>
+            <Text style={[styles.addwhite, { fontSize: 18 }]}>
               MALMO, SWEDEN{" "}
-            </Text> */}
-            {/* <Text style={[styles.addwhite, { fontSize: 14 }]}>
-              {dayjs(new Date(this.state.currently.time * 1000)).format(
-                "hh:mm a"
-              )}
-            </Text> */}
-            <View style={[styles.addwhite, {marginTop: 20}]}>
-            <FlatList
-              style={styles.listForecast}
-              horizontal
-              data={this.state.hourly}
-              renderItem={this.renderElement}
-              ItemSeparatorComponent={() => (
-                <View style={styles.separator}></View>
-              )}
-            />
+            </Text>
+
+            <View style={[styles.addwhite, { marginTop: 20 }]}>
+              <FlatList
+                style={styles.listForecast}
+                horizontal
+                data={this.state.hourly}
+                renderItem={this.renderElement}
+                ItemSeparatorComponent={() => (
+                  <View style={styles.separator}></View>
+                )}
+                keyExtractor={(item) => item.time}
+              />
+            </View>
           </View>
-          </View>
-         
         </ImageBackground>
-        {/* <View style={styles.lowerregion}>
-          <View style={{ flexDirection: "column" }}>
-            <FlatList
-              style={styles.listForecast}
-              horizontal
-              data={this.state.days}
-              renderItem={this.renderElement}
-              ItemSeparatorComponent={() => (
-                <View style={styles.separator}></View>
-              )}
-            />
-          </View> */}
-        {/* <View>{this.listDays()}</View> */}
-        {/* </View> */}
-        {/* <ScrollView horizontal={true}>" "{this.listDays()}</ScrollView> */}
-        
-        <View style={styles.lowerregion}>
-         
-           {this.listDays()}
-        </View>
+
+        <View style={styles.lowerregion}>{this.listDays()}</View>
       </View>
     );
   }
@@ -233,7 +204,7 @@ const styles = StyleSheet.create({
   },
 
   lowerregion: {
-    flex: 1,
+    flex: 0.5,
     flexDirection: "row",
     backgroundColor: "#f4f4f4",
     height: 5,
