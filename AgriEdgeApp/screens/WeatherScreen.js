@@ -7,19 +7,18 @@ import {
   FlatList,
   Image,
   ImageBackground,
-  ScrollView,
 } from "react-native";
+import Swiper from "react-native-swiper";
 import * as Location from "expo-location";
 import axios from "axios";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import getForecastEmoji from "../services/getForecastEmoji";
 import dayjs from "dayjs";
-import HorizontalFlatliste from "./HorizontalFlatliste";
-import { TrackingConfiguration } from "expo/build/AR";
-import IconFA from "react-native-vector-icons/FontAwesome";
-import Icon from "./helpers/weatherIcons/weatherIcons";
+import { Col, Row, Grid } from "react-native-easy-grid";
 export default class WeatherScreen extends React.Component {
+  _isMounted = false;
   componentDidMount() {
+    this._isMounted = true;
     this._getuserLocation().then((position) => {
       console.log(position.coords.latitude);
       this.setState({
@@ -28,6 +27,10 @@ export default class WeatherScreen extends React.Component {
       });
       this.getWeatherData();
     });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   constructor(props) {
@@ -63,7 +66,7 @@ export default class WeatherScreen extends React.Component {
       )
       .then((WeatherData) => {
         this.setState({ currently: WeatherData.data.currently });
-        // get hourly data 
+        // get hourly data
         let hours = WeatherData.data.hourly.data;
         let hourly = [];
         hours.forEach((element, index) => {
@@ -75,6 +78,7 @@ export default class WeatherScreen extends React.Component {
               humidity: element.humidity,
               pressure: element.pressure,
               temperature: element.temperature,
+              waterPercent: element.precipProbability,
             },
           ]);
         });
@@ -91,6 +95,7 @@ export default class WeatherScreen extends React.Component {
               pressure: element.pressure,
               temperatureMin: element.temperatureMin,
               temperatureMax: element.temperatureMax,
+              waterPercent: element.precipProbability,
             },
           ]);
         });
@@ -116,27 +121,78 @@ export default class WeatherScreen extends React.Component {
             {""}
             {dayjs(new Date(element.time * 1000)).format("ddd")}
           </Text>
-          <Text>{getForecastEmoji(element.icon)}</Text>
-          {/* <Image style={styles.iconsmall} source={require('./assets/smallicon.png')} /> */}
+          <MaterialCommunityIcons
+            size={38}
+            name={getForecastEmoji(element.icon)}
+            color={"#5ABD8C"}
+          />
+
           <Text style={styles.temp}>
             {Math.round(element.temperatureMax)}°C
           </Text>
+          <View style={styles.waterForecast}>
+            <MaterialCommunityIcons
+              size={15}
+              name="water-percent"
+              color={"#5ABD8C"}
+            />
+            <Text style={{ fontSize: 10 }}>{element.waterPercent} %</Text>
+          </View>
         </View>
       );
     });
   }
+  listDaily = ({ item }) => {
+    return (
+      <View style={styles.fivecolumns}>
+          <Text style={styles.columntitle}>
+            {""}
+            {dayjs(new Date(item.time * 1000)).format("ddd")}
+          </Text>
+          <MaterialCommunityIcons
+            size={38}
+            name={getForecastEmoji(item.icon)}
+            color={"#5ABD8C"}
+          />
+
+          <Text style={styles.temp}>
+            {Math.round(item.temperatureMax)}°C
+          </Text>
+          <View style={styles.waterForecast}>
+            <MaterialCommunityIcons
+              size={15}
+              name="water-percent"
+              color={"#5ABD8C"}
+            />
+            <Text style={{ fontSize: 10 }}>{item.waterPercent} %</Text>
+          </View>
+        </View>
+    );
+  };
   renderElement = ({ item }) => {
-    console.log(item);
     return (
       <View style={styles.containerForecast}>
         <View style={styles.dayForecast}>
           <Text> {dayjs(new Date(item.time * 1000)).format("hh:mm a")}</Text>
         </View>
         <View style={styles.iconForecast}>
-          <Text>{getForecastEmoji(item.icon)}</Text>
+          <MaterialCommunityIcons
+            size={38}
+            name={getForecastEmoji(item.icon)}
+            color={"#fff"}
+          />
+          {/* <Text>{getForecastEmoji(item.icon)}</Text> water-percent */}
         </View>
         <View style={styles.tempreatureForecast}>
           <Text>{Math.round(item.temperature)}°C</Text>
+        </View>
+        <View style={styles.waterForecast}>
+          <MaterialCommunityIcons
+            size={20}
+            name="water-percent"
+            color={"#fff"}
+          />
+          <Text>{item.waterPercent} %</Text>
         </View>
       </View>
     );
@@ -146,7 +202,7 @@ export default class WeatherScreen extends React.Component {
       <View style={styles.container}>
         <ImageBackground
           style={styles.upperregion}
-          source={require("../assets/test.jpg")}
+          source={require("../assets/test2.jpg")}
         >
           <View style={styles.innerupperregion}>
             <Text style={[styles.addwhite, { fontSize: 20 }]}>
@@ -161,18 +217,21 @@ export default class WeatherScreen extends React.Component {
             <Text style={styles.degrees}>
               {Math.round(this.state.currently.temperature)}°C
             </Text>
-
-            <Text>{getForecastEmoji(this.state.currently.icon)}</Text>
+            <MaterialCommunityIcons
+              size={48}
+              name={getForecastEmoji(this.state.currently.icon)}
+              color={"#fff"}
+            />
             <Text style={styles.weathercondition}>
               {this.state.currently.summary}
             </Text>
           </View>
 
           <View style={styles.lowerinnerregion}>
-            <Text style={[styles.addwhite, { fontSize: 18 }]}>
+            {/* <Text style={[styles.addwhite, { fontSize: 18 }]}>
               MALMO, SWEDEN{" "}
-            </Text>
-
+            </Text> */}
+            {/* <Swiper style={styles.wrapper} showsButtons={false}> */}
             <View style={[styles.addwhite, { marginTop: 20 }]}>
               <FlatList
                 style={styles.listForecast}
@@ -182,19 +241,59 @@ export default class WeatherScreen extends React.Component {
                 ItemSeparatorComponent={() => (
                   <View style={styles.separator}></View>
                 )}
-                keyExtractor={(item) => item.time}
+                keyExtractor={(item, index) => index.toString()}
               />
             </View>
+
+            {/* </Swiper> */}
           </View>
         </ImageBackground>
+        <View style={styles.lowerregion}>
+          <FlatList
+            // style={styles.listForecast}
+            horizontal
+            data={this.state.days}
+            renderItem={this.listDaily}
+            ItemSeparatorComponent={() => (
+              <View style={styles.separator}></View>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </View>
 
-        <View style={styles.lowerregion}>{this.listDays()}</View>
+        {/* <View style={styles.lowerregion}>{this.listDays()}</View> */}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    paddingBottom: 10,
+  },
+  slide1: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#9DD6EB",
+  },
+  slide2: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#97CAE5",
+  },
+  slide3: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#92BBD9",
+  },
+  text: {
+    color: "#fff",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
   container: {
     flex: 1,
   },
@@ -222,7 +321,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     backgroundColor: "transparent",
     alignItems: "center",
-    paddingBottom: 40,
+    paddingBottom: 10,
   },
 
   today: {
@@ -242,7 +341,7 @@ const styles = StyleSheet.create({
   },
 
   weathercondition: {
-    fontSize: 18,
+    fontSize: 50,
     color: "white",
     marginTop: 20,
   },
@@ -272,7 +371,8 @@ const styles = StyleSheet.create({
   temp: {
     fontSize: 16,
     color: "#666666",
-    marginTop: 20,
+    marginTop: 5,
+    marginBottom: 5,
   },
   content: {
     flex: 2,
@@ -308,11 +408,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   listForecast: {
-    height: 5,
+    // height: 10,
     // paddingLeft: 10,
   },
   containerForecast: {
     padding: 10,
+    paddingBottom: 20,
     borderRadius: 8,
     justifyContent: "center",
     backgroundColor: "rgba(208, 212, 222, 0.5)",
@@ -324,11 +425,16 @@ const styles = StyleSheet.create({
   tempreatureForecast: {
     justifyContent: "center",
     paddingBottom: 10,
-
+    alignItems: "center",
+  },
+  waterForecast: {
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
   },
   dayForecast: {
-    paddingTop: 10,
+    marginTop: 2,
+    paddingTop: 5,
     paddingBottom: 8,
     alignItems: "center",
     borderBottomWidth: 1,

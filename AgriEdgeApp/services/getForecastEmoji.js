@@ -1,29 +1,29 @@
 const  getForecastEmoji = (iconName) =>{
     switch (iconName) {
       case "clear-day":
-        return "☀️";
+        return "weather-sunny";
       case "clear-night":
-        return "🌜";
+        return "weather-night";
       case "rain":
-        return "🌧";
+        return "weather-pouring";
       case "snow":
-        return "❄️";
+        return "weather-snowy";
       case "sleet":
-        return "⛸";
+        return "weather-snowy-heavy";
       case "wind":
-        return "💨";
+        return "weather-windy";
       case "fog":
         return "🌫";
       case "cloudy":
-        return "☁️";
+        return "weather-cloudy";
       case "partly-cloudy-day":
-        return "🌤";
+        return "weather-partly-cloudy";
       case "partly-cloudy-night":
-        return "🌥";
+        return "weather-night-partly-cloudy";
       case "error":
-        return "😢";
+        return "weather-sunny-off";
       default:
-        return "🌤";
+        return "weather-partly-cloudy";
     }
   }
   export default getForecastEmoji

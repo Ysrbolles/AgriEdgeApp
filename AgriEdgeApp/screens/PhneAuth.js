@@ -164,11 +164,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#23b11b",
   },
   button: {
-    marginHorizontal: 10,
     backgroundColor: "#5ABD8C",
     borderRadius: 20,
     height: 46,
-    width: 290,
+    width: '100%',
     alignItems: "center",
     justifyContent: "center",
   },
