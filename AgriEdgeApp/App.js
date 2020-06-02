@@ -6,7 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import LoadingScreen from "./screens/LoadingScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
-import HomeScreen from "./screens/HomeScreen";
+import HomeScreen from "./screens/test";
 import ProfileScreen from "./screens/ProfileScreen";
 import WeatherScreen from "./screens/WeatherScreen";
 import NotificationsScreen from "./screens/NotificationsScreen";
