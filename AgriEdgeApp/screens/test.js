@@ -25,7 +25,7 @@ let id = 0;
 class PolygonCreator extends React.Component {
   constructor(props) {
     super(props);
-
+    console.debug("Cost");
     this.state = {
       region: {
         latitude: LATITUDE,
@@ -49,6 +49,7 @@ class PolygonCreator extends React.Component {
   }
 
   createHole() {
+    console.debug("dkhlat creat hole");
     const { editing, creatingHole } = this.state;
     if (!creatingHole) {
       this.setState({
@@ -74,6 +75,8 @@ class PolygonCreator extends React.Component {
   }
 
   onPress(e) {
+    console.debug("dkhlat on press");
+    // console.log(e);
     const { editing, creatingHole } = this.state;
     if (!editing) {
       this.setState({
@@ -96,6 +99,7 @@ class PolygonCreator extends React.Component {
         ...holes[holes.length - 1],
         e.nativeEvent.coordinate,
       ];
+      console.debug(holes);
       this.setState({
         editing: {
           ...editing,
