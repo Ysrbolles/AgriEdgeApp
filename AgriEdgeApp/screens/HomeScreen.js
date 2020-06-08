@@ -47,6 +47,10 @@ export default class HomeScreen extends React.Component {
         latitude: 0,
         longitude: 0,
       },
+      coordinates: [],
+      polygons: [],
+      editing: null,
+      test: [],
     };
   }
 
@@ -74,8 +78,30 @@ export default class HomeScreen extends React.Component {
   onRegionChange(region) {
     this.state.region.setValue(region);
   }
+  finish(){
+    this.setState({
+      polygons: [this.state.coordinates],
+    });
+    this.setState({
+      coordinates: [],
+    });
+  }
+  onPress(e) {
+    // console.debug(e);
+    this.setState({
+        coordinates: [...this.state.coordinates, e.nativeEvent.coordinate],
+    });
+  }
 
   render() {
+    const mapOptions = {
+      scrollEnabled: true,
+    };
+
+    if (this.state.editing) {
+      mapOptions.scrollEnabled = false;
+      mapOptions.onPanDrag = e => this.onPress(e);
+    }
     LayoutAnimation.easeInEaseOut();
     return (
       <View style={styles.container}>
@@ -94,23 +120,40 @@ export default class HomeScreen extends React.Component {
             latitudeDelta: 0.01,
             longitudeDelta: 0.01,
           }}
+          onPress={e => this.onPress(e)}
+          {...mapOptions}
           showsUserLocation={true}
         >
-          <Marker coordinate={{latitude: 32.8025259, longitude:-7.4351431}}/>
-          <Polygon
-        // onPress={alert("Hi")} 
-        tappable={true}
-        editeable={true}
-        coordinates={[
-         { name: '1', latitude: 32.8025259, longitude: -7.4351431},
-         { name: '2', latitude: 32.7946386, longitude: -7.421646},
-         { name: '3', latitude: 32.7665248, longitude: -7.4165628},
-         { name: '4', latitude: 32.7834153, longitude: -7.4527787},
-         { name: '5', latitude: 32.7948105, longitude: -7.4596065},
-        ]}
-        fillColor={'rgba(240, 255, 0, 0.5)'}
-        />
+         {
+            this.state.coordinates.map((marker, index) => (
+              <Marker
+                key={marker.name}
+                coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+              >
+
+              </Marker>
+            ))
+          }
+         {
+           this.state.polygons.map((polygon) => (
+            <Polygon
+            coordinates={polygon}
+            strokeColor="#F00"
+            fillColor={'rgba(240, 255, 0, 0.5)'}
+            strokeWidth={1}
+            />
+          ))
+         }
         </MapView>
+        <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => this.finish()}
+              style={[styles.bubble, styles.button]}
+            >
+              <Text>Finish</Text>
+            </TouchableOpacity>
+          
+        </View>
       </View>
     );
   }
@@ -118,6 +161,7 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    ...StyleSheet.absoluteFillObject,
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
@@ -127,4 +171,22 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height - 40,
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginVertical: 20,
+    backgroundColor: 'transparent',
+  },
+  bubble: {
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20,
+  },
+  button: {
+    color: 'rgb(0, 0, 0)',
+    width: 80,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    marginHorizontal: 10,
+  }
 });
