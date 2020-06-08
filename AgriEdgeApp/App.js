@@ -10,6 +10,7 @@ import HomeScreen from "./screens/test";
 import ProfileScreen from "./screens/ProfileScreen";
 import WeatherScreen from "./screens/WeatherScreen";
 import NotificationsScreen from "./screens/NotificationsScreen";
+import AddNodes from './screens/AddNodes'
 
 import * as firebase from "firebase";
 
@@ -64,6 +65,7 @@ const AppTabNavigator = createBottomTabNavigator(
 const AuthStack = createStackNavigator({
   Login: LoginScreen,
   Register: RegisterScreen,
+  AddNodes: AddNodes
 });
 
 export default createAppContainer(

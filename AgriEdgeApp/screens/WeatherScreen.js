@@ -14,7 +14,6 @@ import axios from "axios";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import getForecastEmoji from "../services/getForecastEmoji";
 import dayjs from "dayjs";
-import { Col, Row, Grid } from "react-native-easy-grid";
 export default class WeatherScreen extends React.Component {
   _isMounted = false;
   componentDidMount() {
@@ -145,28 +144,26 @@ export default class WeatherScreen extends React.Component {
   listDaily = ({ item }) => {
     return (
       <View style={styles.fivecolumns}>
-          <Text style={styles.columntitle}>
-            {""}
-            {dayjs(new Date(item.time * 1000)).format("ddd")}
-          </Text>
+        <Text style={styles.columntitle}>
+          {""}
+          {dayjs(new Date(item.time * 1000)).format("ddd")}
+        </Text>
+        <MaterialCommunityIcons
+          size={38}
+          name={getForecastEmoji(item.icon)}
+          color={"#5ABD8C"}
+        />
+
+        <Text style={styles.temp}>{Math.round(item.temperatureMax)}°C</Text>
+        <View style={styles.waterForecast}>
           <MaterialCommunityIcons
-            size={38}
-            name={getForecastEmoji(item.icon)}
+            size={15}
+            name="water-percent"
             color={"#5ABD8C"}
           />
-
-          <Text style={styles.temp}>
-            {Math.round(item.temperatureMax)}°C
-          </Text>
-          <View style={styles.waterForecast}>
-            <MaterialCommunityIcons
-              size={15}
-              name="water-percent"
-              color={"#5ABD8C"}
-            />
-            <Text style={{ fontSize: 10 }}>{item.waterPercent} %</Text>
-          </View>
+          <Text style={{ fontSize: 10 }}>{item.waterPercent} %</Text>
         </View>
+      </View>
     );
   };
   renderElement = ({ item }) => {
