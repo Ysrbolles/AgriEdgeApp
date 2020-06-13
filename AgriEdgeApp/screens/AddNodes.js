@@ -198,12 +198,11 @@ export default class AddNodes extends React.Component {
                       keyboardType="phone-pad"
                     />
                   </Col>
-                
                 </Grid>
               </View>
             </ProgressStep>
             <ProgressStep label="Third Step">
-            <View
+              <View
                 style={{
                   alignItems: "center",
                   marginLeft: 10,
@@ -211,21 +210,20 @@ export default class AddNodes extends React.Component {
                   marginTop: 40,
                 }}
               >
-                   <Grid>
+                <Grid>
                   <Col>
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Flow rate / l/h"
+                      placeholder="Soil texture"
                       keyboardType="phone-pad"
                     />
                   </Col>
                   <Col>
-                    <Text>Spacing / m</Text>
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Spacing / m"
+                      placeholder="Organic matter"
                       keyboardType="phone-pad"
                     />
                   </Col>
@@ -235,7 +233,7 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Number of ramps / line"
+                      placeholder="Soil Salinity"
                       keyboardType="phone-pad"
                     />
                   </Col>
@@ -243,17 +241,29 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Coefficient of uniformity /%"
+                      placeholder="Clay Content"
                       keyboardType="phone-pad"
                     />
                   </Col>
                 </Grid>
-               
-              </View>
-            </ProgressStep>
-            <ProgressStep label="ford Step">
-              <View style={{ alignItems: "center" }}>
-                <Text>This is the content within step 3!</Text>
+                <Grid>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      placeholder="Limon content"
+                      keyboardType="phone-pad"
+                    />
+                  </Col>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      placeholder="Sand content"
+                      keyboardType="phone-pad"
+                    />
+                  </Col>
+                </Grid>
               </View>
             </ProgressStep>
           </ProgressSteps>
