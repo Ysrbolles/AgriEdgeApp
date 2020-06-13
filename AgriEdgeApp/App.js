@@ -10,7 +10,7 @@ import HomeScreen from "./screens/HomeScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import WeatherScreen from "./screens/WeatherScreen";
 import NotificationsScreen from "./screens/NotificationsScreen";
-import AddNodes from './screens/AddNodes'
+import AddNodes from "./screens/AddNodes";
 
 import * as firebase from "firebase";
 
@@ -65,14 +65,19 @@ const AppTabNavigator = createBottomTabNavigator(
 const AuthStack = createStackNavigator({
   Login: LoginScreen,
   Register: RegisterScreen,
-  AddNodes: AddNodes
 });
+const TRest = createStackNavigator(
+  {
+    AddNodes: AddNodes,
+  },
+);
 
 export default createAppContainer(
   createSwitchNavigator(
     {
       Loading: LoadingScreen,
       App: AppTabNavigator,
+      TRest: TRest,
       Auth: AuthStack,
     },
     {

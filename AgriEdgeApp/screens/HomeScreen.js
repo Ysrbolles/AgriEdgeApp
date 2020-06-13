@@ -105,12 +105,7 @@ export default class HomeScreen extends React.Component {
     LayoutAnimation.easeInEaseOut();
     return (
       <View style={styles.container}>
-        <StatusBar
-          backgroundColor="#b3e6ff"
-          barStyle="dark-content"
-          hidden={true}
-          translucent={true}
-        />
+        <StatusBar barStyle="light-content"></StatusBar>
         <MapView
           mapType="satellite"
           style={styles.mapStyle}
