@@ -203,8 +203,52 @@ export default class AddNodes extends React.Component {
               </View>
             </ProgressStep>
             <ProgressStep label="Third Step">
-              <View style={{ alignItems: "center" }}>
-                <Text>This is the content within step 3!</Text>
+            <View
+                style={{
+                  alignItems: "center",
+                  marginLeft: 10,
+                  marginRight: 10,
+                  marginTop: 40,
+                }}
+              >
+                   <Grid>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      placeholder="Flow rate / l/h"
+                      keyboardType="phone-pad"
+                    />
+                  </Col>
+                  <Col>
+                    <Text>Spacing / m</Text>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      placeholder="Spacing / m"
+                      keyboardType="phone-pad"
+                    />
+                  </Col>
+                </Grid>
+                <Grid>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      placeholder="Number of ramps / line"
+                      keyboardType="phone-pad"
+                    />
+                  </Col>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      placeholder="Coefficient of uniformity /%"
+                      keyboardType="phone-pad"
+                    />
+                  </Col>
+                </Grid>
+               
               </View>
             </ProgressStep>
             <ProgressStep label="ford Step">
