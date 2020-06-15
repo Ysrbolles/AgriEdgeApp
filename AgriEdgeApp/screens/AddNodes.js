@@ -5,6 +5,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { Dropdown } from "react-native-material-dropdown";
 import DatePicker from "react-native-datepicker";
+import Nodes from "../services/Nodes";
+import axios from "axios";
 
 import { SocialIcon, Input, Overlay } from "react-native-elements";
 export default class AddNodes extends React.Component {
@@ -12,6 +14,8 @@ export default class AddNodes extends React.Component {
     super(props);
     this.state = {
       name: "",
+      latitude: -87877.12,
+      longitude: 99989.45,
       node_id: "",
       totalArea: null,
       irrigationSystem: "",
@@ -30,7 +34,7 @@ export default class AddNodes extends React.Component {
       ClayContent: null,
       Limoncontent: null,
       Sandcontent: null,
-      date: "",
+      date: null,
       data: [
         {
           value: "Drip irrigation",
@@ -45,7 +49,7 @@ export default class AddNodes extends React.Component {
     };
   }
   fuck = () => {
-    console.log("fuck you");
+    axios.post("http://10.0.2.2:4242/Home/addnewoneApp", this.state);
   };
 
   render() {
@@ -148,7 +152,7 @@ export default class AddNodes extends React.Component {
                 </Grid>
               </View>
             </ProgressStep>
-            <ProgressStep label="Second Step" onNext={this.fuck}>
+            <ProgressStep label="Second Step">
               <View
                 style={{
                   alignItems: "center",
@@ -263,7 +267,7 @@ export default class AddNodes extends React.Component {
                 </Grid>
               </View>
             </ProgressStep>
-            <ProgressStep label="Third Step">
+            <ProgressStep label="Third Step" onSubmit={this.fuck}>
               <View
                 style={{
                   alignItems: "center",
