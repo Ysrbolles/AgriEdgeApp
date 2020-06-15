@@ -117,6 +117,7 @@ export default function App() {
           />
           <TouchableOpacity
             rounded
+            
             style={styles.button}
             disabled={!verificationId}
             onPress={async () => {

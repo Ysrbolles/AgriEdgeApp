@@ -11,6 +11,25 @@ export default class AddNodes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: "",
+      node_id: "",
+      totalArea: null,
+      irrigationSystem: "",
+      culture: "",
+      Cropdensit1: null,
+      Cropdensit2: null,
+      Rootdepth: null,
+      Flowrate: null,
+      Spacing: null,
+      NbrofRamps: null,
+      Coefficient: null,
+      Irrigationefficency: null,
+      SoilTexture: null,
+      OrganicMater: null,
+      SoilSalinity: null,
+      ClayContent: null,
+      Limoncontent: null,
+      Sandcontent: null,
       date: "",
       data: [
         {
@@ -25,13 +44,19 @@ export default class AddNodes extends React.Component {
       ],
     };
   }
+  fuck = () => {
+    console.log("fuck you");
+  };
 
   render() {
+    const buttonTextStyle = {
+      color: "#fffff",
+    };
     return (
       <NavigationContainer>
         <View style={{ flex: 1 }}>
           <ProgressSteps>
-            <ProgressStep label="First Step">
+            <ProgressStep label="First Step" nextBtnStyle={buttonTextStyle}>
               <View
                 style={{
                   alignItems: "center",
@@ -46,6 +71,7 @@ export default class AddNodes extends React.Component {
                       style={{ marginVertical: 10, fontSize: 17 }}
                       placeholder="Name"
                       renderErrorMessage={true}
+                      onChangeText={(name) => this.setState({ name: name })}
                     />
                   </Col>
                   <Col>
@@ -53,6 +79,9 @@ export default class AddNodes extends React.Component {
                       style={{ marginVertical: 10, fontSize: 17 }}
                       placeholder="Node ID"
                       renderErrorMessage={true}
+                      onChangeText={(node_id) =>
+                        this.setState({ node_id: node_id })
+                      }
                     />
                   </Col>
                 </Grid>
@@ -63,6 +92,9 @@ export default class AddNodes extends React.Component {
                       placeholder="Total Area"
                       keyboardType="phone-pad"
                       renderErrorMessage={true}
+                      onChangeText={(totalArea) =>
+                        this.setState({ totalArea: totalArea })
+                      }
                     />
                   </Col>
                   <Col style={{ marginBottom: 20 }}>
@@ -70,6 +102,9 @@ export default class AddNodes extends React.Component {
                       label="Irrigation Systeme"
                       data={this.state.data}
                       error={""}
+                      onChangeText={(irrigationSystem) =>
+                        this.setState({ irrigationSystem: irrigationSystem })
+                      }
                     />
                   </Col>
                 </Grid>
@@ -79,6 +114,9 @@ export default class AddNodes extends React.Component {
                       style={{ marginVertical: 10, fontSize: 17 }}
                       placeholder="Culture"
                       renderErrorMessage={true}
+                      onChangeText={(culture) =>
+                        this.setState({ culture: culture })
+                      }
                     />
                   </Col>
                 </Grid>
@@ -91,22 +129,26 @@ export default class AddNodes extends React.Component {
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
                       keyboardType="phone-pad"
+                      onChangeText={(Cropdensit1) =>
+                        this.setState({ Cropdensit1: Cropdensit1 })
+                      }
                     />
                   </Col>
-                  {/* <Col style={{ marginTop: 21, marginLeft: 5 }}>
-                    <Text>X</Text>
-                  </Col> */}
+
                   <Col>
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
                       keyboardType="phone-pad"
+                      onChangeText={(Cropdensit2) =>
+                        this.setState({ Cropdensit2: Cropdensit2 })
+                      }
                     />
                   </Col>
                 </Grid>
               </View>
             </ProgressStep>
-            <ProgressStep label="Second Step">
+            <ProgressStep label="Second Step" onNext={this.fuck}>
               <View
                 style={{
                   alignItems: "center",
@@ -149,6 +191,9 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Root depth /cm"
                       keyboardType="phone-pad"
+                      onChangeText={(Rootdepth) =>
+                        this.setState({ Rootdepth: Rootdepth })
+                      }
                     />
                   </Col>
                 </Grid>
@@ -159,15 +204,21 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Flow rate / l/h"
                       keyboardType="phone-pad"
+                      onChangeText={(Flowrate) =>
+                        this.setState({ Flowrate: Flowrate })
+                      }
                     />
                   </Col>
                   <Col>
-                    <Text>Spacing / m</Text>
+                    {/* <Text>Spacing / m</Text> */}
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
                       placeholder="Spacing / m"
                       keyboardType="phone-pad"
+                      onChangeText={(Spacing) =>
+                        this.setState({ Spacing: Spacing })
+                      }
                     />
                   </Col>
                 </Grid>
@@ -178,6 +229,9 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Number of ramps / line"
                       keyboardType="phone-pad"
+                      onChangeText={(NbrofRamps) =>
+                        this.setState({ NbrofRamps: NbrofRamps })
+                      }
                     />
                   </Col>
                   <Col>
@@ -186,6 +240,9 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Coefficient of uniformity /%"
                       keyboardType="phone-pad"
+                      onChangeText={(Coefficient) =>
+                        this.setState({ Coefficient: Coefficient })
+                      }
                     />
                   </Col>
                 </Grid>
@@ -196,6 +253,11 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Irrigation efficency"
                       keyboardType="phone-pad"
+                      onChangeText={(Irrigationefficency) =>
+                        this.setState({
+                          Irrigationefficency: Irrigationefficency,
+                        })
+                      }
                     />
                   </Col>
                 </Grid>
@@ -217,6 +279,9 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Soil texture"
                       keyboardType="phone-pad"
+                      onChangeText={(SoilTexture) =>
+                        this.setState({ SoilTexture: SoilTexture })
+                      }
                     />
                   </Col>
                   <Col>
@@ -225,6 +290,9 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Organic matter"
                       keyboardType="phone-pad"
+                      onChangeText={(OrganicMater) =>
+                        this.setState({ OrganicMater: OrganicMater })
+                      }
                     />
                   </Col>
                 </Grid>
@@ -235,6 +303,9 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Soil Salinity"
                       keyboardType="phone-pad"
+                      onChangeText={(SoilSalinity) =>
+                        this.setState({ SoilSalinity: SoilSalinity })
+                      }
                     />
                   </Col>
                   <Col>
@@ -243,6 +314,9 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Clay Content"
                       keyboardType="phone-pad"
+                      onChangeText={(ClayContent) =>
+                        this.setState({ ClayContent: ClayContent })
+                      }
                     />
                   </Col>
                 </Grid>
@@ -253,6 +327,9 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Limon content"
                       keyboardType="phone-pad"
+                      onChangeText={(Limoncontent) =>
+                        this.setState({ Limoncontent: Limoncontent })
+                      }
                     />
                   </Col>
                   <Col>
@@ -261,6 +338,9 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Sand content"
                       keyboardType="phone-pad"
+                      onChangeText={(Sandcontent) =>
+                        this.setState({ Sandcontent: Sandcontent })
+                      }
                     />
                   </Col>
                 </Grid>
