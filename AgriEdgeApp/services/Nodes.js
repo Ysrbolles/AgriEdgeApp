@@ -6,7 +6,7 @@ export default {
     console.log("dkhlaaaaaaaaaat");
     return new Promise((resolve, reject) => {
       // Api()
-      axios.post("http://localhost:4242/Home/addnewoneApp", Node)
+      axios.post("http://10.0.2.2:4242/Home/addnewoneApp", Node)
         .then((res) => {
           resolve(res.data);
         })

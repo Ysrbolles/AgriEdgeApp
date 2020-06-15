@@ -49,7 +49,7 @@ export default class AddNodes extends React.Component {
     };
   }
   fuck = () => {
-    axios.post("http://10.0.2.2:4242/Home/addnewoneApp", this.state);
+    Nodes.addnewone(this.state)
   };
 
   render() {
