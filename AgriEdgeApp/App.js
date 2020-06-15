@@ -52,6 +52,7 @@ const AppTabNavigator = createBottomTabNavigator(
         ),
       },
     },
+   
   },
   {
     tabBarOptions: {
@@ -77,7 +78,8 @@ export default createAppContainer(
     {
       Loading: LoadingScreen,
       App: AppTabNavigator,
-      TRest: TRest,
+      // AddNodes: AddNodes,
+      // TRest: TRest,
       Auth: AuthStack,
     },
     {
