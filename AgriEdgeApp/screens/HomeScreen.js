@@ -47,6 +47,7 @@ export default class HomeScreen extends React.Component {
         latitude: 0,
         longitude: 0,
       },
+      sym: 0,
       coordinates: [],
       polygons: [],
       editing: null,
@@ -79,18 +80,33 @@ export default class HomeScreen extends React.Component {
     this.state.region.setValue(region);
   }
   finish(){
+    if(this.state.coordinates.length > 2 && this.state.sym == 0){
+      this.setState({
+        polygons: [this.state.coordinates],
+      });
+      this.setState({
+        coordinates: [],
+        sym: 1
+      });
+    }
+  }
+  clear(){
     this.setState({
-      polygons: [this.state.coordinates],
-    });
-    this.setState({
+      sym: 0,
       coordinates: [],
-    });
+      
+  });
   }
   onPress(e) {
     // console.debug(e);
+    if(this.state.sym == 0){
     this.setState({
         coordinates: [...this.state.coordinates, e.nativeEvent.coordinate],
-    });
+    });}
+    else{
+      console.debug(e.nativeEvent.coordinate);
+      alert(e.nativeEvent.coordinate.latitude,e.nativeEvent.coordinate.longitude);
+    }
   }
 
   render() {
@@ -132,6 +148,7 @@ export default class HomeScreen extends React.Component {
          {
            this.state.polygons.map((polygon) => (
             <Polygon
+            onPress={e => this.onPress(e)}
             coordinates={polygon}
             strokeColor="#F00"
             fillColor={'rgba(240, 255, 0, 0.5)'}
@@ -147,7 +164,12 @@ export default class HomeScreen extends React.Component {
             >
               <Text>Finish</Text>
             </TouchableOpacity>
-          
+            <TouchableOpacity
+              onPress={() => this.clear()}
+              style={[styles.bubble, styles.button]}
+            >
+              <Text>Clear</Text>
+            </TouchableOpacity>
         </View>
       </View>
     );
@@ -172,16 +194,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   bubble: {
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: 'rgba(255,255,0,0.7)',
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 20,
+    position: 'relative',
   },
   button: {
     color: 'rgb(0, 0, 0)',
     width: 80,
     paddingHorizontal: 12,
-    alignItems: 'center',
+    alignItems: 'flex-end',
     marginHorizontal: 10,
-  }
+  },
 });
