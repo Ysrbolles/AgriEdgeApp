@@ -23,6 +23,11 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "android": {
+      "package": "expo.AgriEdgeApp",
+      "versionCode": 1
+    },
+    "description": ""
   }
 }

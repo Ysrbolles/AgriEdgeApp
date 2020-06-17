@@ -1,21 +1,35 @@
 import React from "react";
-import { Button, StyleSheet, View, Text, Image, Icon, ActivityIndicator } from "react-native";
-import * as firebase from 'firebase'
+import {
+  Button,
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Icon,
+  ActivityIndicator,
+} from "react-native";
+import * as firebase from "firebase";
 
-export default class LoadingScreen extends React.Component{
-  componentDidMount(){
-    firebase.auth().onAuthStateChanged(user => {
-      this.props.navigation.navigate(user ? "App" : "Auth") 
-    })
+export default class LoadingScreen extends React.Component {
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(function (user) {
+      console.log(user)
+      if (user) {
+        // User is signed in.  this.props.navigation.navigate(user ? "App" : "Auth");
+        this.props.navigation.navigate("App");
+        console.log("go go go go go go")
+      } else {
+        // No user is signed in.
+        this.props.navigation.navigate("Auth");
+      }
+    }.bind(this));
   }
-  render()
-  {
+  render() {
     return (
       <View style={styles.container}>
-        <Text>Loading...</Text>
         <ActivityIndicator size="large"></ActivityIndicator>
       </View>
-    )
+    );
   }
 }
 
@@ -23,6 +37,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
-  }
-})
+    alignItems: "center",
+  },
+});

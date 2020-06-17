@@ -78,8 +78,6 @@ export default createAppContainer(
     {
       Loading: LoadingScreen,
       App: AppTabNavigator,
-      // AddNodes: AddNodes,
-      // TRest: TRest,
       Auth: AuthStack,
     },
     {

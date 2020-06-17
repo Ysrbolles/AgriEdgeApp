@@ -18,17 +18,13 @@ import {
   LayoutAnimation,
   Image,
   Button,
+  Platform
 } from "react-native";
 
 Facebook.initializeAsync("526885078008360");
-// const recaptchaVerifier = React.useRef(null);
-// const [phoneNumber, setPhoneNumber] = React.useState();
-// const [verificationId, setVerificationId] = React.useState();
-// const [verificationCode, setVerificationCode] = React.useState();
-// const firebaseConfig = firebase.apps.length ? firebase.app().options : undefined;
-// const [message, showMessage] = React.useState((!firebaseConfig || Platform.OS === 'web')
-//   ? { text: "To get started, provide a valid firebase config in App.js and open this snack on an iOS or Android device."}
-//   : undefined);
+
+const isAndroid = () => Platform.OS === 'android';
+
 export default class LoginScreen extends React.Component {
   static navigationOptions = { headerShown: false };
   state = {
@@ -45,68 +41,12 @@ export default class LoginScreen extends React.Component {
   //   });
   // }
 
-  login = async () => {
-    //alert(this.state.num)
-    console.log(this.state.phone);
-
-    let token = null;
-    const listener = ({ url }) => {
-      WebBrowser.dismissBrowser();
-      const tokenEncoded = Linking.parse(url).queryParams["token"];
-      if (tokenEncoded) token = decodeURIComponent(tokenEncoded);
-    };
-    Linking.addEventListener("url", listener);
-    await WebBrowser.openBrowserAsync(captchaUrl);
-    Linking.removeEventListener("url", listener);
-    if (token) {
-      const { phone } = this.state;
-      //fake firebase.auth.ApplicationVerifier
-      const captchaVerifier = {
-        type: "recaptcha",
-        verify: () => Promise.resolve(token),
-      };
-      try {
-        const confirmResult = await firebase
-          .auth()
-          .signInWithPhoneNumber(phone, captchaVerifier);
-        this.setState({ confirmResult });
-      } catch (e) {
-        console.warn(e);
-      }
-    }
-  };
-  verify = async () => {
-    const { confirmResult, code } = this.state;
-    try {
-      await confirmResult.confirm(code);
-    } catch (e) {
-      console.warn(e);
-    }
-    this.reset();
-  };
-
-  logout = async () => {
-    try {
-      await firebase.auth().signOut();
-    } catch (e) {
-      console.warn(e);
-    }
-  };
-
   reset = () => {
     this.setState({
       phone: "",
       confirmResult: null,
       code: "",
     });
-  };
-  handleLogin = () => {
-    const { email, password } = this.state;
-
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .catch((error) => this.setState({ errorMessage: error.message }));
   };
 
   async loginWithFacebook() {
@@ -129,35 +69,74 @@ export default class LoginScreen extends React.Component {
     }
   }
 
-  async signInWithGoogleAsync() {
+  isUserEqual = (googleUser, firebaseUser) => {
+    if (firebaseUser) {
+      var providerData = firebaseUser.providerData;
+      for (var i = 0; i < providerData.length; i++) {
+        if (
+          providerData[i].providerId ===
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+          providerData[i].uid === googleUser.getBasicProfile().getId()
+        ) {
+          // We don't need to reauth the Firebase connection.
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+  onSignIn = (googleUser) => {
+    console.log("Google Auth Response", googleUser);
+    // We need to register an Observer on Firebase Auth to make sure auth is initialized.
+    var unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
+      unsubscribe();
+      // Check if we are already signed-in Firebase with the correct user.
+      if (!this.isUserEqual(googleUser, firebaseUser)) {
+        // Build Firebase credential with the Google ID token.
+        var credential = firebase.auth.GoogleAuthProvider.credential(
+          googleUser.idToken,
+          googleUser.accessToken
+        );
+        // Sign in with credential from the Google user.
+        firebase
+          .auth()
+          .signInWithCredential(credential)
+          .catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+          });
+      } else {
+        console.log("User already signed-in Firebase.");
+      }
+    });
+  };
+  signInWithGoogleAsync = async () => {
     try {
-      const { type, idToken, accessToken } = await Google.logInAsync({
-        androidClientId:
-          "962329281029-15vdipakauub9ssgpcqsh4nqhpn47tnu.apps.googleusercontent.com",
-        iosClientId:
-          "962329281029-h157odq28jntnmvk4m2k5po6ev5ifdqp.apps.googleusercontent.com",
+      const result = await Google.logInAsync({
+        clientId: isAndroid() ? '962329281029-15vdipakauub9ssgpcqsh4nqhpn47tnu.apps.googleusercontent.com' : '962329281029-h157odq28jntnmvk4m2k5po6ev5ifdqp.apps.googleusercontent.com',
+        // androidStandaloneAppClientId:
+        //   "962329281029-15vdipakauub9ssgpcqsh4nqhpn47tnu.apps.googleusercontent.com",
+        // iosClientId:
+        //   "962329281029-h157odq28jntnmvk4m2k5po6ev5ifdqp.apps.googleusercontent.com",
         scopes: ["profile", "email"],
       });
 
-      if (type === "success") {
-        const crdnt = firebase.auth.GoogleAuthProvider.credential(
-          idToken,
-          accessToken
-        );
-        firebase
-          .auth()
-          .signInAndRetrieveDataWithCredential(crdnt)
-          .then(() => {})
-          .catch((err) => {
-            console.log(err);
-          });
+      if (result.type === "success") {
+        this.onSignIn(result);
+        return result.accessToken;
       } else {
         return { cancelled: true };
       }
     } catch (e) {
       return { error: true };
     }
-  }
+  };
 
   render() {
     return (
@@ -188,7 +167,9 @@ export default class LoginScreen extends React.Component {
             <PhoneAuth />
           </View>
         </View>
-          <Text style={{textAlign: 'center', marginBottom: 30}}>______________________ OR ______________________</Text>
+        <Text style={{ textAlign: "center", marginBottom: 30 }}>
+          ______________________ OR ______________________
+        </Text>
         {/* <PhoneAuth /> */}
         <SocialIcon
           title="Sign In With Facebook"
