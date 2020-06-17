@@ -102,7 +102,13 @@ export default class HomeScreen extends React.Component {
     if(this.state.sym == 0){
     this.setState({
         coordinates: [...this.state.coordinates, e.nativeEvent.coordinate],
-    });}
+    });
+    if(this.state.coordinates.length >= 1)
+      this.setState({
+        polygons: [this.state.coordinates],
+      });
+
+    }
     else{
       console.debug(e.nativeEvent.coordinate);
       alert(e.nativeEvent.coordinate.latitude,e.nativeEvent.coordinate.longitude);
@@ -111,7 +117,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
     const mapOptions = {
-      scrollEnabled: true,
+      scrollEnabled: true, 
     };
 
     if (this.state.editing) {
