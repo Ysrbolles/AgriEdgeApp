@@ -94,7 +94,7 @@ export default class HomeScreen extends React.Component {
     this.setState({
       sym: 0,
       coordinates: [],
-      
+      polygons: []
   });
   }
   onPress(e) {
@@ -107,7 +107,7 @@ export default class HomeScreen extends React.Component {
       this.setState({
         polygons: [this.state.coordinates],
       });
-
+      console.debug(this.state.coordinates);
     }
     else{
       console.debug(e.nativeEvent.coordinate);
@@ -185,14 +185,15 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    flex: 1,
+    // flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
   mapStyle: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height - 40,
+    ...StyleSheet.absoluteFillObject,
+    // width: Dimensions.get("window").width,
+    // height: Dimensions.get("window").height - 40,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -204,13 +205,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 20,
-    position: 'relative',
   },
   button: {
-    color: 'rgb(0, 0, 0)',
     width: 80,
     paddingHorizontal: 12,
-    alignItems: 'flex-end',
+    alignItems: 'center',
     marginHorizontal: 10,
   },
 });
