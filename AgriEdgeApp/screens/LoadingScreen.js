@@ -17,7 +17,6 @@ export default class LoadingScreen extends React.Component {
       if (user) {
         // User is signed in.  this.props.navigation.navigate(user ? "App" : "Auth");
         this.props.navigation.navigate("App");
-        console.log("go go go go go go")
       } else {
         // No user is signed in.
         this.props.navigation.navigate("Auth");

@@ -25,7 +25,6 @@ export default class HomeScreen extends React.Component {
   };
   componentDidMount() {
     this._getuserLocation().then((position) => {
-      console.log(position.coords);
       this.setState({
         userlocation: position,
         latitude: position.coords.latitude,
