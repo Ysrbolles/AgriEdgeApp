@@ -164,7 +164,7 @@ export default class AddNodes extends React.Component {
                 <Grid>
                   <Col>
                     <DatePicker
-                      style={{ width: 160 }}
+                      style={{ width: 140 }}
                       date={this.state.date} //initial date from state
                       mode="date" //The enum of date, datetime and time
                       placeholder="Select Date"

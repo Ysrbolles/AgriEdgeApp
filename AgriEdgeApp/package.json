@@ -13,6 +13,7 @@
     "axios": "^0.19.2",
     "dayjs": "^1.8.28",
     "expo": "~37.0.3",
+    "expo-cli": "^3.21.7",
     "expo-facebook": "^8.1.0",
     "expo-firebase-recaptcha": "^1.1.0",
     "expo-google-app-auth": "^8.1.0",

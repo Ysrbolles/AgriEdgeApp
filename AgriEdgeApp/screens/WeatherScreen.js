@@ -15,6 +15,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import getForecastEmoji from "../services/getForecastEmoji";
 import dayjs from "dayjs";
 export default class WeatherScreen extends React.Component {
+  static navigationOptions = {
+    headerShown: false,
+  };
   _isMounted = false;
   componentDidMount() {
     this._isMounted = true;

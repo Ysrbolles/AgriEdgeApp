@@ -33,7 +33,7 @@ export default class NotificationsScreen extends React.Component {
         <Text>Notifications Screen</Text>
         <TouchableOpacity
           style={{ alignSelf: "center", marginTop: 32 }}
-          onPress={this.toggleOverlay}
+          onPress={() => this.props.navigation.navigate("AddNodes")}
         >
           <Text style={{ color: "#414959", fontSize: 13 }}>
             <Text style={{ fontWeight: "500", color: "#E9446A" }}>

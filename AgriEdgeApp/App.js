@@ -23,6 +23,7 @@ const AppTabNavigator = createBottomTabNavigator(
     Home: {
       screen: HomeScreen,
       navigationOptions: {
+        headerTitle: false,
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="ios-home" size={24} color="#5ABD8C" />
         ),
@@ -31,6 +32,7 @@ const AppTabNavigator = createBottomTabNavigator(
     Weather: {
       screen: WeatherScreen,
       navigationOptions: {
+        headerShown: false,
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="ios-cloud" size={24} color="#5ABD8C" />
         ),
@@ -39,6 +41,7 @@ const AppTabNavigator = createBottomTabNavigator(
     Notifications: {
       screen: NotificationsScreen,
       navigationOptions: {
+        headerShown: false,
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="ios-notifications" size={24} color="#5ABD8C" />
         ),
@@ -47,18 +50,20 @@ const AppTabNavigator = createBottomTabNavigator(
     Profile: {
       screen: ProfileScreen,
       navigationOptions: {
+        headerShown: false,
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="ios-person" size={24} color="#5ABD8C" />
         ),
       },
     },
-   
   },
   {
     tabBarOptions: {
       activeTintColor: "#161F3D",
       inactiveTintColor: "#B8BBC4",
       showLabel: false,
+      headerTitle: false,
+      tabBarVisible: true
     },
   }
 );
@@ -67,17 +72,21 @@ const AuthStack = createStackNavigator({
   Login: LoginScreen,
   Register: RegisterScreen,
 });
-const TRest = createStackNavigator(
-  {
-    AddNodes: AddNodes,
+const App = createStackNavigator({
+  App: {
+    screen: AppTabNavigator,
+    navigationOptions: {
+      headerShown: false,
+    },
   },
-);
+  AddNode: AddNodes,
+});
 
 export default createAppContainer(
   createSwitchNavigator(
     {
       Loading: LoadingScreen,
-      App: AppTabNavigator,
+      App: App,
       Auth: AuthStack,
     },
     {

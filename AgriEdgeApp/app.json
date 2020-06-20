@@ -2,6 +2,7 @@
   "expo": {
     "name": "AgriEdgeApp",
     "slug": "AgriEdgeApp",
+    "sdkVersion": "37.0.0",
     "platforms": [
       "ios",
       "android",
@@ -22,10 +23,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "expo.AgriEdgeApp.AgriEdgeApp",
+      "buildNumber": "1.0.0"
     },
     "android": {
-      "package": "expo.AgriEdgeApp",
+      "package": "expo.AgriEdgeApp.AgriEdgeApp",
       "versionCode": 1
     },
     "description": ""
