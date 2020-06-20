@@ -130,7 +130,7 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content"></StatusBar>
-        <MapView
+        {/* <MapView
           mapType="satellite"
           style={styles.mapStyle}
           region={{
@@ -162,7 +162,8 @@ export default class HomeScreen extends React.Component {
             />
           ))}
         </MapView>
-        <View style={styles.buttonContainer}>
+        <View style={styles.buttonContainer}> */}
+        {/* <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => this.finish()}
             style={[styles.bubble, styles.button]}
@@ -175,7 +176,7 @@ export default class HomeScreen extends React.Component {
           >
             <Text>Clear</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
     );
   }
