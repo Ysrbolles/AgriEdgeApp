@@ -100,12 +100,13 @@ export default class HomeScreen extends React.Component {
     // console.debug(e);
     if (this.state.sym == 0) {
       this.setState({
-        coordinates: [...this.state.coordinates, e.nativeEvent.coordinate],
-      });
-      if (this.state.coordinates.length >= 1)
-        this.setState({
-          polygons: [this.state.coordinates],
+        coordinates: [...this.state.coordinates, e.nativeEvent.coordinate]}, () => {
+          if (this.state.coordinates.length >= 1)
+          this.setState({
+            polygons: [this.state.coordinates],
+          });
         });
+      
       console.debug(this.state.coordinates);
     } else {
       console.debug(e.nativeEvent.coordinate);
@@ -127,7 +128,7 @@ export default class HomeScreen extends React.Component {
       mapOptions.onPanDrag = (e) => this.onPress(e);
     }
     LayoutAnimation.easeInEaseOut();
-    return (
+    return ( 
       <View style={styles.container}>
         <StatusBar barStyle="light-content"></StatusBar>
         <MapView
@@ -176,7 +177,7 @@ export default class HomeScreen extends React.Component {
             <Text>Clear</Text>
           </TouchableOpacity>
         </View>
-      </View>
+        </View>
     );
   }
 }
