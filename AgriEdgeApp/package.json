@@ -17,7 +17,7 @@
     "expo-facebook": "^8.1.0",
     "expo-firebase-recaptcha": "^1.1.0",
     "expo-google-app-auth": "^8.1.0",
-    "expo-google-sign-in": "^8.1.0",
+    "expo-google-sign-in": "~8.1.0",
     "expo-location": "^8.1.0",
     "firebase": "^7.14.4",
     "react": "~16.9.0",

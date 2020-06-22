@@ -28,7 +28,9 @@
     },
     "android": {
       "package": "expo.AgriEdgeApp.AgriEdgeApp",
+      "googleServicesFile": "./google-services.json",
       "versionCode": 1
+     
     },
     "description": ""
   }

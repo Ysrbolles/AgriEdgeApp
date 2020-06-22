@@ -4,6 +4,7 @@ import * as Facebook from "expo-facebook";
 import * as Google from "expo-google-app-auth";
 import * as firebase from "firebase";
 import PhoneAuth from "./PhneAuth";
+import * as GoogleSignIn from "expo-google-sign-in";
 // import firebase from 'firebase/app'
 import "firebase/auth";
 
@@ -18,12 +19,12 @@ import {
   LayoutAnimation,
   Image,
   Button,
-  Platform
+  Platform,
 } from "react-native";
 
 Facebook.initializeAsync("526885078008360");
 
-const isAndroid = () => Platform.OS === 'android';
+const isAndroid = () => Platform.OS === "android";
 
 export default class LoginScreen extends React.Component {
   static navigationOptions = { headerShown: false };
@@ -40,6 +41,9 @@ export default class LoginScreen extends React.Component {
   //     this.setState({ user, loading: false });
   //   });
   // }
+  componentDidMount() {
+    this.initAsync();
+  }
 
   reset = () => {
     this.setState({
@@ -117,17 +121,21 @@ export default class LoginScreen extends React.Component {
     });
   };
   signInWithGoogleAsync = async () => {
+    alert("dkhelt");
     try {
       const result = await Google.logInAsync({
-        clientId: isAndroid() ? '962329281029-15vdipakauub9ssgpcqsh4nqhpn47tnu.apps.googleusercontent.com' : '962329281029-h157odq28jntnmvk4m2k5po6ev5ifdqp.apps.googleusercontent.com',
-        // androidStandaloneAppClientId:
-        //   "962329281029-15vdipakauub9ssgpcqsh4nqhpn47tnu.apps.googleusercontent.com",
-        // iosClientId:
-        //   "962329281029-h157odq28jntnmvk4m2k5po6ev5ifdqp.apps.googleusercontent.com",
+        // clientId: isAndroid() ? '962329281029-15vdipakauub9ssgpcqsh4nqhpn47tnu.apps.googleusercontent.com' : '962329281029-h157odq28jntnmvk4m2k5po6ev5ifdqp.apps.googleusercontent.com',
+        androidStandaloneAppClientId:
+          "962329281029-rth19l58b3rc65o8j9a2nhnd4ujd2enj.apps.googleusercontent.com",
+        androidClientId:
+          "962329281029-rth19l58b3rc65o8j9a2nhnd4ujd2enj.apps.googleusercontent.com",
+        iosClientId:
+          "962329281029-h157odq28jntnmvk4m2k5po6ev5ifdqp.apps.googleusercontent.com",
         scopes: ["profile", "email"],
       });
 
       if (result.type === "success") {
+        alert("done");
         this.onSignIn(result);
         return result.accessToken;
       } else {
@@ -135,6 +143,46 @@ export default class LoginScreen extends React.Component {
       }
     } catch (e) {
       return { error: true };
+    }
+  };
+
+  initAsync = async () => {
+    await GoogleSignIn.initAsync({
+      // You may ommit the clientId when the firebase `googleServicesFile` is configured
+      clientId:
+        "187270884302-51mta2fot5qekt3792ogg427d28blt91.apps.googleusercontent.com",
+    });
+    this._syncUserWithStateAsync();
+  };
+
+  _syncUserWithStateAsync = async () => {
+    const user = await GoogleSignIn.signInSilentlyAsync();
+    this.setState({ user });
+  };
+
+  signOutAsync = async () => {
+    await GoogleSignIn.signOutAsync();
+    this.setState({ user: null });
+  };
+
+  signInAsync = async () => {
+    try {
+      await GoogleSignIn.askForPlayServicesAsync();
+      const result = await GoogleSignIn.signInAsync();
+      if (result.type === "success") {
+        console.log(result.user)
+        this._syncUserWithStateAsync();
+      }
+    } catch ({ message }) {
+      alert("login: Error:" + message);
+    }
+  };
+
+  onPress = () => {
+    if (this.state.user) {
+      this.signOutAsync();
+    } else {
+      this.signInAsync();
     }
   };
 
@@ -182,7 +230,7 @@ export default class LoginScreen extends React.Component {
           title="Sign In With Google"
           button
           type="google"
-          onPress={this.signInWithGoogleAsync}
+          onPress={this.onPress}
         />
       </View>
     );
