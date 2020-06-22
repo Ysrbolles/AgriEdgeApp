@@ -32,12 +32,13 @@ export default class HomeScreen extends React.Component {
       mapType: null,
       errorMessage: "",
       userlocation: [{}],
-      latitude: null,
-      longitude: null,
+      latitude: 32.875739,
+      longitude: -6.931648,
       coordinate: {
         latitude: 0,
         longitude: 0,
       },
+      i: 0,
       sym: 0,
       coordinates: [],
       polygons: [],
@@ -94,6 +95,7 @@ export default class HomeScreen extends React.Component {
     this.setState({
       sym: 0,
       coordinates: [],
+      polygons: []
     });
   }
   onPress(e) {
