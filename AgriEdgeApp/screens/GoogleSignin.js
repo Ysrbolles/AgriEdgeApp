@@ -16,7 +16,7 @@ if (isInClient) {
   GoogleSignIn.allowInClient();
 }
 
-const clientIdForUseInTheExpoClient = "";
+const clientIdForUseInTheExpoClient = "962329281029-rth19l58b3rc65o8j9a2nhnd4ujd2enj.apps.googleusercontent.com";
 
 /*
  * Redefine this one with your client ID
@@ -29,7 +29,7 @@ const yourClientIdForUseInStandalone = Platform.select({
   android: "",
   ios: "",
 });
-const webClientId = "";
+const webClientId = "962329281029-rjlaje3f9t5qpomqv5i64gg6l3qcr8f5.apps.googleusercontent.com";
 const clientId = isInClient
   ? clientIdForUseInTheExpoClient
   : yourClientIdForUseInStandalone;
@@ -210,7 +210,7 @@ export default class App extends React.Component {
       const { type, user } = await GoogleSignIn.signInAsync();
       console.log({ type, user });
       if (type === "success") {
-        alert("dkheeeeeeeeeeeeeeeelt");
+        alert(user.auth.idToken);
         this.onSignIn(user);
         this._syncUserWithStateAsync();
       }
