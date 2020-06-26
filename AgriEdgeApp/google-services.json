@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:187270884302:android:8294546f222de16b49999f",
+        "mobilesdk_app_id": "1:187270884302:android:ebb47efd0062f53549999f",
         "android_client_info": {
           "package_name": "expo.AgriEdgeApp.AgriEdgeApp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "187270884302-84svrc15p0lobn6fj2i9q49pte37pf8t.apps.googleusercontent.com",
+          "client_id": "187270884302-pao5jef474tv8bese03f3qjnljtr4lan.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "expo.AgriEdgeApp.AgriEdgeApp",
-            "certificate_hash": "79b9d30d32fd4d5d6c23973e3b243174b3a24658"
+            "certificate_hash": "ec0673217438b7be271247f375576cc51204e12d"
           }
         }
       ],

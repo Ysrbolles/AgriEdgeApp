@@ -3,8 +3,12 @@ import { SocialIcon } from "react-native-elements";
 import * as Facebook from "expo-facebook";
 import * as Google from "expo-google-app-auth";
 import * as firebase from "firebase";
+import * as AppAuth from "expo-app-auth";
 import PhoneAuth from "./PhneAuth";
+import GoogleSign from "./GoogleSignin";
 import * as GoogleSignIn from "expo-google-sign-in";
+import * as Constants from "expo-constants";
+import * as WebBrowser from "expo-web-browser";
 // import firebase from 'firebase/app'
 import "firebase/auth";
 
@@ -22,7 +26,9 @@ import {
   Platform,
 } from "react-native";
 
+
 Facebook.initializeAsync("526885078008360");
+
 
 const isAndroid = () => Platform.OS === "android";
 
@@ -30,21 +36,15 @@ export default class LoginScreen extends React.Component {
   static navigationOptions = { headerShown: false };
   state = {
     phone: "",
-    user: null,
+    useProxy: null,
     confirmResult: null,
     code: "",
     loading: true,
     errorMessage: null,
+    user: null,
+    nonce: null,
   };
-  // componentDidMount() {
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     this.setState({ user, loading: false });
-  //   });
-  // }
-  componentDidMount() {
-    this.initAsync();
-  }
-
+  //------------------------------------------------------------
   reset = () => {
     this.setState({
       phone: "",
@@ -73,58 +73,9 @@ export default class LoginScreen extends React.Component {
     }
   }
 
-  isUserEqual = (googleUser, firebaseUser) => {
-    if (firebaseUser) {
-      var providerData = firebaseUser.providerData;
-      for (var i = 0; i < providerData.length; i++) {
-        if (
-          providerData[i].providerId ===
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-          providerData[i].uid === googleUser.getBasicProfile().getId()
-        ) {
-          // We don't need to reauth the Firebase connection.
-          return true;
-        }
-      }
-    }
-    return false;
-  };
-  onSignIn = (googleUser) => {
-    console.log("Google Auth Response", googleUser);
-    // We need to register an Observer on Firebase Auth to make sure auth is initialized.
-    var unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
-      unsubscribe();
-      // Check if we are already signed-in Firebase with the correct user.
-      if (!this.isUserEqual(googleUser, firebaseUser)) {
-        // Build Firebase credential with the Google ID token.
-        var credential = firebase.auth.GoogleAuthProvider.credential(
-          googleUser.idToken,
-          googleUser.accessToken
-        );
-        // Sign in with credential from the Google user.
-        firebase
-          .auth()
-          .signInWithCredential(credential)
-          .catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-            // ...
-          });
-      } else {
-        console.log("User already signed-in Firebase.");
-      }
-    });
-  };
   signInWithGoogleAsync = async () => {
-    alert("dkhelt");
     try {
       const result = await Google.logInAsync({
-        // clientId: isAndroid() ? '962329281029-15vdipakauub9ssgpcqsh4nqhpn47tnu.apps.googleusercontent.com' : '962329281029-h157odq28jntnmvk4m2k5po6ev5ifdqp.apps.googleusercontent.com',
         androidStandaloneAppClientId:
           "962329281029-rth19l58b3rc65o8j9a2nhnd4ujd2enj.apps.googleusercontent.com",
         androidClientId:
@@ -146,46 +97,6 @@ export default class LoginScreen extends React.Component {
     }
   };
 
-  initAsync = async () => {
-    await GoogleSignIn.initAsync({
-      // You may ommit the clientId when the firebase `googleServicesFile` is configured
-      clientId:
-        "187270884302-51mta2fot5qekt3792ogg427d28blt91.apps.googleusercontent.com",
-    });
-    this._syncUserWithStateAsync();
-  };
-
-  _syncUserWithStateAsync = async () => {
-    const user = await GoogleSignIn.signInSilentlyAsync();
-    this.setState({ user });
-  };
-
-  signOutAsync = async () => {
-    await GoogleSignIn.signOutAsync();
-    this.setState({ user: null });
-  };
-
-  signInAsync = async () => {
-    try {
-      await GoogleSignIn.askForPlayServicesAsync();
-      const result = await GoogleSignIn.signInAsync();
-      if (result.type === "success") {
-        console.log(result.user)
-        this._syncUserWithStateAsync();
-      }
-    } catch ({ message }) {
-      alert("login: Error:" + message);
-    }
-  };
-
-  onPress = () => {
-    if (this.state.user) {
-      this.signOutAsync();
-    } else {
-      this.signInAsync();
-    }
-  };
-
   render() {
     return (
       <View style={styles.container}>
@@ -203,7 +114,7 @@ export default class LoginScreen extends React.Component {
           style={{ marginTop: -45, alignSelf: "center" }}
           source={require("../assets/logo.png")}
         />
-        {/* <Text style={styles.greeting}>{`Hello again.\nWelcome back.`}</Text> */}
+        {/* <Text style={styles.greeting}>{this.state.user}</Text> */}
 
         <View style={styles.errorMessage}>
           {this.state.errorMessage && (
@@ -217,6 +128,7 @@ export default class LoginScreen extends React.Component {
         </View>
         <Text style={{ textAlign: "center", marginBottom: 30 }}>
           ______________________ OR ______________________
+          {this.state.user}
         </Text>
         {/* <PhoneAuth /> */}
         <SocialIcon
@@ -225,13 +137,16 @@ export default class LoginScreen extends React.Component {
           type="facebook"
           onPress={this.loginWithFacebook}
         />
-        <SocialIcon
+        <GoogleSign />
+        {/* <SocialIcon
           style={styles.button}
           title="Sign In With Google"
           button
           type="google"
-          onPress={this.onPress}
-        />
+          onPress={this._toggleAuth}
+        /> */}
+        {/* * <Text style={styles.greeting}>{this.state.user}</Text>  */}
+        {/* <Text onPress={this.onPress}>Toggle Auth</Text>;   */}
       </View>
     );
   }

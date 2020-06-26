@@ -179,6 +179,7 @@ export default class HomeScreen extends React.Component {
             <Text>Clear</Text>
           </TouchableOpacity>
         </View>
+        
         </View>
     );
   }

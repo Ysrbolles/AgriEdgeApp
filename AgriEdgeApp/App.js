@@ -20,21 +20,21 @@ firebase.initializeApp(config);
 
 const AppTabNavigator = createBottomTabNavigator(
   {
-    Home: {
-      screen: HomeScreen,
-      navigationOptions: {
-        headerTitle: false,
-        tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-home" size={24} color="#5ABD8C" />
-        ),
-      },
-    },
     Weather: {
       screen: WeatherScreen,
       navigationOptions: {
         headerShown: false,
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="ios-cloud" size={24} color="#5ABD8C" />
+        ),
+      },
+    },
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        headerTitle: false,
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name="ios-home" size={24} color="#5ABD8C" />
         ),
       },
     },
@@ -63,7 +63,7 @@ const AppTabNavigator = createBottomTabNavigator(
       inactiveTintColor: "#B8BBC4",
       showLabel: false,
       headerTitle: false,
-      tabBarVisible: true
+      tabBarVisible: true,
     },
   }
 );
