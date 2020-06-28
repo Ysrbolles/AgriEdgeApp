@@ -16,7 +16,8 @@ if (isInClient) {
   GoogleSignIn.allowInClient();
 }
 
-const clientIdForUseInTheExpoClient = "962329281029-rth19l58b3rc65o8j9a2nhnd4ujd2enj.apps.googleusercontent.com";
+const clientIdForUseInTheExpoClient =
+  "962329281029-rth19l58b3rc65o8j9a2nhnd4ujd2enj.apps.googleusercontent.com";
 
 /*
  * Redefine this one with your client ID
@@ -27,9 +28,10 @@ const clientIdForUseInTheExpoClient = "962329281029-rth19l58b3rc65o8j9a2nhnd4ujd
  */
 const yourClientIdForUseInStandalone = Platform.select({
   android: "",
-  ios: "",
+  ios:
+    "962329281029-h157odq28jntnmvk4m2k5po6ev5ifdqp.apps.googleusercontent.com",
 });
-const webClientId = "962329281029-rjlaje3f9t5qpomqv5i64gg6l3qcr8f5.apps.googleusercontent.com";
+const webClientId = "";
 const clientId = isInClient
   ? clientIdForUseInTheExpoClient
   : yourClientIdForUseInStandalone;
@@ -64,7 +66,6 @@ export default class App extends React.Component {
         if (!isUserEqual(googleUser, firebaseUser)) {
           // Build Firebase credential with the Google ID token.
           var credential = firebase.auth.GoogleAuthProvider.credential(
-            googleUser.idToken,
             googleUser.accessToken
           );
           // Sign in with credential from the Google user.
@@ -97,6 +98,7 @@ export default class App extends React.Component {
         isPromptEnabled: true,
         clientId,
         webClientId,
+        scopes: ["profile", "email"],
       });
       this._syncUserWithStateAsync();
     } catch ({ message }) {
@@ -183,11 +185,11 @@ export default class App extends React.Component {
 
   _toggleAuth = () => {
     console.log("Toggle", !!this.state.user);
-    if (this.state.user) {
-      this._signOutAsync();
-    } else {
-      this._signInAsync();
-    }
+    // if (this.state.user) {
+    //   this._signOutAsync();
+    // } else {
+    this._signInAsync();
+    // }
   };
 
   _signOutAsync = async () => {
@@ -208,10 +210,24 @@ export default class App extends React.Component {
     try {
       await GoogleSignIn.askForPlayServicesAsync();
       const { type, user } = await GoogleSignIn.signInAsync();
-      console.log({ type, user });
+      alert({ type, user });
+      userAuth = await user.refreshAuth();
       if (type === "success") {
-        alert(user.auth.idToken);
-        this.onSignIn(user);
+        alert(JSON.stringify(userAuth));
+        alert(JSON.stringify(user));
+        // const jib = GoogleSignIn.getCurrentUserAsync()
+        // alert(JSON.stringify(jib));
+        const cerd = firebase.auth.GoogleAuthProvider(
+          user.auth.idToken,
+          user.auth.accessToken
+        );
+
+        firebase
+          .auth()
+          .signInWithCredential(cerd)
+          .catch((err) => {
+            alert(err);
+          });
         this._syncUserWithStateAsync();
       }
     } catch ({ message }) {
@@ -219,19 +235,6 @@ export default class App extends React.Component {
     }
   };
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flexDirection: 'row',
-//     paddingHorizontal: 16,
-//     paddingVertical: 12,
-//     alignItems: 'center',
-//     justifyContent: 'space-between',
-//     marginBottom: 24,
-//   },
-//   image: { width: 128, borderRadius: 64, aspectRatio: 1 },
-//   text: { color: 'black', fontSize: 16, fontWeight: '600' },
-// });
 
 const styles = StyleSheet.create({
   container: {

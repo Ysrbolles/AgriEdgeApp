@@ -26,9 +26,7 @@ import {
   Platform,
 } from "react-native";
 
-
 Facebook.initializeAsync("526885078008360");
-
 
 const isAndroid = () => Platform.OS === "android";
 
@@ -77,7 +75,7 @@ export default class LoginScreen extends React.Component {
     try {
       const result = await Google.logInAsync({
         androidStandaloneAppClientId:
-          "962329281029-rth19l58b3rc65o8j9a2nhnd4ujd2enj.apps.googleusercontent.com",
+          "962329281029-rjlaje3f9t5qpomqv5i64gg6l3qcr8f5.apps.googleusercontent.com",
         androidClientId:
           "962329281029-rth19l58b3rc65o8j9a2nhnd4ujd2enj.apps.googleusercontent.com",
         iosClientId:
@@ -111,7 +109,12 @@ export default class LoginScreen extends React.Component {
           source={require("../assets/header_illus-min.png")}
         />
         <Image
-          style={{ marginTop: -45, alignSelf: "center" }}
+          style={{
+            marginTop: -45,
+            alignSelf: "center",
+            height: 110,
+            width: 150,
+          }}
           source={require("../assets/logo.png")}
         />
         {/* <Text style={styles.greeting}>{this.state.user}</Text> */}
@@ -143,7 +146,7 @@ export default class LoginScreen extends React.Component {
           title="Sign In With Google"
           button
           type="google"
-          onPress={this._toggleAuth}
+          onPress={this.signInWithGoogleAsync}
         /> */}
         {/* * <Text style={styles.greeting}>{this.state.user}</Text>  */}
         {/* <Text onPress={this.onPress}>Toggle Auth</Text>;   */}
