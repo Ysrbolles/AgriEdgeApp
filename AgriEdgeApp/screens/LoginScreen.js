@@ -61,6 +61,7 @@ export default class LoginScreen extends React.Component {
     );
     if (type == "success") {
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
+      console.log(credential)
 
       firebase
         .auth()

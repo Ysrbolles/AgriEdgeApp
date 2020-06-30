@@ -13,6 +13,7 @@ export default class AddNodes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      uid: '',
       name: "",
       latitude: -87877.12,
       longitude: 99989.45,
@@ -46,12 +47,33 @@ export default class AddNodes extends React.Component {
           value: "Surface irrigation",
         },
       ],
+      user: null,
+      email: "",
+      Firstname: "",
+      lastname: "",
+      displayName: "",
+      profilpic: "",
     };
+  
+  }
+  componentDidMount() {
+    this.getUser();
   }
   fuck = () => {
-    Nodes.addnewone(this.state)
+    Nodes.addnewone(this.state);
   };
 
+  getUser = async () => {
+    const user = await firebase.auth().currentUser;
+    this.setState({
+      user: user,
+      displayName: user.displayName,
+      email: user.email,
+      profilpic: user.photoURL,
+      uid: user.uid
+    });
+    console.log(user.email);
+  };
   render() {
     const buttonTextStyle = {
       color: "#fffff",
