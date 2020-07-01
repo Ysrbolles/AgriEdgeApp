@@ -14,12 +14,12 @@ export default {
         .catch((err) => reject(err));
     });
   },
-  getNodes() {
+  getNodes(uidApp) {
     return new Promise((resolve, reject) => {
-      console.log("salaaaaaaaaaaaam")
       axios
-        .get("http://10.0.2.2:4242/Home/getNodesApp")
+        .get(`http://10.0.2.2:4242/Home/getNodesApp/${uidApp}`)
         .then((result) => {
+          console.log(result.data)
           resolve(result.data);
         })
         .catch((err) => {

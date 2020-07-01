@@ -6,27 +6,17 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  SafeAreaView,
+  ScrollView,
 } from "react-native";
 import * as firebase from "firebase";
-// import { ListItem } from "@ui-kitten/components";
 import { Avatar, ListItem, Header } from "react-native-elements";
-// import { ListItem } from 'react-native-elements'
-import {
-  ModernHeader,
-  ClassicHeader,
-} from "@freakycoder/react-native-header-view";
-import Drawer from "react-native-circle-drawer";
-import ScalingDrawer from "react-native-scaling-drawer";
-import { ApplicationProvider, Card, Layout } from "react-native-ui-kitten";
-import { mapping, light as lightTheme } from "@eva-design/eva";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+
 import Nodes from "../services/Nodes";
-let defaultScalingDrawerConfig = {
-  scalingFactor: 0.6,
-  minimizeFactor: 0.6,
-  swipeOffset: 20,
-};
+
 const he = (props) => (
-  <View {...props} style={{height: 50}}>
+  <View {...props} style={{ height: 50 }}>
     <Text category="h1">Nodes List</Text>
     {/* <Text category="s1">Test</Text> */}
   </View>
@@ -39,16 +29,17 @@ export default class ProfileScreen extends React.Component {
     lastname: "",
     displayName: "",
     profilpic: "",
+    uidAPP: "",
     list: [],
   };
 
-  componentDidMount() {
-    this.getUser();
-    Nodes.getNodes()
-    .then(res => {
-      this.setState({list: res})
-      console.log(res)
-    })
+  async componentDidMount() {
+    this.getUser().then(async () => {
+      await Nodes.getNodes(this.state.uidAPP).then((res) => {
+        this.setState({ list: res });
+        console.log("test" + JSON.stringify(this.state.list));
+      });
+    });
   }
   getUser = async () => {
     const user = await firebase.auth().currentUser;
@@ -57,8 +48,8 @@ export default class ProfileScreen extends React.Component {
       displayName: user.displayName,
       email: user.email,
       profilpic: user.photoURL,
+      uidAPP: user.uid,
     });
-    console.log(user);
   };
   signOutUser = () => {
     firebase.auth().signOut();
@@ -67,16 +58,13 @@ export default class ProfileScreen extends React.Component {
   listDaily = ({ item }) => {
     return (
       <View>
-        {/* {this.state.list.map((l, i) => ( */}
-          <ListItem
-            // key={i}
-            title={item.NodeId}
-            bottomDivider
-            onPress={() => {
-                  alert(item.NodeId);
-                }}
-          />
-        {/* ))} */}
+        <ListItem
+          title={item.NodeId}
+          bottomDivider
+          onPress={() => {
+            alert(item.NodeId);
+          }}
+        />
       </View>
     );
   };
@@ -89,58 +77,116 @@ export default class ProfileScreen extends React.Component {
     );
   }
   render() {
+    const imageauth = (
+      <Image
+        source={this.state.profilpic}
+        style={styles.Image}
+        resizeMode="center"
+      ></Image>
+    );
+    const imagedefault = (
+      <Image
+        source={require("../assets/logo.png")}
+        style={styles.Image}
+        resizeMode="center"
+      ></Image>
+    );
     return (
-      <ApplicationProvider mapping={mapping} theme={lightTheme}>
-        <View>
-          <Header
-            // leftComponent={{ icon: "menu", color: "#fff" }}
-            centerComponent={{ text: "Profile" }}
-            rightComponent={{ icon: "settings" }}
-            backgroundColor="#fff"
-          />
-          <Layout style={styles.topContainer} level="1">
-            <Card style={styles.card}>
-              <Layout style={styles.topContainer} level="1">
-                <Avatar
-                  rounded
-                  style={{ width: 100, height: 100 }}
-                  source={{
-                    uri: this.state.profilpic,
-                  }}
-                />
-                <View>
-                  <Layout style={styles.Logout} level="1">
-                    {/* <Text>{this.state.email}</Text> */}
-                    <Text>{this.state.displayName}</Text>
-                    <TouchableOpacity
-                      style={{ marginTop: 32 }}
-                      onPress={this.signOutUser}
-                    >
-                      <Text>Logout</Text>
-                    </TouchableOpacity>
-                  </Layout>
-                </View>
-              </Layout>
-            </Card>
-          </Layout>
-
-          <View style={styles.lowerregion}>
-            <Card style={styles.card} header={he}>
+      <SafeAreaView style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.TitleBar}>
+            <Ionicons
+              name="ios-arrow-back"
+              size={24}
+              color="#52575D"
+            ></Ionicons>
+            <Ionicons name="md-more" size={24} color="#52575D"></Ionicons>
+          </View>
+          <View style={{ alignSelf: "center" }}>
+            <View style={styles.profileImage}>
+              {this.state.profilpic ? imagedefault : imagedefault}
+            </View>
+          </View>
+          <View style={styles.infoContainer}>
+            <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
+              {this.state.displayName}
+            </Text>
+          </View>
+          <View style={styles.statusContainer}>
+            <View style={styles.statusBox}>
+              <Text style={[styles.text, { fontSize: 24 }]}>{this.state.list.length}</Text>
+              <Text styles={[styles.text, styles.subtext]}>Nodes Number</Text>
+            </View>
+            <View
+              style={[
+                styles.statusBox,
+                {
+                  borderColor: "#DFDBCB",
+                  borderLeftWidth: 1,
+                  borderRightWidth: 1,
+                },
+              ]}
+            >
+              <Text style={[styles.text, { fontSize: 24 }]}>20</Text>
+              <Text styles={[styles.text, styles.subtext]}>Nodes Number</Text>
+            </View>
+            <View style={styles.statusBox}>
+              <Text style={[styles.text, { fontSize: 24 }]}>20</Text>
+              <Text styles={[styles.text, styles.subtext]}>Nodes Number</Text>
+            </View>
+          </View>
+          <View style={{marginTop: 32}}>
+            <View style={styles.lowerregion}>
               <FlatList
-                // style={styles.listForecast}
-
                 data={this.state.list}
                 renderItem={this.listDaily}
                 ItemSeparatorComponent={() => (
                   <View style={styles.separator}></View>
                 )}
                 keyExtractor={(item, index) => index.toString()}
-               
               />
-            </Card>
+            </View>
           </View>
-        </View>
-      </ApplicationProvider>
+        </ScrollView>
+      </SafeAreaView>
+      // <ApplicationProvider mapping={mapping} theme={lightTheme}>
+      //   <View>
+      //     {/* <Header
+      //       centerComponent={{ text: "Profile" }}
+      //       rightComponent={{ icon: "settings"}}
+      //       backgroundColor="#fff"
+      //     /> */}
+      //     <View>
+      //       <Avatar
+      //         rounded
+      //         style={{ width: 90, height: 90 }}
+      //         source={{
+      //           uri: this.state.profilpic,
+      //         }}
+      //       />
+      //       <View>
+      //         {this.state.profilpic ? imagedefault : imageauth}
+      //         <Layout style={styles.Logout} level="1">
+      //           <Text>{this.state.displayName}</Text>
+      //           <TouchableOpacity onPress={this.signOutUser}>
+      //             <Text>Logout</Text>
+      //           </TouchableOpacity>
+      //         </Layout>
+      //       </View>
+      //     </View>
+
+      //     <View style={styles.lowerregion}>
+      //       <FlatList
+      //         data={this.state.list}
+      //         renderItem={this.listDaily}
+      //         ItemSeparatorComponent={() => (
+      //           <View style={styles.separator}></View>
+      //         )}
+      //         keyExtractor={(item, index) => index.toString()}
+      //       />
+      //     </View>
+      //   </View>
+      // </ApplicationProvider>
     );
   }
 }
@@ -148,16 +194,15 @@ export default class ProfileScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
   separator: {
     marginLeft: 20,
   },
   lowerregion: {
-    marginTop: 100,
-    backgroundColor: "#f4f4f4",
-    height: 300,
+    height: 200,
+    borderRadius: 12,
+    overflow: "hidden",
+    marginHorizontal: 10
   },
   card: {
     flex: 1,
@@ -165,10 +210,50 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
   },
   Logout: {
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
   },
+  Image: {
+    flex: 1,
+    width: undefined,
+    height: undefined,
+  },
+  TitleBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 24,
+    marginHorizontal: 16,
+  },
+  profileImage: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    overflow: "hidden",
+  },
+  infoContainer: {
+    alignSelf: "center",
+    alignItems: "center",
+    marginTop: 16,
+  },
+  statusContainer: {
+    flexDirection: "row",
+    alignSelf: "center",
+    marginTop: 32,
+  },
+  statusBox: {
+    alignItems: "center",
+    flex: 1,
+  },
+  subtext: {
+    fontSize: 12,
+    color: "#AEB5BC",
+    textTransform: "uppercase",
+    fontWeight: "500",
+  },
+  text:{
+    color: "#52575D"
+  }
 });
