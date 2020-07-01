@@ -7,6 +7,8 @@ import {
   FlatList,
   Image,
   ImageBackground,
+  RefreshControl,
+  ScrollView,
 } from "react-native";
 import Swiper from "react-native-swiper";
 import * as Location from "expo-location";
@@ -19,6 +21,28 @@ export default class WeatherScreen extends React.Component {
     headerShown: false,
   };
   _isMounted = false;
+  constructor(props) {
+    super(props);
+    this.state = {
+      latitude: null,
+      longitude: null,
+      days: [],
+      currently: [],
+      hourly: [],
+      refreshing: false,
+    };
+  }
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    setTimeout(() => {
+      this.setState({ refreshing: false });
+      this.getWeatherData();
+    }, 3000);
+    // wait(200).then(() =>{
+    //   this.setState({refreshing: false})
+    //   this.getWeatherData();
+    // }, [this.state.refreshing])
+  };
   componentDidMount() {
     this._isMounted = true;
     this._getuserLocation().then((position) => {
@@ -33,17 +57,6 @@ export default class WeatherScreen extends React.Component {
 
   componentWillUnmount() {
     this._isMounted = false;
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      latitude: null,
-      longitude: null,
-      days: [],
-      currently: [],
-      hourly: [],
-    };
   }
 
   _getuserLocation = async () => {
@@ -169,6 +182,7 @@ export default class WeatherScreen extends React.Component {
       </View>
     );
   };
+  ss;
   renderElement = ({ item }) => {
     return (
       <View style={styles.containerForecast}>
@@ -200,67 +214,76 @@ export default class WeatherScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ImageBackground
-          style={styles.upperregion}
-          source={require("../assets/test2.jpg")}
-        >
-          <View style={styles.innerupperregion}>
-            <Text style={[styles.addwhite, { fontSize: 20 }]}>
-              {dayjs(new Date(this.state.currently.time * 1000)).format(
-                "hh:mm a"
-              )}
-            </Text>
-            <Text style={styles.today}>
-              {" "}
-              {dayjs(Date.now()).format("ddd MMMM D, YYYY")}{" "}
-            </Text>
-            <Text style={styles.degrees}>
-              {Math.round(this.state.currently.temperature)}°C
-            </Text>
-            <MaterialCommunityIcons
-              size={48}
-              name={getForecastEmoji(this.state.currently.icon)}
-              color={"#fff"}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
             />
-            <Text style={styles.weathercondition}>
-              {this.state.currently.summary}
-            </Text>
-          </View>
-
-          <View style={styles.lowerinnerregion}>
-            {/* <Text style={[styles.addwhite, { fontSize: 18 }]}>
-              MALMO, SWEDEN{" "}
-            </Text> */}
-            {/* <Swiper style={styles.wrapper} showsButtons={false}> */}
-            <View style={[styles.addwhite, { marginTop: 20 }]}>
-              <FlatList
-                style={styles.listForecast}
-                horizontal
-                data={this.state.hourly}
-                renderItem={this.renderElement}
-                ItemSeparatorComponent={() => (
-                  <View style={styles.separator}></View>
+          }
+        >
+          <ImageBackground
+            style={styles.upperregion}
+            source={require("../assets/test2.jpg")}
+          >
+            <View style={styles.innerupperregion}>
+              <Text style={[styles.addwhite, { fontSize: 20 }]}>
+                {dayjs(new Date(this.state.currently.time * 1000)).format(
+                  "hh:mm a"
                 )}
-                keyExtractor={(item, index) => index.toString()}
+              </Text>
+              <Text style={styles.today}>
+                {" "}
+                {dayjs(Date.now()).format("ddd MMMM D, YYYY")}{" "}
+              </Text>
+              <Text style={styles.degrees}>
+                {Math.round(this.state.currently.temperature)}°C
+              </Text>
+              <MaterialCommunityIcons
+                size={48}
+                name={getForecastEmoji(this.state.currently.icon)}
+                color={"#fff"}
               />
+              <Text style={styles.weathercondition}>
+                {this.state.currently.summary}
+              </Text>
             </View>
 
-            {/* </Swiper> */}
-          </View>
-        </ImageBackground>
-        <View style={styles.lowerregion}>
-          <FlatList
-            // style={styles.listForecast}
-            horizontal
-            data={this.state.days}
-            renderItem={this.listDaily}
-            ItemSeparatorComponent={() => (
-              <View style={styles.separator}></View>
-            )}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        </View>
+            <View style={styles.lowerinnerregion}>
+              {/* <Text style={[styles.addwhite, { fontSize: 18 }]}>
+              MALMO, SWEDEN{" "}
+            </Text> */}
+              <View style={[styles.addwhite, { marginTop: 20 }]}>
+                <FlatList
+                  style={styles.listForecast}
+                  horizontal
+                  data={this.state.hourly}
+                  renderItem={this.renderElement}
+                  ItemSeparatorComponent={() => (
+                    <View style={styles.separator}></View>
+                  )}
+                  keyExtractor={(item, index) => index.toString()}
+                  showsHorizontalScrollIndicator={false}
+                />
+              </View>
+            </View>
+          </ImageBackground>
 
+          <View>
+            <FlatList
+              // style={styles.listForecast}
+              horizontal
+              data={this.state.days}
+              renderItem={this.listDaily}
+              ItemSeparatorComponent={() => (
+                <View style={styles.separator}></View>
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </ScrollView>
         {/* <View style={styles.lowerregion}>{this.listDays()}</View> */}
       </View>
     );

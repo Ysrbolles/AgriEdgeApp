@@ -31,16 +31,27 @@ export default class ProfileScreen extends React.Component {
     profilpic: "",
     uidAPP: "",
     list: [],
+    refrshing: false,
   };
 
   async componentDidMount() {
     this.getUser().then(async () => {
-      await Nodes.getNodes(this.state.uidAPP).then((res) => {
-        this.setState({ list: res });
-        console.log("test" + JSON.stringify(this.state.list));
-      });
+      await Nodes.getNodes(this.state.uidAPP)
+        .then((res) => {
+          this.setState({ refreshing: true });
+          this.setState({ list: res });
+        })
+        .finally(() => this.setState({ refreshing: false }));
     });
   }
+  // componentDidUpdate() {
+  //   this.getUser().then(async () => {
+  //     await Nodes.getNodes(this.state.uidAPP).then((res) => {
+  //       this.setState({ list: res });
+  //       console.log("test" + JSON.stringify(this.state.list));
+  //     });
+  //   });
+  // }
   getUser = async () => {
     const user = await firebase.auth().currentUser;
     this.setState({
@@ -68,14 +79,7 @@ export default class ProfileScreen extends React.Component {
       </View>
     );
   };
-  renderSideMenu() {
-    return (
-      <View style={{ flex: 1 }}>
-        <Text>Item 1 </Text>
-        <Text>Item 2 </Text>
-      </View>
-    );
-  }
+
   render() {
     const imageauth = (
       <Image
@@ -93,61 +97,62 @@ export default class ProfileScreen extends React.Component {
     );
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.TitleBar}>
-            <Ionicons
-              name="ios-arrow-back"
-              size={24}
-              color="#52575D"
-            ></Ionicons>
-            <Ionicons name="md-more" size={24} color="#52575D"></Ionicons>
+        <View style={styles.TitleBar}>
+          <Ionicons name="md-more" size={24} color="#52575D"></Ionicons>
+        </View>
+        <View style={{ alignSelf: "center" }}>
+          <View style={styles.profileImage}>
+            {this.state.profilpic ? imagedefault : imagedefault}
           </View>
-          <View style={{ alignSelf: "center" }}>
-            <View style={styles.profileImage}>
-              {this.state.profilpic ? imagedefault : imagedefault}
-            </View>
-          </View>
-          <View style={styles.infoContainer}>
-            <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
-              {this.state.displayName}
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
+            {this.state.displayName}
+          </Text>
+        </View>
+        <View style={styles.statusContainer}>
+          <View style={styles.statusBox}>
+            <Text style={[styles.text, { fontSize: 24 }]}>
+              {this.state.list.length}
             </Text>
+            <Text styles={[styles.text, styles.subtext]}>Nodes Number</Text>
           </View>
-          <View style={styles.statusContainer}>
-            <View style={styles.statusBox}>
-              <Text style={[styles.text, { fontSize: 24 }]}>{this.state.list.length}</Text>
-              <Text styles={[styles.text, styles.subtext]}>Nodes Number</Text>
-            </View>
-            <View
-              style={[
-                styles.statusBox,
-                {
-                  borderColor: "#DFDBCB",
-                  borderLeftWidth: 1,
-                  borderRightWidth: 1,
-                },
-              ]}
-            >
-              <Text style={[styles.text, { fontSize: 24 }]}>20</Text>
-              <Text styles={[styles.text, styles.subtext]}>Nodes Number</Text>
-            </View>
-            <View style={styles.statusBox}>
-              <Text style={[styles.text, { fontSize: 24 }]}>20</Text>
-              <Text styles={[styles.text, styles.subtext]}>Nodes Number</Text>
-            </View>
+          <View
+            style={[
+              styles.statusBox,
+              {
+                borderColor: "#DFDBCB",
+                borderLeftWidth: 1,
+                borderRightWidth: 1,
+              },
+            ]}
+          >
+            <Text style={[styles.text, { fontSize: 24 }]}>
+              {this.state.list.length}
+            </Text>
+            <Text styles={[styles.text, styles.subtext]}>Nodes Number</Text>
           </View>
-          <View style={{marginTop: 32}}>
-            <View style={styles.lowerregion}>
-              <FlatList
-                data={this.state.list}
-                renderItem={this.listDaily}
-                ItemSeparatorComponent={() => (
-                  <View style={styles.separator}></View>
-                )}
-                keyExtractor={(item, index) => index.toString()}
-              />
-            </View>
+          <View style={styles.statusBox}>
+            <Text style={[styles.text, { fontSize: 24 }]}>
+              {this.state.list.length}
+            </Text>
+            <Text styles={[styles.text, styles.subtext]}>Nodes Number</Text>
           </View>
-        </ScrollView>
+        </View>
+        <View style={{ marginTop: 32 }}>
+          <View style={styles.lowerregion}>
+            <FlatList
+              data={this.state.list}
+              renderItem={this.listDaily}
+              ItemSeparatorComponent={() => (
+                <View style={styles.separator}></View>
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              refreshing={this.state.refrshing}
+              onRefresh={this.getUser}
+            />
+          </View>
+        </View>
       </SafeAreaView>
       // <ApplicationProvider mapping={mapping} theme={lightTheme}>
       //   <View>
@@ -202,7 +207,7 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 12,
     overflow: "hidden",
-    marginHorizontal: 10
+    marginHorizontal: 10,
   },
   card: {
     flex: 1,
@@ -223,7 +228,7 @@ const styles = StyleSheet.create({
   },
   TitleBar: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     marginTop: 24,
     marginHorizontal: 16,
   },
@@ -253,7 +258,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     fontWeight: "500",
   },
-  text:{
-    color: "#52575D"
-  }
+  text: {
+    color: "#52575D",
+  },
 });
