@@ -1,4 +1,5 @@
 import React from "react";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import MapView, {
   AnimatedRegion,
   Animated,
@@ -40,6 +41,7 @@ export default class HomeScreen extends React.Component {
       },
       i: 0,
       sym: 0,
+      sign: 0,
       coordinates: [],
       polygons: [],
       editing: null,
@@ -91,6 +93,21 @@ export default class HomeScreen extends React.Component {
       });
     }
   }
+  undo(){
+    console.debug(this.state.coordinates)
+    this.state.coordinates.slice().splice(this.state.coordinates.length, 1)
+    // .then(() => {
+    //   console.debug('OK')
+    // })
+    // .catch((er) => console.debug(er))
+   this.setState({
+      coordinates: [this.state.coordinates]}, () => {
+        this.setState({
+          polygons: [this.state.coordinates],
+        });
+    });
+    console.debug(this.state.coordinates)
+  }
   clear() {
     this.setState({
       sym: 0,
@@ -100,24 +117,15 @@ export default class HomeScreen extends React.Component {
   }
   onPress(e) {
     // console.debug(e);
-    if (this.state.sym == 0) {
       this.setState({
+        longitude: e.nativeEvent.coordinate.longitude,
+        latitude: e.nativeEvent.coordinate.latitude,
         coordinates: [...this.state.coordinates, e.nativeEvent.coordinate]}, () => {
           if (this.state.coordinates.length >= 1)
           this.setState({
             polygons: [this.state.coordinates],
           });
         });
-      
-      console.debug(this.state.coordinates);
-    } else {
-      console.debug(e.nativeEvent.coordinate);
-      alert(
-        e.nativeEvent.coordinate.latitude +
-          " , " +
-          e.nativeEvent.coordinate.longitude
-      );
-    }
   }
 
   render() {
@@ -165,21 +173,28 @@ export default class HomeScreen extends React.Component {
             />
           ))}
         </MapView>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
+        <TouchableOpacity
             onPress={() => this.finish()}
             style={[styles.bubble, styles.button]}
           >
-            <Text>Finish</Text>
+            <Text>tap to draw</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.clear()}
-            style={[styles.bubble, styles.button]}
-          >
-            <Text>Clear</Text>
-          </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+        <Icon.Button
+           name="check"
+           onPress={() => this.finish()}
+         >
+           Finish
+         </Icon.Button>
+        <Icon.Button
+           iconStyle="{marginRight: 10}"
+           name="eraser"
+           onPress={() => this.clear()}
+         >
+           Clear
+         </Icon.Button>
+
         </View>
-        
         </View>
     );
   }
@@ -204,15 +219,16 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   bubble: {
-    backgroundColor: "rgba(255,255,0,0.7)",
+    backgroundColor: "rgba(153,153,255,0.7)",
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 20,
   },
   button: {
-    width: 80,
+    // width: 80,
     paddingHorizontal: 12,
     alignItems: "center",
     marginHorizontal: 10,
+    
   },
 });
