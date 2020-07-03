@@ -45,6 +45,7 @@ export default class HomeScreen extends React.Component {
       polygons: [],
       editing: null,
       test: [],
+      draw: false
     };
   }
 
@@ -116,6 +117,7 @@ export default class HomeScreen extends React.Component {
   }
   onPress(e) {
     // console.debug(e);
+    this.setState({draw: true})
       this.setState({
         longitude: e.nativeEvent.coordinate.longitude,
         latitude: e.nativeEvent.coordinate.latitude,
@@ -128,6 +130,14 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    const addtodraw = (
+      <TouchableOpacity
+      onPress={() => this.finish()}
+      style={[styles.bubble, styles.button]}
+    >
+      <Text>tap to draw</Text>
+    </TouchableOpacity>
+    )
     const mapOptions = {
       scrollEnabled: true,
     };
@@ -172,12 +182,7 @@ export default class HomeScreen extends React.Component {
             />
           ))}
         </MapView>
-        <TouchableOpacity
-            onPress={() => this.finish()}
-            style={[styles.bubble, styles.button]}
-          >
-            <Text>tap to draw</Text>
-          </TouchableOpacity>
+        {this.state.draw ? null : addtodraw}
         <View style={styles.buttonContainer}>
         <Icon.Button
            name="check"
