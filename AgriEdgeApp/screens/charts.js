@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, ScrollView, StyleSheet, Text } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, Text, RefreshControl } from "react-native";
 
 import HeaderComponent from "../components/HeaderComponent";
 import Histogram from "../components/Histogram";
@@ -15,14 +15,22 @@ export default class Charts extends React.Component {
       watermark1: [],
       watermark2: [],
       watermark3: [],
-      res: []
+      res: [],
+      refreshing: false
     };
   }
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    setTimeout(() => {
+      this.setState({ refreshing: false });
+     
+    }, 3000);
+  };
   handleTypeChange = (histogramType) => {
     this.setState({ histogramType });
   };
   getHistogramTitle = (histogramType) => {
-    const buttons = ["WaterMark1", "WaterMark2", "WaterMark3", "Air"];
+    const buttons = ["WaterMark1", "WaterMark2", "WaterMark3", "air_humidity", "air_temperature", "soil_temperature"];
     return `Histogram of ${buttons[histogramType]} values`;
   };
 
@@ -31,6 +39,12 @@ export default class Charts extends React.Component {
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.containerContent}
+        refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
       >
         {/* <HeaderComponent></HeaderComponent> */}
         <Text>{JSON.stringify(this.props.navigation.state.params.NodeId)}</Text>

@@ -1,5 +1,5 @@
 import React from "react";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
 import MapView, {
   AnimatedRegion,
   Animated,
@@ -45,7 +45,7 @@ export default class HomeScreen extends React.Component {
       polygons: [],
       editing: null,
       test: [],
-      draw: false
+      draw: false,
     };
   }
 
@@ -93,51 +93,55 @@ export default class HomeScreen extends React.Component {
       });
     }
   }
-  undo(){
-    console.debug(this.state.coordinates)
-    this.state.coordinates.slice().splice(this.state.coordinates.length, 1)
-    // .then(() => {
-    //   console.debug('OK')
-    // })
-    // .catch((er) => console.debug(er))
-   this.setState({
-      coordinates: [this.state.coordinates]}, () => {
+  undo() {
+    console.debug(this.state.coordinates);
+    this.state.coordinates.slice().splice(this.state.coordinates.length, 1);
+    this.setState(
+      {
+        coordinates: [this.state.coordinates],
+      },
+      () => {
         this.setState({
           polygons: [this.state.coordinates],
         });
-    });
-    console.debug(this.state.coordinates)
+      }
+    );
+    console.debug(this.state.coordinates);
   }
   clear() {
     this.setState({
       sym: 0,
       coordinates: [],
-      polygons: []
+      polygons: [],
     });
   }
   onPress(e) {
     // console.debug(e);
-    this.setState({draw: true})
-      this.setState({
+    this.setState({ draw: true });
+    this.setState(
+      {
         longitude: e.nativeEvent.coordinate.longitude,
         latitude: e.nativeEvent.coordinate.latitude,
-        coordinates: [...this.state.coordinates, e.nativeEvent.coordinate]}, () => {
-          if (this.state.coordinates.length >= 1)
+        coordinates: [...this.state.coordinates, e.nativeEvent.coordinate],
+      },
+      () => {
+        if (this.state.coordinates.length >= 1)
           this.setState({
             polygons: [this.state.coordinates],
           });
-        });
+      }
+    );
   }
 
   render() {
     const addtodraw = (
       <TouchableOpacity
-      onPress={() => this.finish()}
-      style={[styles.bubble, styles.button]}
-    >
-      <Text>tap to draw</Text>
-    </TouchableOpacity>
-    )
+        onPress={() => this.finish()}
+        style={[styles.bubble, styles.button]}
+      >
+        <Text>tap to draw</Text>
+      </TouchableOpacity>
+    );
     const mapOptions = {
       scrollEnabled: true,
     };
@@ -147,7 +151,7 @@ export default class HomeScreen extends React.Component {
       mapOptions.onPanDrag = (e) => this.onPress(e);
     }
     LayoutAnimation.easeInEaseOut();
-    return ( 
+    return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content"></StatusBar>
         <MapView
@@ -184,22 +188,18 @@ export default class HomeScreen extends React.Component {
         </MapView>
         {this.state.draw ? null : addtodraw}
         <View style={styles.buttonContainer}>
-        <Icon.Button
-           name="check"
-           onPress={() => this.finish()}
-         >
-           Finish
-         </Icon.Button>
-        <Icon.Button
-           iconStyle="{marginRight: 10}"
-           name="eraser"
-           onPress={() => this.clear()}
-         >
-           Clear
-         </Icon.Button>
-
+          <Icon.Button name="check" onPress={() => this.finish()}>
+            Finish
+          </Icon.Button>
+          <Icon.Button
+            iconStyle="{marginRight: 10}"
+            name="eraser"
+            onPress={() => this.clear()}
+          >
+            Clear
+          </Icon.Button>
         </View>
-        </View>
+      </View>
     );
   }
 }
@@ -233,6 +233,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     alignItems: "center",
     marginHorizontal: 10,
-    
   },
 });

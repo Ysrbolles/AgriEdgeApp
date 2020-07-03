@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet, ScrollView } from "react-native";
 import { ButtonGroup } from "react-native-elements";
 
 const screenWidth = Dimensions.get("window").width;
@@ -16,17 +16,27 @@ export default class HistogramType extends Component {
 
   render() {
     const histogramType = this.props.value != undefined ? this.props.value : 0;
-    const buttons = ["WaterMark1", "WaterMark2", "WaterMark3", "Air"];
+    const buttons = [
+      "WaterMark1",
+      "WaterMark2",
+      "WaterMark3",
+      "air_humidity",
+      "air_temperature",
+      "soil_temperature",
+    ];
 
     return (
-      <ButtonGroup
-        selectedButtonStyle={{ backgroundColor: "#037d50" }}
-        onPress={this.handleChange}
-        selectedIndex={histogramType}
-        buttons={buttons}
-        containerStyle={styles.container}
-        textStyle={{ fontSize: 12 }}
-      />
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <ButtonGroup
+          selectedButtonStyle={{ backgroundColor: "#037d50" }}
+          onPress={this.handleChange}
+          selectedIndex={histogramType}
+          buttons={buttons}
+          containerStyle={styles.container}
+          text
+          Style={{ fontSize: 12 }}
+        />
+      </ScrollView>
     );
   }
 }
@@ -35,6 +45,6 @@ const styles = StyleSheet.create({
   container: {
     height: 50,
     marginTop: 30,
-    minWidth: screenWidth * 0.9,
+    minWidth: screenWidth * 2,
   },
 });
