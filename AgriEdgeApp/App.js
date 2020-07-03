@@ -11,6 +11,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import WeatherScreen from "./screens/WeatherScreen";
 import NotificationsScreen from "./screens/NotificationsScreen";
 import AddNodes from "./screens/AddNodes";
+import Chart from "./screens/charts";
 
 import * as firebase from "firebase";
 
@@ -81,6 +82,7 @@ const App = createStackNavigator({
     },
   },
   AddNode: AddNodes,
+  Charts: Chart,
 });
 
 export default createAppContainer(

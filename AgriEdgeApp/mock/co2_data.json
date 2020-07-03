@@ -1,0 +1,58 @@
+{
+  "1": {
+    "label": "Lubrication",
+    "total": "1055.7",
+    "acre": "10.6",
+    "olive_oil_tn": "263.9",
+    "olive_oil_kg": "1.31961"
+  },
+  "2": {
+    "label": "Plant protection",
+    "total": "2055.7",
+    "acre": "0.31",
+    "olive_oil_tn": "7.77",
+    "olive_oil_kg": "0.03885"
+  },
+  "3": {
+    "label": "Soil management",
+    "total": "21.756",
+    "acre": "0.22",
+    "olive_oil_tn": "5.44",
+    "olive_oil_kg": "0.02720"
+  },
+  "4": {
+    "label": "Pruning works",
+    "total": "5.47",
+    "acre": "0.05",
+    "olive_oil_tn": "1.37",
+    "olive_oil_kg": "0.00684"
+  },
+  "5": {
+    "label": "Combustion of residues",
+    "total": "45.3",
+    "acre": "0.45",
+    "olive_oil_tn": "11.33",
+    "olive_oil_kg": "0.05663"
+  },
+  "6": {
+    "label": "Irrigation works",
+    "total": "0",
+    "acre": "0.00",
+    "olive_oil_tn": "0.00",
+    "olive_oil_kg": "0.00000"
+  },
+  "7": {
+    "label": "Olive Collection",
+    "total": "27.35",
+    "acre": "0.27",
+    "olive_oil_tn": "6.84",
+    "olive_oil_kg": "0.03419"
+  },
+  "8": {
+    "label": "Transfer",
+    "total": "6.216",
+    "acre": "0.06",
+    "olive_oil_tn": "1.55",
+    "olive_oil_kg": "0.00777"
+  }
+}

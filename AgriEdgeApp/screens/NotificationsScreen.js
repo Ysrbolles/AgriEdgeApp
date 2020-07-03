@@ -23,7 +23,6 @@ export default class NotificationsScreen extends React.Component {
     this.setState({visible: !this.state.visible});
   };
   AddNode = () => {
-    console.log("teeeeeeeeeeeeeeeeeeeeeest");
     return <AddScreen />;
   };
   render() {

@@ -12,6 +12,7 @@ import {
 import * as firebase from "firebase";
 import { Avatar, ListItem, Header } from "react-native-elements";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import Chart from "./charts";
 
 import Nodes from "../services/Nodes";
 
@@ -44,14 +45,6 @@ export default class ProfileScreen extends React.Component {
         .finally(() => this.setState({ refreshing: false }));
     });
   }
-  // componentDidUpdate() {
-  //   this.getUser().then(async () => {
-  //     await Nodes.getNodes(this.state.uidAPP).then((res) => {
-  //       this.setState({ list: res });
-  //       console.log("test" + JSON.stringify(this.state.list));
-  //     });
-  //   });
-  // }
   getUser = async () => {
     const user = await firebase.auth().currentUser;
     this.setState({
@@ -72,9 +65,7 @@ export default class ProfileScreen extends React.Component {
         <ListItem
           title={item.NodeId}
           bottomDivider
-          onPress={() => {
-            alert(item.NodeId);
-          }}
+          onPress={() => this.props.navigation.navigate("Charts", {NodeId: item.NodeId})}
         />
       </View>
     );

@@ -38,10 +38,6 @@ export default class WeatherScreen extends React.Component {
       this.setState({ refreshing: false });
       this.getWeatherData();
     }, 3000);
-    // wait(200).then(() =>{
-    //   this.setState({refreshing: false})
-    //   this.getWeatherData();
-    // }, [this.state.refreshing])
   };
   componentDidMount() {
     this._isMounted = true;
