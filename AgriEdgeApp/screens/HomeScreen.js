@@ -41,7 +41,6 @@ export default class HomeScreen extends React.Component {
       },
       i: 0,
       sym: 0,
-      sign: 0,
       coordinates: [],
       polygons: [],
       editing: null,
