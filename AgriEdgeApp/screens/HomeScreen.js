@@ -46,6 +46,7 @@ export default class HomeScreen extends React.Component {
       editing: null,
       test: [],
       draw: false,
+      btn: true
     };
   }
 
@@ -117,7 +118,8 @@ export default class HomeScreen extends React.Component {
   }
   onPress(e) {
     // console.debug(e);
-    this.setState({ draw: true });
+    this.setState({ draw: true,
+    btn: false});
     this.setState(
       {
         longitude: e.nativeEvent.coordinate.longitude,
@@ -142,6 +144,20 @@ export default class HomeScreen extends React.Component {
         <Text>tap to draw</Text>
       </TouchableOpacity>
     );
+    const addbtn = (
+      <View style={styles.buttonContainer}>
+          <Icon.Button name="check" onPress={() => this.finish()}>
+            Finish
+          </Icon.Button>
+          <Icon.Button
+            iconStyle="{marginRight: 10}"
+            name="eraser"
+            onPress={() => this.clear()}
+          >
+            Clear
+          </Icon.Button>
+        </View>
+    )
     const mapOptions = {
       scrollEnabled: true,
     };
@@ -187,18 +203,7 @@ export default class HomeScreen extends React.Component {
           ))}
         </MapView>
         {this.state.draw ? null : addtodraw}
-        <View style={styles.buttonContainer}>
-          <Icon.Button name="check" onPress={() => this.finish()}>
-            Finish
-          </Icon.Button>
-          <Icon.Button
-            iconStyle="{marginRight: 10}"
-            name="eraser"
-            onPress={() => this.clear()}
-          >
-            Clear
-          </Icon.Button>
-        </View>
+        {this.state.btn ? null : addbtn}
       </View>
     );
   }
