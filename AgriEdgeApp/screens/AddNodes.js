@@ -58,6 +58,10 @@ export default class AddNodes extends React.Component {
   
   }
   componentDidMount() {
+    console.log("----------------------------------------------------------------------")
+    console.log(this.props)
+    console.log("----------------------------------------------------------------------")
+   
     this.getUser();
   }
   fuck = () => {

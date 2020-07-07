@@ -168,7 +168,7 @@ export default class HomeScreen extends React.Component {
     )
     const addnode = (
       <View style={styles.buttonContainer}>
-          <Icon.Button name="plus" onPress={() => this.setState({visible: true})}>
+          <Icon.Button name="plus" onPress={() => this.props.navigation.navigate("AddNode")}>
             Add Node
           </Icon.Button>
         </View>
