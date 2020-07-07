@@ -65,7 +65,9 @@ export default class ProfileScreen extends React.Component {
         <ListItem
           title={item.NodeId}
           bottomDivider
-          onPress={() => this.props.navigation.navigate("Charts", {NodeId: item.NodeId})}
+          onPress={() =>
+            this.props.navigation.navigate("Charts", { NodeId: item.NodeId })
+          }
         />
       </View>
     );
@@ -91,6 +93,9 @@ export default class ProfileScreen extends React.Component {
         <View style={styles.TitleBar}>
           <Ionicons name="md-more" size={24} color="#52575D"></Ionicons>
         </View>
+        <TouchableOpacity onPress={this.signOutUser}>
+          <Text>Logout</Text>
+        </TouchableOpacity>
         <View style={{ alignSelf: "center" }}>
           <View style={styles.profileImage}>
             {this.state.profilpic ? imagedefault : imagedefault}
@@ -144,6 +149,7 @@ export default class ProfileScreen extends React.Component {
             />
           </View>
         </View>
+        
       </SafeAreaView>
       // <ApplicationProvider mapping={mapping} theme={lightTheme}>
       //   <View>

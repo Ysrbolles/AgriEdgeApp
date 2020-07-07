@@ -3709,7 +3709,7 @@ backo2@^1.0.2:
   resolved "https://registry.yarnpkg.com/backo2/-/backo2-1.0.2.tgz#31ab1ac8b129363463e35b3ebb69f4dfcfba7947"
   integrity sha1-MasayLEpNjRj41s+u2n038+6eUc=
 
-badgin@^1.1.2:
+badgin@^1.1.2, badgin@^1.1.5:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/badgin/-/badgin-1.1.8.tgz#6e4c930554945d31752e5de2d8a316036dccda5e"
   integrity sha512-EGbhb5OwZreHS0vd8tFLzdWBqvz3dFREf1sYK5EtivtTDUkYCLSEKz1KvXJ4MBHAyKGDymx8wYPCQwrftQBifw==
@@ -5983,6 +5983,11 @@ expo-app-auth@~9.1.1:
     fbjs "1.0.0"
     invariant "^2.2.4"
 
+expo-application@~2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-2.1.1.tgz#7cd61ccc53d7a0c85c8aac64b5ea59b20a1cb803"
+  integrity sha512-iq24Zgd4EmbFakHL2saVdA2zexhRX80RSbAtrWrp3BaVDd7yFNAtcwjW4r1Oyhm00YEREWp70sTaXrWs6jKHQA==
+
 expo-asset@~8.1.5:
   version "8.1.7"
   resolved "https://registry.yarnpkg.com/expo-asset/-/expo-asset-8.1.7.tgz#32618e51f85df56f1d7dd54c71eb486ae7f7674e"
@@ -6069,7 +6074,7 @@ expo-cli@^3.21.7:
     "@expo/traveling-fastlane-darwin" "1.15.1"
     "@expo/traveling-fastlane-linux" "1.15.1"
 
-expo-constants@^9.1.1, expo-constants@~9.1.1:
+expo-constants@<10.0.0, expo-constants@^9.1.1, expo-constants@~9.1.1:
   version "9.1.1"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.1.1.tgz#bca141ee3d4550e308798128f66c6d9c6a206ca1"
   integrity sha512-zCa/wRARODHd6BSwxjBhidmao0AqQnKmLkl0tsVIoZlRyPDHsEaxNR/m+7wqGC7qiC+UpG1qRnvLOLwCGt2ihg==
@@ -6177,6 +6182,16 @@ expo-location@~8.1.0:
   integrity sha512-G9JvsK1t9Z5Iybf+FCG81Jgm9Ee9leqpazxOPVabUJEWu/55Iex3yLGX04BuIA4ozAlJKBPzkhPdyqKdC7zrSw==
   dependencies:
     invariant "^2.2.4"
+
+expo-notifications@~0.1.1:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/expo-notifications/-/expo-notifications-0.1.7.tgz#a0a62376f4271f7cd1403c22749af0bb0d338ad1"
+  integrity sha512-yWGoCWQjQMVSMIsbhwR9pq/voAMTCgof+A7swV5uQM0X0WcfkqJMsB6Y5XMksdpkm+vEhvxRFyw0NXDso6pcjg==
+  dependencies:
+    badgin "^1.1.5"
+    expo-application "~2.1.1"
+    expo-constants "<10.0.0"
+    uuid "^3.4.0"
 
 expo-permissions@~8.1.0:
   version "8.1.0"
@@ -7332,7 +7347,7 @@ hoist-non-react-statics@^1.0.5:
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
   integrity sha1-qkSM8JhtVcxAdzsXF0t90GbLfPs=
 
-hoist-non-react-statics@^2.3.1:
+hoist-non-react-statics@^2.2.0, hoist-non-react-statics@^2.3.1:
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
   integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
@@ -10581,7 +10596,7 @@ path-to-regexp@0.1.7:
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
   integrity sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
 
-path-to-regexp@^1.8.0:
+path-to-regexp@^1.7.0, path-to-regexp@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-1.8.0.tgz#887b3ba9d84393e87a0a0b9f4cb756198b53548a"
   integrity sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==
@@ -10601,6 +10616,11 @@ path-type@^3.0.0:
   integrity sha512-T2ZUsdZFHgA3u4e5PfPbjd7HDDpxPnQb5jN0SrDsjNSuVXHJqtwTnWqG0B1jZrgmJ/7lj1EmVIByWt1gxGkWvg==
   dependencies:
     pify "^3.0.0"
+
+paths-js@^0.4.10:
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/paths-js/-/paths-js-0.4.10.tgz#a3575f409b4a36f8aa795ba4d051989021be58c7"
+  integrity sha512-JZoqlRSHtx+bc+xKI9o4bropEbqZBF4ZfYImiB1T9RYpHB73h5I8XZ7FfSBbHbBMtdD1c04ujjAPH8wUuu4+Gw==
 
 pbkdf2@^3.0.3:
   version "3.1.1"
@@ -10714,6 +10734,11 @@ pnp-webpack-plugin@^1.5.0:
   integrity sha512-7Wjy+9E3WwLOEL30D+m8TSTF7qJJUJLONBnwQp0518siuMxUQUbgZwssaFX+QKlZkjHZcw/IpZCt/H0srrntSg==
   dependencies:
     ts-pnp "^1.1.6"
+
+point-in-polygon@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/point-in-polygon/-/point-in-polygon-1.0.1.tgz#d59b64e8fee41c49458aac82b56718c5957b2af7"
+  integrity sha1-1Ztk6P7kHElFiqyCtWcYxZV7Kvc=
 
 portfinder@^1.0.25:
   version "1.0.26"
@@ -11523,10 +11548,24 @@ react-is@^16.12.0, react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1, react-
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-lifecycles-compat@^3.0.4:
+react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-native-chart-kit@^6.2.2:
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-chart-kit/-/react-native-chart-kit-6.2.2.tgz#884eb6665661b96e3a7a1dc7870849b00da64381"
+  integrity sha512-al+JSIOXt6V1zBBJDHN+wjmz90nkZjnma+uuQKXFo+IBpf7cCTFKk+vOVULVWlyhMmO0BDM1WXH2EjHuZpfGJQ==
+  dependencies:
+    lodash "^4.17.13"
+    paths-js "^0.4.10"
+    point-in-polygon "^1.0.1"
+
+react-native-circle-drawer@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-circle-drawer/-/react-native-circle-drawer-1.0.0.tgz#e8a59d53227371ff703870c0c3a0524bc7b13ce6"
+  integrity sha512-//cMCeQU79pmWzNMh9nSjCNOhs9RCEv0SDFfhZadv4UWK72lFxK9JL3VDGTLrQJGzsANyZy56urYef8PlHw1zQ==
 
 react-native-datepicker@^1.7.2:
   version "1.7.2"
@@ -11534,6 +11573,11 @@ react-native-datepicker@^1.7.2:
   integrity sha1-WNCCJZGgrJsyq6CCZQIioO4pZp0=
   dependencies:
     moment "^2.22.0"
+
+react-native-dismiss-keyboard@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
+  integrity sha1-MohiQrPyMX4SHzrrmwpYXiuHm0k=
 
 react-native-doorman@^1.2.1:
   version "1.2.2"
@@ -11550,6 +11594,20 @@ react-native-doorman@^1.2.1:
     react-native-redash "^10.0.1"
     react-native-text-input-mask "^2.0.0"
     react-phone-number-input "^3.0.22"
+
+react-native-drawer-layout-polyfill@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-drawer-layout-polyfill/-/react-native-drawer-layout-polyfill-1.3.2.tgz#192c84d7a5a6b8a6d2be2c7daa5e4164518d0cc7"
+  integrity sha512-XzPhfLDJrYHru+e8+dFwhf0FtTeAp7JXPpFYezYV6P1nTeA1Tia/kDpFT+O2DWTrBKBEI8FGhZnThrroZmHIxg==
+  dependencies:
+    react-native-drawer-layout "1.3.2"
+
+react-native-drawer-layout@1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-drawer-layout/-/react-native-drawer-layout-1.3.2.tgz#b9740d7663a1dc4f88a61b9c6d93d2d948ea426e"
+  integrity sha512-fjO0scqbJUfNu2wuEpvywL7DYLXuCXJ2W/zYhWz986rdLytidbys1QGVvkaszHrb4Y7OqO96mTkgpOcP8KWevw==
+  dependencies:
+    react-native-dismiss-keyboard "1.0.0"
 
 react-native-drawer@2.5.1:
   version "2.5.1"
@@ -11739,12 +11797,26 @@ react-native-safe-area-context@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-1.0.2.tgz#fe282bee7cb7245bd9ead6579cda9bbc704cd590"
   integrity sha512-rugRv/iBXaFspJTlNsGU9XgEJlabcqjwc9ySj6ErIvLCuZZ7vUaQSLWbMPcAOpXuA6/qUA3l4ty5+fErcV88Xw==
 
+react-native-safe-area-view@0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.11.0.tgz#4f3dda43c2bace37965e7c6aef5fc83d4f19d174"
+  integrity sha512-N3nElaahu1Me2ltnfc9acpgt1znm6pi8DSadKy79kvdzKwvVIzw0IXueA/Hjr51eCW1BsfNw7D1SgBT9U6qEkA==
+  dependencies:
+    hoist-non-react-statics "^2.3.1"
+
 react-native-safe-area-view@^0.14.9:
   version "0.14.9"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.14.9.tgz#90ee8383037010d9a5055a97cf97e4c1da1f0c3d"
   integrity sha512-WII/ulhpVyL/qbYb7vydq7dJAfZRBcEhg4/UWt6F6nAKpLa3gAceMOxBxI914ppwSP/TdUsandFy6lkJQE0z4A==
   dependencies:
     hoist-non-react-statics "^2.3.1"
+
+react-native-scaling-drawer@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-scaling-drawer/-/react-native-scaling-drawer-1.0.1.tgz#f75a35883c7bb9df69c1a9ca5ae831d94833c852"
+  integrity sha1-91o1iDx7ud9pwanKWugx2UgzyFI=
+  dependencies:
+    react-navigation "^1.0.0-beta.3"
 
 react-native-screens@^2.7.0:
   version "2.9.0"
@@ -11763,7 +11835,7 @@ react-native-step-indicator@0.0.11:
   dependencies:
     prop-types "^15.6.0"
 
-react-native-svg@11.0.1:
+react-native-svg@^11.0.1:
   version "11.0.1"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-11.0.1.tgz#e92e7e9f9cb2604333fd5014fd4edcf62fea6496"
   integrity sha512-XriIwSoe9eTtKyqxpNC6POSOqmXAB9mZQOm5tMoaimEqQOMfzgYrBoF9nY6VPGmaH5dRlWBqnnBf389APiZFcQ==
@@ -11782,6 +11854,12 @@ react-native-tab-view@^2.11.0:
   version "2.14.4"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.14.4.tgz#740007e62c8723c6813b8c8a05caaaf82c816620"
   integrity sha512-oqkCflPFuZwDTbyY2WaN0377akSsmcttuYACR9LT7htZfO/tKR2Z/ynj1tbv2cz2esGuVICoga9cetN1lPimog==
+
+"react-native-tab-view@github:react-navigation/react-native-tab-view":
+  version "0.0.74"
+  resolved "https://codeload.github.com/react-navigation/react-native-tab-view/tar.gz/d87a5cb3ddbcb9e5ea1651450f6c12a7f41355df"
+  dependencies:
+    prop-types "^15.6.0"
 
 react-native-text-input-mask@^2.0.0:
   version "2.0.0"
@@ -11893,6 +11971,20 @@ react-navigation-tabs@^2.8.13:
     react-lifecycles-compat "^3.0.4"
     react-native-safe-area-view "^0.14.9"
     react-native-tab-view "^2.11.0"
+
+react-navigation@^1.0.0-beta.3:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.6.1.tgz#f08b560637edb5517f375bbd9bae3123e3027206"
+  integrity sha512-18qvuGEMorsYAtedvcDvrWi6eqdTOC7T2u1mSLddWCXKIwGsC44d4PfAzKtnd6JtMpvbCd+livTGyylfRHT2fA==
+  dependencies:
+    clamp "^1.0.1"
+    hoist-non-react-statics "^2.2.0"
+    path-to-regexp "^1.7.0"
+    prop-types "^15.5.10"
+    react-lifecycles-compat "^3.0.2"
+    react-native-drawer-layout-polyfill "^1.3.2"
+    react-native-safe-area-view "0.11.0"
+    react-native-tab-view "github:react-navigation/react-native-tab-view"
 
 react-navigation@^4.3.9:
   version "4.4.0"

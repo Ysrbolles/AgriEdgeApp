@@ -224,7 +224,7 @@ export default class App extends React.Component {
 
         firebase
           .auth()
-          .signInWithCredential(cerd)
+          .signInAndRetrieveDataWithCredential(cerd)
           .catch((err) => {
             alert(err);
           });

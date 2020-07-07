@@ -16,14 +16,15 @@ export default class Charts extends React.Component {
       watermark2: [],
       watermark3: [],
       res: [],
-      refreshing: false
+      refreshing: false,
+      now: null
     };
   }
   onRefresh = () => {
     this.setState({ refreshing: true });
     setTimeout(() => {
       this.setState({ refreshing: false });
-     
+      this.forceUpdate()    
     }, 3000);
   };
   handleTypeChange = (histogramType) => {
@@ -63,24 +64,6 @@ export default class Charts extends React.Component {
     );
   }
 }
-
-// export default function App({ route, navigation }) {
-// //   const { NodeId } = route.params;
-//   const [histogramType, setHistogramType] = React.useState(0);
-//   const handleTypeChange = (histogramType) => {
-//     setHistogramType(histogramType);
-//     this.set
-//   };
-
-//   function getHistogramTitle(histogramType) {
-//     const buttons = ["WaterMark 1", "WaterMark 2", "WaterMark 3", "Air"];
-//     return `Histogram of ${buttons[histogramType]} values`;
-//   }
-//   //   componentDidMount(){
-//   //       alert(this.props.navigation.NodeId)
-//   //   }
-
-// }
 
 const styles = StyleSheet.create({
   container: {

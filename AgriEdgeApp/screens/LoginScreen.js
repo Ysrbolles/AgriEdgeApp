@@ -61,13 +61,39 @@ export default class LoginScreen extends React.Component {
     );
     if (type == "success") {
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      console.log(credential)
 
+      // firebase
+      //   .auth()
+      //   .signInWithCredential(credential)
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
       firebase
         .auth()
-        .signInWithCredential(credential)
-        .catch((error) => {
-          console.log(error);
+        .signInAndRetrieveDataWithCredential(credential)
+        .then((result) => {
+          if (result.additionalUserInfo.isNewUser) {
+            firebase
+              .database()
+              .ref("/users/" + result.user.uid)
+              .set({
+                email: result.additionalUserInfo.profile.email,
+                // profile_picture: result.additionalUserInfo.profile.picture.data.uri,
+                first_name: result.additionalUserInfo.profile.first_name,
+                last_name: result.additionalUserInfo.profile.last_name,
+                created_at: Date.now(),
+              })
+              .then((snapshot) => {
+                console.log("Snapshot", snapshot);
+              });
+          } else {
+            firebase
+              .database()
+              .ref("/users/" + result.user.uid)
+              .update({
+                last_logged_in: Date.now(),
+              });
+          }
         });
     }
   }

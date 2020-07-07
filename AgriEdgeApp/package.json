@@ -24,6 +24,7 @@
     "expo-google-app-auth": "^8.1.0",
     "expo-google-sign-in": "~8.1.0",
     "expo-location": "^8.1.0",
+    "expo-notifications": "~0.1.1",
     "expo-web-browser": "^8.3.1",
     "firebase": "^7.14.4",
     "mobx": "^5.15.4",

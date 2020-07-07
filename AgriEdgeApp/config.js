@@ -1,12 +1,12 @@
 const config = {
-  apiKey: "AIzaSyCYLV9uc0WcVfxt4T-dsO6vJt9EG4Bp27A",
-  authDomain: "agriapp-f01a1.firebaseapp.com",
-  databaseURL: "https://agriapp-f01a1.firebaseio.com",
-  projectId: "agriapp-f01a1",
-  storageBucket: "agriapp-f01a1.appspot.com",
-  messagingSenderId: "187270884302",
-  appId: "1:187270884302:web:c2920a88fb0cba1a49999f",
-  measurementId: "G-C57Y0R9LTQ"
+  apiKey: "AIzaSyCUcvJD0V3SMs4Q9cThItfhmxESWoku2UQ",
+  authDomain: "agriedgetest.firebaseapp.com",
+  databaseURL: "https://agriedgetest.firebaseio.com",
+  projectId: "agriedgetest",
+  storageBucket: "agriedgetest.appspot.com",
+  messagingSenderId: "755626679211",
+  appId: "1:755626679211:web:3406229a3e6c1c14dad0ee",
+  measurementId: "G-WNTKX7B22R",
 };
-  
-  export default config;
+
+export default config;
