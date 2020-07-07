@@ -7,6 +7,7 @@ import MapView, {
   Marker,
   Polygon,
 } from "react-native-maps";
+import AddScreen from "./AddNodes";
 import * as Location from "expo-location";
 import {
   StyleSheet,
@@ -18,6 +19,7 @@ import {
   Image,
   LayoutAnimation,
 } from "react-native";
+import { SocialIcon, Input, Overlay } from "react-native-elements";
 import * as firebase from "firebase";
 
 export default class HomeScreen extends React.Component {
@@ -48,6 +50,7 @@ export default class HomeScreen extends React.Component {
       draw: false,
       btn: true,
       addnode: true,
+      visible: false,
     };
   }
 
@@ -137,7 +140,9 @@ export default class HomeScreen extends React.Component {
       }
     );
   }
-
+  AddNode = () => {
+        return <AddScreen />;
+      };
   render() {
     const addtodraw = (
       <TouchableOpacity
@@ -163,7 +168,7 @@ export default class HomeScreen extends React.Component {
     )
     const addnode = (
       <View style={styles.buttonContainer}>
-          <Icon.Button name="check" onPress={() => this.finish()}>
+          <Icon.Button name="plus" onPress={() => this.setState({visible: true})}>
             Add Node
           </Icon.Button>
         </View>
@@ -215,6 +220,12 @@ export default class HomeScreen extends React.Component {
         {this.state.draw ? null : addtodraw}
         {this.state.btn ? null : addbtn}
         {this.state.addnode ? null : addnode}
+        <Overlay
+           isVisible={this.state.visible}
+           onBackdropPress={this.toggleOverlay}
+         >
+        <AddScreen />
+        </Overlay>
       </View>
     );
   }
