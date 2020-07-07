@@ -7,6 +7,7 @@ import { Dropdown } from "react-native-material-dropdown";
 import DatePicker from "react-native-datepicker";
 import Nodes from "../services/Nodes";
 import axios from "axios";
+import { navigation } from "@react-navigation/native";
 import firebase from 'firebase'
 
 import { SocialIcon, Input, Overlay } from "react-native-elements";
@@ -66,7 +67,8 @@ export default class AddNodes extends React.Component {
   }
   AddNode = () => {
     console.debug("lmlawi")
-    Nodes.addnewone(this.state);
+    Nodes.addnewone(this.state)
+    this.props.navigation.goBack()
   };
 
   getUser = async () => {

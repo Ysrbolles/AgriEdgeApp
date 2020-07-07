@@ -32,20 +32,21 @@ export default function App() {
   );
 
   const SendCode = async () => {
-
     try {
       const applicationVerifier = new firebase.auth.RecaptchaVerifier(
-        'recaptcha-container',{
-          size: 'normal',
-          callback: response => {
-              // reCAPTCHA solved, allow signInWithPhoneNumber.
-              // ...
+        "recaptcha-container",
+        {
+          size: "normal",
+          callback: (response) => {
+            // reCAPTCHA solved, allow signInWithPhoneNumber.
+            // ...
           },
-          'expired-callback': () => {
-              // Response expired. Ask user to solve reCAPTCHA again.
-              // ...
-          }
-      });
+          "expired-callback": () => {
+            // Response expired. Ask user to solve reCAPTCHA again.
+            // ...
+          },
+        }
+      );
       const phoneProvider = new firebase.auth.PhoneAuthProvider();
       const verificationId = await phoneProvider.verifyPhoneNumber(
         phoneNumber,
@@ -107,7 +108,7 @@ export default function App() {
       </TouchableOpacity>
 
       <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-        <View  style={{width: 300, height: 200}}>
+        <View style={{ width: 300, height: 200 }}>
           <Text style={{ marginTop: 20 }}>Enter Verification code</Text>
           <TextInput
             style={{ marginVertical: 10, fontSize: 17 }}
@@ -117,7 +118,6 @@ export default function App() {
           />
           <TouchableOpacity
             rounded
-            
             style={styles.button}
             disabled={!verificationId}
             onPress={async () => {
@@ -126,7 +126,30 @@ export default function App() {
                   verificationId,
                   verificationCode
                 );
-                await firebase.auth().signInWithCredential(credential);
+                await firebase
+                  .auth()
+                  .signInWithCredential(credential)
+                  .then((result) => {
+                    if (result.additionalUserInfo.isNewUser) {
+                      firebase
+                        .database()
+                        .ref("/users/" + result.user.uid)
+                        .set({
+                          phoneNumber: result.user.phoneNumber,
+                          created_at: Date.now(),
+                        })
+                        .then((snapshot) => {
+                          console.log("Snapshot", snapshot);
+                        });
+                    } else {
+                      firebase
+                        .database()
+                        .ref("/users/" + result.user.uid)
+                        .update({
+                          last_logged_in: Date.now(),
+                        });
+                    }
+                  });
                 showMessage({ text: "Phone authentication successful 👍" });
               } catch (err) {
                 showMessage({ text: `Error: ${err.message}`, color: "red" });
@@ -168,7 +191,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#5ABD8C",
     borderRadius: 20,
     height: 46,
-    width: '100%',
+    width: "100%",
     alignItems: "center",
     justifyContent: "center",
   },
