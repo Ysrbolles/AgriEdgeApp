@@ -64,7 +64,7 @@ export default class AddNodes extends React.Component {
    
     this.getUser();
   }
-  fuck = () => {
+  AddNode = () => {
     console.debug("lmlawi")
     Nodes.addnewone(this.state);
   };
@@ -295,7 +295,7 @@ export default class AddNodes extends React.Component {
                 </Grid>
               </View>
             </ProgressStep>
-            <ProgressStep label="Third Step" onSubmit={this.fuck}>
+            <ProgressStep label="Third Step" onSubmit={this.AddNode}>
               <View
                 style={{
                   alignItems: "center",
