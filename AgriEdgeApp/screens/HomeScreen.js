@@ -46,7 +46,8 @@ export default class HomeScreen extends React.Component {
       editing: null,
       test: [],
       draw: false,
-      btn: true
+      btn: true,
+      addnode: true,
     };
   }
 
@@ -89,6 +90,8 @@ export default class HomeScreen extends React.Component {
         polygons: [this.state.coordinates],
       });
       this.setState({
+        btn: true,
+        addnode: false,
         coordinates: [],
         sym: 1,
       });
@@ -158,6 +161,13 @@ export default class HomeScreen extends React.Component {
           </Icon.Button>
         </View>
     )
+    const addnode = (
+      <View style={styles.buttonContainer}>
+          <Icon.Button name="check" onPress={() => this.finish()}>
+            Add Node
+          </Icon.Button>
+        </View>
+    )
     const mapOptions = {
       scrollEnabled: true,
     };
@@ -204,6 +214,7 @@ export default class HomeScreen extends React.Component {
         </MapView>
         {this.state.draw ? null : addtodraw}
         {this.state.btn ? null : addbtn}
+        {this.state.addnode ? null : addnode}
       </View>
     );
   }
