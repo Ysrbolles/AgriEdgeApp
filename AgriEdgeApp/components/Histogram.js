@@ -74,31 +74,31 @@ export default class Histogram extends React.Component {
 
     return createdData;
   }
-  getDataNumbers(data, histogramType) {
+  getDataNumbers() {
+    // console.debug(this.state.res[0].watermark_1);
     let createdData;
-    console.log(data)
-    switch (histogramType) {
-      case 0:
-        createdData = data[0];
-        break;
-      case 1:
-        createdData = data[0].watermark_2;
-        break;
-      case 2:
-        createdData = data[0].watermark_3;
-        break;
-      case 3:
-        createdData = data[0].air_humidity;
-        break;
-      case 4:
-        createdData = data[0].air_temperature;
-        break;
-      case 5:
-        createdData = data[0].soil_temperature;
-        break;
-      default:
-        createdData = data[0].watermark_1;
-    }
+    // switch (histogramType) {
+    //   case 0:
+    //     createdData = data.map((row) => parseFloat(row.watermark_1));
+    //     break;
+    //   case 1:
+    //     createdData = data.map((row) => parseFloat(row.watermark_2));
+    //     break;
+    //   case 2:
+    //     createdData = data.map((row) => parseFloat(row.watermark_3));
+    //     break;
+    //   case 3:
+    //     createdData = data.map((row) => parseFloat(row.air_humidity));
+    //     break;
+    //   case 4:
+    //     createdData = data.map((row) => parseFloat(row.air_temperature));
+    //     break;
+    //   case 5:
+    //     createdData = data.map((row) => parseFloat(row.soil_temperature));
+    //     break;
+    //   default:
+    //     createdData = data.map((row) => parseFloat(row.watermark_1));
+    // }
     return createdData;
   }
 
@@ -130,18 +130,20 @@ export default class Histogram extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.histogramTitle}>
-          {/* {this.getDataNumbers(Object.values(this.state.res), this.props.type)} */}
-        </Text>
-        <BarChart
-          data={data}
-          width={390}
-          height={600 * 0.6}
-          chartConfig={chartConfig}
-          verticalLabelRotation={90}
-          fromZero={true}
-          style={styles.barChartStyle}
-        />
+        <View>
+          <Text style={styles.histogramTitle}>{this.getDataNumbers()}</Text>
+        </View>
+        <View style={{ marginTop: 30 }}>
+          <BarChart
+            data={data}
+            width={390}
+            height={600 * 0.6}
+            chartConfig={chartConfig}
+            verticalLabelRotation={90}
+            fromZero={true}
+            style={styles.barChartStyle}
+          />
+        </View>
       </View>
     );
   }
@@ -149,12 +151,16 @@ export default class Histogram extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    // flexDirection: "row",
     paddingVertical: 15,
     marginTop: 20,
   },
   barChartStyle: {
     borderRadius: 16,
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  histogramTitle: {
     fontWeight: "bold",
     fontSize: 20,
   },
