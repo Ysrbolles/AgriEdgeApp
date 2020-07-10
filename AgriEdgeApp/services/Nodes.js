@@ -29,7 +29,7 @@ export default {
     });
   },
   getNodeDetails(id) {
-    console.log(id);
+    console.log("Ddddddddd           " + id);
     return new Promise((resolve, reject) => {
       axios
         .get(

@@ -178,7 +178,7 @@ export default class App extends React.Component {
         {/* <GoogleSignInButton onPress={this._toggleAuth}>
           {this.buttonTitle}
         </GoogleSignInButton> */}
-        <Text>AppAuth: {JSON.stringify(scheme, null, 2)}</Text>
+        {/* <Text>AppAuth: {JSON.stringify(scheme, null, 2)}</Text> */}
       </View>
     );
   }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View, Text } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 
 import data_mock from "../mock/co2_data.json";
@@ -20,7 +20,7 @@ export default class Histogram extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     Nodes.getNodeDetails(this.props.NodeId).then(async (res) => {
       this.setState({ res: res });
       for (let i = 0; i < 10; i++) {
@@ -52,10 +52,14 @@ export default class Histogram extends React.Component {
         createdData = data.reverse().map((row) => parseFloat(row.air_humidity));
         break;
       case 4:
-        createdData = data.reverse().map((row) => parseFloat(row.air_temperature));
+        createdData = data
+          .reverse()
+          .map((row) => parseFloat(row.air_temperature));
         break;
       case 5:
-        createdData = data.reverse().map((row) => parseFloat(row.soil_temperature));
+        createdData = data
+          .reverse()
+          .map((row) => parseFloat(row.soil_temperature));
         break;
       default:
         createdData = data.reverse().map((row) => parseFloat(row.watermark_1));
@@ -64,8 +68,37 @@ export default class Histogram extends React.Component {
   }
   createtime(data, histogramType) {
     let createdData;
-    createdData = data.reverse().map((row) => dayjs(new Date(row.db_timestamp * 1000)).format("hh:mm a"));
+    createdData = data
+      .reverse()
+      .map((row) => dayjs(new Date(row.db_timestamp * 1000)).format("hh:mm a"));
 
+    return createdData;
+  }
+  getDataNumbers(data, histogramType) {
+    let createdData;
+    console.log(data)
+    switch (histogramType) {
+      case 0:
+        createdData = data[0];
+        break;
+      case 1:
+        createdData = data[0].watermark_2;
+        break;
+      case 2:
+        createdData = data[0].watermark_3;
+        break;
+      case 3:
+        createdData = data[0].air_humidity;
+        break;
+      case 4:
+        createdData = data[0].air_temperature;
+        break;
+      case 5:
+        createdData = data[0].soil_temperature;
+        break;
+      default:
+        createdData = data[0].watermark_1;
+    }
     return createdData;
   }
 
@@ -89,7 +122,7 @@ export default class Histogram extends React.Component {
       labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
       fillShadowGradient: "#037d50",
       fillShadowGradientOpacity: 0.8,
-      barPercentage: 0.7,
+      barPercentage: 0.5,
       style: {
         fontSize: 20,
       },
@@ -97,10 +130,13 @@ export default class Histogram extends React.Component {
 
     return (
       <View style={styles.container}>
+        <Text style={styles.histogramTitle}>
+          {/* {this.getDataNumbers(Object.values(this.state.res), this.props.type)} */}
+        </Text>
         <BarChart
           data={data}
-          width={screenWidth}
-          height={screenHeight * 0.6}
+          width={390}
+          height={600 * 0.6}
           chartConfig={chartConfig}
           verticalLabelRotation={90}
           fromZero={true}

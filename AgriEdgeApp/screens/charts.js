@@ -57,9 +57,7 @@ export default class Charts extends React.Component {
           type={this.state.histogramType}
           NodeId={this.props.navigation.state.params.NodeId}
         ></Histogram>
-        <Text style={styles.histogramTitle}>
-          {this.getHistogramTitle(this.state.histogramType)}
-        </Text>
+       
       </ScrollView>
     );
   }

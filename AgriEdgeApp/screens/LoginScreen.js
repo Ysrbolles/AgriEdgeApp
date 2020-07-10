@@ -126,7 +126,7 @@ export default class LoginScreen extends React.Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content"></StatusBar>
-        <Image
+        {/* <Image
           style={{
             marginTop: -30,
             alignSelf: "center",
@@ -134,10 +134,10 @@ export default class LoginScreen extends React.Component {
             width: 400,
           }}
           source={require("../assets/header_illus-min.png")}
-        />
+        /> */}
         <Image
           style={{
-            marginTop: -45,
+            marginTop: 150,
             alignSelf: "center",
             height: 110,
             width: 150,
@@ -156,18 +156,18 @@ export default class LoginScreen extends React.Component {
             <PhoneAuth />
           </View>
         </View>
-        <Text style={{ textAlign: "center", marginBottom: 30 }}>
+        {/* <Text style={{ textAlign: "center", marginBottom: 30 }}>
           ______________________ OR ______________________
           {this.state.user}
-        </Text>
+        </Text> */}
         {/* <PhoneAuth /> */}
-        <SocialIcon
+        {/* <SocialIcon
           title="Sign In With Facebook"
           button
           type="facebook"
           onPress={this.loginWithFacebook}
         />
-        <GoogleSign />
+        <GoogleSign /> */}
         {/* <SocialIcon
           style={styles.button}
           title="Sign In With Google"
