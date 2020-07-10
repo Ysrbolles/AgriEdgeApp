@@ -92,6 +92,11 @@ export default class HomeScreen extends React.Component {
       this.setState({
         polygons: [this.state.coordinates],
       });
+      let i = (this.state.coordinates[3].longitude - this.state.coordinates[0].longitude)  / 2
+      let i2 = (this.state.coordinates[3].latitude - this.state.coordinates[0].latitude)  / 2
+      let j = (this.state.coordinates[2].longitude - this.state.coordinates[1].longitude)  / 2
+      let j2 = (this.state.coordinates[2].latitude - this.state.coordinates[1].latitude)  / 2
+      console.debug(i, j)
       this.setState({
         btn: true,
         addnode: false,
@@ -123,22 +128,25 @@ export default class HomeScreen extends React.Component {
     });
   }
   onPress(e) {
-    // console.debug(e);
-    this.setState({ draw: true,
-    btn: false});
-    this.setState(
-      {
-        longitude: e.nativeEvent.coordinate.longitude,
-        latitude: e.nativeEvent.coordinate.latitude,
-        coordinates: [...this.state.coordinates, e.nativeEvent.coordinate],
-      },
-      () => {
-        if (this.state.coordinates.length >= 1)
-          this.setState({
-            polygons: [this.state.coordinates],
-          });
-      }
-    );
+    if(this.state.sym == 0){
+      this.setState({ draw: true,
+      });
+      if(this.state.coordinates.length > 2)
+        this.setState({btn: false})
+      this.setState(
+        {
+          longitude: e.nativeEvent.coordinate.longitude,
+          latitude: e.nativeEvent.coordinate.latitude,
+          coordinates: [...this.state.coordinates, e.nativeEvent.coordinate],
+        },
+        () => {
+          if (this.state.coordinates.length >= 1)
+            this.setState({
+              polygons: [this.state.coordinates],
+            });
+        }
+      );
+    }
   }
   AddNode = () => {
         return <AddScreen />;
@@ -212,7 +220,7 @@ export default class HomeScreen extends React.Component {
               onPress={(e) => this.onPress(e)}
               coordinates={polygon}
               strokeColor="#F00"
-              fillColor={"rgba(240, 255, 0, 0.5)"}
+              fillColor={"rgba(76, 166, 79, 0.5)"}
               strokeWidth={1}
             />
           ))}

@@ -3,6 +3,7 @@ import axios from "axios";
 
 export default {
   addnewone(Node) {
+    console.debug(Node)
     return new Promise((resolve, reject) => {
       // Api()
       axios
