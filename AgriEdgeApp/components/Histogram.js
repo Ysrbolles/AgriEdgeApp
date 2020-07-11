@@ -13,22 +13,28 @@ export default class Histogram extends React.Component {
     super(props);
     this.state = {
       histogramType: 0,
-      watermark1: [],
-      watermark2: [],
-      watermark3: [],
+      watermark1: "",
+      watermark2: "",
+      watermark3: "",
+      air_humidity: "",
+      air_temperature: "",
+      soil_temperature: "",
       res: [],
     };
   }
 
-  componentDidMount() {
-    Nodes.getNodeDetails(this.props.NodeId).then(async (res) => {
-      this.setState({ res: res });
-      for (let i = 0; i < 10; i++) {
-        await this.state.watermark1.push(res[i].watermark_1);
-      }
-      console.log(
-        dayjs(new Date(this.state.res[0].db_timestamp * 1000)).format("hh:mm a")
-      );
+  async componentDidMount() {
+    await Nodes.getNodeDetails(this.props.NodeId).then(async (res) => {
+      await this.setState({ res: res });
+      console.log(res[0].watermark_1);
+      this.setState({
+        watermark1: res[0].watermark_1,
+        watermark2: res[0].watermark_2,
+        watermark3: res[0].watermark_3,
+        air_humidity: res[0].air_humidity,
+        air_temperature: res[0].air_temperature,
+        soil_temperature: res[0].soil_temperature,
+      });
     });
   }
   /**
@@ -74,34 +80,43 @@ export default class Histogram extends React.Component {
 
     return createdData;
   }
-  getDataNumbers() {
-    // console.debug(this.state.res[0].watermark_1);
+  getDataNumbers = (histogramType) => {
     let createdData;
-    // switch (histogramType) {
-    //   case 0:
-    //     createdData = data.map((row) => parseFloat(row.watermark_1));
-    //     break;
-    //   case 1:
-    //     createdData = data.map((row) => parseFloat(row.watermark_2));
-    //     break;
-    //   case 2:
-    //     createdData = data.map((row) => parseFloat(row.watermark_3));
-    //     break;
-    //   case 3:
-    //     createdData = data.map((row) => parseFloat(row.air_humidity));
-    //     break;
-    //   case 4:
-    //     createdData = data.map((row) => parseFloat(row.air_temperature));
-    //     break;
-    //   case 5:
-    //     createdData = data.map((row) => parseFloat(row.soil_temperature));
-    //     break;
-    //   default:
-    //     createdData = data.map((row) => parseFloat(row.watermark_1));
-    // }
-    return createdData;
-  }
-
+    switch (histogramType) {
+      case 0:
+        createdData = parseFloat(this.state.watermark1);
+        break;
+      case 1:
+        createdData = parseFloat(this.state.watermark2);
+        break;
+      case 2:
+        createdData = parseFloat(this.state.watermark3);
+        break;
+      case 3:
+        createdData = parseFloat(this.state.air_humidity);
+        break;
+      case 4:
+        createdData = parseFloat(this.state.air_temperature);
+        break;
+      case 5:
+        createdData = parseFloat(this.state.soil_temperature);
+        break;
+      default:
+        createdData = parseFloat(this.state.watermark1);
+    }
+    return <Text style={styles.histogramTitle}>{createdData}</Text>;
+  };
+  getHistogramTitle = (histogramType) => {
+    const buttons = [
+      "WaterMark1",
+      "WaterMark2",
+      "WaterMark3",
+      "air_humidity",
+      "air_temperature",
+      "soil_temperature",
+    ];
+    return `Last Value of ${buttons[histogramType]} is :`;
+  };
   render() {
     const histogramType = this.props.type;
     const data = {
@@ -131,13 +146,16 @@ export default class Histogram extends React.Component {
     return (
       <View style={styles.container}>
         <View>
-          <Text style={styles.histogramTitle}>{this.getDataNumbers()}</Text>
+          <Text style={styles.histogramTitle}>
+            {this.getHistogramTitle(histogramType)}{" "}
+            {this.getDataNumbers(histogramType)}
+          </Text>
         </View>
         <View style={{ marginTop: 30 }}>
           <BarChart
             data={data}
-            width={390}
-            height={600 * 0.6}
+            width={350}
+            height={500 * 0.6}
             chartConfig={chartConfig}
             verticalLabelRotation={90}
             fromZero={true}

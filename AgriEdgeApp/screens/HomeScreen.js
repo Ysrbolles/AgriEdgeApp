@@ -148,9 +148,6 @@ export default class HomeScreen extends React.Component {
       );
     }
   }
-  AddNode = () => {
-        return <AddScreen />;
-      };
   render() {
     const addtodraw = (
       <TouchableOpacity

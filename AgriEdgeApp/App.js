@@ -23,56 +23,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 firebase.initializeApp(config);
 const Tab = createMaterialBottomTabNavigator();
 
-const MainTabScreen = () => {
-  return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      activeColor="#e91e63"
-      style={{ backgroundColor: "tomato" }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Weather"
-        component={WeatherScreen}
-        options={{
-          tabBarLabel: "Updates",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Notifications"
-        component={NotificationsScreen}
-        options={{
-          tabBarLabel: "Updates",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
+
 const AppTabNavigator = createBottomTabNavigator(
   {
     Home: {
@@ -80,7 +31,7 @@ const AppTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         headerTitle: false,
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-home" size={24} color="#5ABD8C" />
+          <Ionicons name="ios-home" size={24} color="tintColor" />
         ),
       },
     },
@@ -89,7 +40,7 @@ const AppTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         headerShown: false,
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-cloud" size={24} color="#5ABD8C" />
+          <Ionicons name="ios-cloud" size={24} color="tintColor" />
         ),
       },
     },
@@ -99,16 +50,16 @@ const AppTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         headerShown: false,
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-notifications" size={24} color="#5ABD8C" />
+          <Ionicons name="ios-notifications" size={24} color="tintColor" />
         ),
       },
     },
-    Profile: {
+    Nodes: {
       screen: ProfileScreen,
       navigationOptions: {
         headerShown: false,
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-person" size={24} color="#5ABD8C" />
+          <Ionicons name="ios-list-box" size={24} color="tintColor" />
         ),
       },
     },
@@ -120,6 +71,7 @@ const AppTabNavigator = createBottomTabNavigator(
       showLabel: true,
       headerTitle: false,
       tabBarVisible: false,
+      // activeBackgroundColor: "#5ABD8C",
       // style: {
       //   backgroundColor: '#5ABD8C',
       // },

@@ -1,5 +1,11 @@
 import React from "react";
-import { Dimensions, ScrollView, StyleSheet, Text, RefreshControl } from "react-native";
+import {
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  RefreshControl,
+} from "react-native";
 
 import HeaderComponent from "../components/HeaderComponent";
 import Histogram from "../components/Histogram";
@@ -17,21 +23,35 @@ export default class Charts extends React.Component {
       watermark3: [],
       res: [],
       refreshing: false,
-      now: null
+      now: null,
     };
   }
   onRefresh = () => {
     this.setState({ refreshing: true });
     setTimeout(() => {
       this.setState({ refreshing: false });
-      this.forceUpdate()    
+      this.forceUpdate();
     }, 3000);
   };
   handleTypeChange = (histogramType) => {
     this.setState({ histogramType });
   };
+  async componentDidMount() {
+    await Nodes.getNodeDetails(this.props.navigation.state.params.NodeId).then(
+      async (res) => {
+        await this.setState({ res: res });
+      }
+    );
+  }
   getHistogramTitle = (histogramType) => {
-    const buttons = ["WaterMark1", "WaterMark2", "WaterMark3", "air_humidity", "air_temperature", "soil_temperature"];
+    const buttons = [
+      "WaterMark1",
+      "WaterMark2",
+      "WaterMark3",
+      "air_humidity",
+      "air_temperature",
+      "soil_temperature",
+    ];
     return `Histogram of ${buttons[histogramType]} values`;
   };
 
@@ -41,11 +61,11 @@ export default class Charts extends React.Component {
         style={styles.container}
         contentContainerStyle={styles.containerContent}
         refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this.onRefresh}
-            />
-          }
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
+          />
+        }
       >
         {/* <HeaderComponent></HeaderComponent> */}
         <Text>{JSON.stringify(this.props.navigation.state.params.NodeId)}</Text>
@@ -57,7 +77,9 @@ export default class Charts extends React.Component {
           type={this.state.histogramType}
           NodeId={this.props.navigation.state.params.NodeId}
         ></Histogram>
-       
+        {/* <Text style={styles.histogramTitle}>
+          {this.getHistogramTitle(this.state.histogramType)}
+        </Text> */}
       </ScrollView>
     );
   }

@@ -15,6 +15,7 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Chart from "./charts";
 
 import Nodes from "../services/Nodes";
+import { Button } from "native-base";
 
 const he = (props) => (
   <View {...props} style={{ height: 50 }}>
@@ -65,6 +66,9 @@ export default class ProfileScreen extends React.Component {
         <ListItem
           title={item.NodeId}
           bottomDivider
+          friction={90} 
+          chevron
+          activeScale={0.95}
           onPress={() =>
             this.props.navigation.navigate("Charts", { NodeId: item.NodeId })
           }
