@@ -95,9 +95,9 @@ export default class ProfileScreen extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.TitleBar}>
+          {/* <View style={styles.TitleBar}>
             <Ionicons name="md-more" size={24} color="#52575D"></Ionicons>
-          </View>
+          </View> */}
           <TouchableOpacity onPress={this.signOutUser}>
             <Text>Logout</Text>
           </TouchableOpacity>
@@ -106,12 +106,12 @@ export default class ProfileScreen extends React.Component {
               {this.state.profilpic ? imagedefault : imagedefault}
             </View>
           </View> */}
-          <View style={styles.infoContainer}>
+          {/* <View style={styles.infoContainer}>
             <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
               {this.state.displayName}
             </Text>
-          </View>
-          <View style={styles.statusContainer}>
+          </View> */}
+          {/* <View style={styles.statusContainer}>
             <View
               style={[
                 styles.statusBox,
@@ -127,7 +127,7 @@ export default class ProfileScreen extends React.Component {
               </Text>
               <Text styles={[styles.text, styles.subtext]}>Nodes Number</Text>
             </View>
-          </View>
+          </View> */}
           <View style={{ marginTop: 32 }}>
             <View style={styles.lowerregion}>
               <FlatList

@@ -10,6 +10,7 @@ import {
   Platform,
   ScrollView,
   SafeAreaView,
+  LayoutAnimation,
 } from "react-native";
 import { navigation } from "@react-navigation/native";
 import AddScreen from "./AddNodes";
@@ -63,11 +64,11 @@ export default class NotificationsScreen extends React.Component {
   }
 
   render() {
-    // LayoutAnimation.easeInEaseOut();
+    LayoutAnimation.easeInEaseOut();
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.container}>
+          <View style={styles.main}>
             <Text>No Notifications</Text>
           </View>
         </ScrollView>
@@ -79,6 +80,12 @@ export default class NotificationsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  main: {
+    flex: 1,
+    marginTop: 200,
     alignItems: "center",
     justifyContent: "center",
   },
