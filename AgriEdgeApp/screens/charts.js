@@ -68,7 +68,7 @@ export default class Charts extends React.Component {
         }
       >
         {/* <HeaderComponent></HeaderComponent> */}
-        <Text>{JSON.stringify(this.props.navigation.state.params.NodeId)}</Text>
+        {/* <Text>{JSON.stringify(this.props.navigation.state.params.NodeId)}</Text> */}
         <HistogramType
           value={this.state.histogramType}
           onTypeChange={this.handleTypeChange}

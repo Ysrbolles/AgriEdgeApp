@@ -121,9 +121,9 @@ export default class Histogram extends React.Component {
     const histogramType = this.props.type;
     const data = {
       labels: this.createtime(Object.values(this.state.res), histogramType),
-
       datasets: [
         {
+          label: ["0", "25", "50", "100", "150", "200", "250"],
           data: this.createData(Object.values(this.state.res), histogramType),
         },
       ],
@@ -133,7 +133,7 @@ export default class Histogram extends React.Component {
       backgroundGradientFromOpacity: 0,
       backgroundGradientTo: "#037d50",
       backgroundGradientToOpacity: 0,
-      color: (opacity = 1) => `rgba(3, 125, 80, ${opacity})`,
+      color: (opacity = 1) => `rgba(20, 125, 80, ${opacity})`,
       labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
       fillShadowGradient: "#037d50",
       fillShadowGradientOpacity: 0.8,
@@ -151,11 +151,14 @@ export default class Histogram extends React.Component {
             {this.getDataNumbers(histogramType)}
           </Text>
         </View>
-        <View style={{ marginTop: 30 }}>
+        <View style={{ marginTop: 40 }}>
           <BarChart
             data={data}
             width={350}
-            height={500 * 0.6}
+            height={550 * 0.7}
+            showBarTops={true}
+            withInnerLines={false}
+            // showValuesOnTopOfBars={true}
             chartConfig={chartConfig}
             verticalLabelRotation={90}
             fromZero={true}
