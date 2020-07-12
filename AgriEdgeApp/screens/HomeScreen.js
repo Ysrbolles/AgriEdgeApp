@@ -124,11 +124,9 @@ export default class HomeScreen extends React.Component {
     });
   }
   onPress(e) {
-    if(this.state.sym == 0){
-      this.setState({ draw: true,
-      });
-      if(this.state.coordinates.length > 2)
-        this.setState({btn: false})
+    if (this.state.sym == 0) {
+      this.setState({ draw: true });
+      if (this.state.coordinates.length > 2) this.setState({ btn: false });
       this.setState(
         {
           longitude: e.nativeEvent.coordinate.longitude,
@@ -155,25 +153,28 @@ export default class HomeScreen extends React.Component {
     );
     const addbtn = (
       <View style={styles.buttonContainer}>
-          <Icon.Button name="check" onPress={() => this.finish()}>
-            Finish
-          </Icon.Button>
-          <Icon.Button
-            iconStyle="{marginRight: 10}"
-            name="eraser"
-            onPress={() => this.clear()}
-          >
-            Clear
-          </Icon.Button>
-        </View>
-    )
+        <Icon.Button name="check" onPress={() => this.finish()}>
+          Finish
+        </Icon.Button>
+        <Icon.Button
+          iconStyle="{marginRight: 10}"
+          name="eraser"
+          onPress={() => this.clear()}
+        >
+          Clear
+        </Icon.Button>
+      </View>
+    );
     const addnode = (
       <View style={styles.buttonContainer}>
-          <Icon.Button name="plus" onPress={() => this.props.navigation.navigate("AddNode")}>
-            Add Node
-          </Icon.Button>
-        </View>
-    )
+        <Icon.Button
+          name="plus"
+          onPress={() => this.props.navigation.navigate("AddNode")}
+        >
+          Add Node
+        </Icon.Button>
+      </View>
+    );
     const mapOptions = {
       scrollEnabled: true,
     };
@@ -199,17 +200,6 @@ export default class HomeScreen extends React.Component {
           {...mapOptions}
           showsUserLocation={true}
         >
-          {this.state.coordinates.map((marker, index) => (
-            <Marker
-              key={marker.name}
-              coordinate={{
-                latitude: marker.latitude,
-                longitude: marker.longitude,
-              }}
-            >
-              {this.state.addnode ? null : <image source={require("../assets/Capteur.png")} />}
-            </Marker>
-          ))}
           {this.state.polygons.map((polygon) => (
             <Polygon
               onPress={(e) => this.onPress(e)}
@@ -219,15 +209,28 @@ export default class HomeScreen extends React.Component {
               strokeWidth={1}
             />
           ))}
+          {this.state.coordinates.map((marker) => (
+            <Marker
+              key={marker.name}
+              coordinate={{
+                latitude: marker.latitude,
+                longitude: marker.longitude,
+              }}
+            >
+              {this.state.addnode ? null : (
+                <Image source={require("../assets/Capteur.png")} />
+              )}
+            </Marker>
+          ))}
         </MapView>
         {this.state.draw ? null : addtodraw}
         {this.state.btn ? null : addbtn}
         {this.state.addnode ? null : addnode}
         <Overlay
-           isVisible={this.state.visible}
-           onBackdropPress={this.toggleOverlay}
-         >
-        <AddScreen />
+          isVisible={this.state.visible}
+          onBackdropPress={this.toggleOverlay}
+        >
+          <AddScreen />
         </Overlay>
       </View>
     );

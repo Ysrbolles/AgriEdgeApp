@@ -16,12 +16,8 @@ import { navigation } from "@react-navigation/native";
 import AddScreen from "./AddNodes";
 import * as firebase from "firebase";
 import { SocialIcon, Input, Overlay } from "react-native-elements";
-// const [loading, setLoading] = useState(false);
-// const navigation = useNavigation();
 import { Notifications } from "expo";
 import * as Permissions from "expo-permissions";
-import Constants from "expo-constants";
-// import { SafeAreaView } from "react-navigation";
 
 export default class NotificationsScreen extends React.Component {
   constructor(props) {
