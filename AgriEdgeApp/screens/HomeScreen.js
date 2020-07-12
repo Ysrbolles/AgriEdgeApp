@@ -89,18 +89,14 @@ export default class HomeScreen extends React.Component {
   }
   finish() {
     if (this.state.coordinates.length > 2 && this.state.sym == 0) {
+      let i = this.state.coordinates[0];
       this.setState({
         polygons: [this.state.coordinates],
       });
-      let i = (this.state.coordinates[3].longitude - this.state.coordinates[0].longitude)  / 2
-      let i2 = (this.state.coordinates[3].latitude - this.state.coordinates[0].latitude)  / 2
-      let j = (this.state.coordinates[2].longitude - this.state.coordinates[1].longitude)  / 2
-      let j2 = (this.state.coordinates[2].latitude - this.state.coordinates[1].latitude)  / 2
-      console.debug(i, j)
       this.setState({
         btn: true,
         addnode: false,
-        coordinates: [],
+        coordinates: i,
         sym: 1,
       });
     }
@@ -210,7 +206,9 @@ export default class HomeScreen extends React.Component {
                 latitude: marker.latitude,
                 longitude: marker.longitude,
               }}
-            ></Marker>
+            >
+              {this.state.addnode ? null : <image source={require("../assets/Capteur.png")} />}
+            </Marker>
           ))}
           {this.state.polygons.map((polygon) => (
             <Polygon
