@@ -90,13 +90,15 @@ export default class HomeScreen extends React.Component {
   finish() {
     if (this.state.coordinates.length > 2 && this.state.sym == 0) {
       let i = this.state.coordinates[0];
+      console.debug(i)
       this.setState({
         polygons: [this.state.coordinates],
       });
       this.setState({
         btn: true,
         addnode: false,
-        coordinates: i,
+        markers: i,
+        coordinates: [],
         sym: 1,
       });
     }
@@ -165,6 +167,17 @@ export default class HomeScreen extends React.Component {
         </Icon.Button>
       </View>
     );
+    const ca = (
+            <Marker
+              key="cc"
+              coordinate={{
+                latitude: this.state.markers.latitude,
+                longitude: this.state.markers.longitude,
+              }}
+            >
+              <Image style={styles.cc} source={require("../assets/Capteur.png")} />
+              </Marker>
+    );
     const addnode = (
       <View style={styles.buttonContainer}>
         <Icon.Button
@@ -217,11 +230,10 @@ export default class HomeScreen extends React.Component {
                 longitude: marker.longitude,
               }}
             >
-              {this.state.addnode ? null : (
-                <Image source={require("../assets/Capteur.png")} />
-              )}
+              {/* <Image source={require("../assets/Capteur.png")} /> */}
             </Marker>
           ))}
+          {this.state.addnode ? null :  ca}
         </MapView>
         {this.state.draw ? null : addtodraw}
         {this.state.btn ? null : addbtn}
@@ -244,6 +256,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-end",
+  },
+  cc: {
+    flex: 1,
+    width: 50,
+    height: 50,
+    resizeMode: 'contain'
   },
   mapStyle: {
     ...StyleSheet.absoluteFillObject,
