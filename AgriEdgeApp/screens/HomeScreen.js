@@ -21,15 +21,18 @@ import {
 } from "react-native";
 import { SocialIcon, Input, Overlay } from "react-native-elements";
 import * as firebase from "firebase";
+import Nodes from "../services/Nodes";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     headerShown: false,
   };
-
+  
   constructor(props) {
     super(props);
+    this.getUser();
     this.state = {
+      uidAPP: null,
       mapRegion: null,
       markers: [],
       mapType: null,
@@ -51,8 +54,32 @@ export default class HomeScreen extends React.Component {
       btn: true,
       addnode: true,
       visible: false,
+      capteur: true
     };
   }
+  getUser = async () => {
+    const user = await firebase.auth().currentUser;
+    this.setState({
+    //   // user: user,
+    //   // displayName: user.displayName,
+    //   // email: user.email,
+    //   // profilpic: user.photoURL,
+      uidAPP: user.uid,
+    });
+    Nodes.getNodes(this.state.uidAPP)
+        .then((res) => {
+          // console.debug(res.poly[0])
+            this.setState({ //polygons: res.poly,
+            // markers: res.poly[0],
+            sym: 1,
+            draw: true,
+            btn: true,
+            addnode: true,
+            // capteur: false 
+          })
+        })
+        .finally(() => this.setState({ refreshing: false }));
+  };
 
   componentDidMount() {
     this._getuserLocation().then((position) => {
@@ -182,7 +209,7 @@ export default class HomeScreen extends React.Component {
       <View style={styles.buttonContainer}>
         <Icon.Button
           name="plus"
-          onPress={() => this.props.navigation.navigate("AddNode")}
+          onPress={() => this.props.navigation.navigate("AddNode",{ polygone: this.state.polygons})}
         >
           Add Node
         </Icon.Button>
@@ -233,7 +260,7 @@ export default class HomeScreen extends React.Component {
               {/* <Image source={require("../assets/Capteur.png")} /> */}
             </Marker>
           ))}
-          {this.state.addnode ? null :  ca}
+          {this.state.capteur ? null :  ca}
         </MapView>
         {this.state.draw ? null : addtodraw}
         {this.state.btn ? null : addbtn}

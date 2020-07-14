@@ -14,7 +14,10 @@ import { SocialIcon, Input, Overlay } from "react-native-elements";
 export default class AddNodes extends React.Component {
   constructor(props) {
     super(props);
+    this.params = this.props.navigation.state.params;
+    console.debug(this.params.polygone)
     this.state = {
+      polygon: this.params.polygone,
       uid: '',
       name: "",
       latitude: -87877.12,
@@ -37,7 +40,7 @@ export default class AddNodes extends React.Component {
       ClayContent: null,
       Limoncontent: null,
       Sandcontent: null,
-      date: null,
+      date: new Date().toISOString().substr(0, 10),
       data: [
         {
           value: "Drip irrigation",
