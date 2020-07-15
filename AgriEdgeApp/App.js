@@ -92,7 +92,7 @@ const App = createStackNavigator({
   },
   // App: AppTabNavigator,
   AddNode: AddNodes,
-  Charts: Chart,
+  Node: Chart,
 });
 
 export default createAppContainer(

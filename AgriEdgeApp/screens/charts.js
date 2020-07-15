@@ -93,15 +93,13 @@ export default class Charts extends React.Component {
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.containerContent}
-        // refreshControl={
-        //   // <RefreshControl
-        //   //   refreshing={this.state.refreshing}
-        //   //   onRefresh={this.onRefresh}
-        //   // />
-        // }
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
+          />
+        }
       >
-        {/* <HeaderComponent></HeaderComponent> */}
-        {/* <Text>{JSON.stringify(this.props.navigation.state.params.NodeId)}</Text> */}
         <HistogramType
           value={this.state.histogramType}
           onTypeChange={this.handleTypeChange}
@@ -110,9 +108,6 @@ export default class Charts extends React.Component {
           type={this.state.histogramType}
           NodeId={this.props.navigation.state.params.NodeId}
         ></Histogram>
-        {/* <Text style={styles.histogramTitle}>
-  {this.getHistogramTitle(this.state.histogramType)}
-</Text> */}
       </ScrollView>
     );
     const SecondRoute = () => (
@@ -126,12 +121,13 @@ export default class Charts extends React.Component {
     });
     return (
       <TabView
+        
         navigationState={this.state}
         renderScene={SceneMap({
           first: FirstRoute,
           second: SecondRoute,
         })}
-        // renderTabBar={this._renderTabBar}
+        renderTabBar={this._renderTabBar}
         onIndexChange={this._handleIndexChange}
         initialLayout={{ width: Dimensions.get("window").width }}
       />
@@ -140,10 +136,10 @@ export default class Charts extends React.Component {
   _renderTabBar = (props) => (
     <TabBar
       {...props}
-      scrollEnabled
-      indicatorStyle={styles.indicator}
-      style={styles.tabbar}
-      tabStyle={styles.tab}
+      // scrollEnabled
+      // indicatorStyle={styles.indicator}
+      style={{ backgroundColor: "#037d50" }}
+      // tabStyle={styles.tab}
       labelStyle={styles.label}
     />
   );
@@ -163,10 +159,10 @@ const styles = StyleSheet.create({
   // indicator: {
   //   backgroundColor: primarycolor,
   // },
-  // label: {
-  //   color: primarycolor,
-  //   fontWeight: "400",
-  // },
+  label: {
+    color: "white",
+    fontWeight: "400",
+  },
   containerContent: {
     alignItems: "center",
   },

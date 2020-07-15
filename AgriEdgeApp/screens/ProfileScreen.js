@@ -70,7 +70,7 @@ export default class ProfileScreen extends React.Component {
           chevron
           activeScale={0.95}
           onPress={() =>
-            this.props.navigation.navigate("Charts", { NodeId: item.NodeId })
+            this.props.navigation.navigate("Node", { NodeId: item.NodeId })
           }
         />
       </View>
