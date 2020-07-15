@@ -12,7 +12,7 @@ import {
 import * as firebase from "firebase";
 import { Avatar, ListItem, Header } from "react-native-elements";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import Chart from "./charts";
+
 
 import Nodes from "../services/Nodes";
 import { Button } from "native-base";
@@ -66,7 +66,7 @@ export default class ProfileScreen extends React.Component {
         <ListItem
           title={item.NodeId}
           bottomDivider
-          friction={90} 
+          friction={90}
           chevron
           activeScale={0.95}
           onPress={() =>
@@ -92,6 +92,8 @@ export default class ProfileScreen extends React.Component {
         resizeMode="center"
       ></Image>
     );
+
+    
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>

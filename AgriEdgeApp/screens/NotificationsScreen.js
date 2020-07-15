@@ -42,7 +42,14 @@ export default class NotificationsScreen extends React.Component {
     if (finalStatus !== "granted") {
       return;
     }
-
+    if (Platform.OS === "android") {
+      Notifications.createChannelAndroidAsync("default", {
+        name: "default",
+        sound: true,
+        priority: "max",
+        vibrate: [0, 250, 250, 250],
+      });
+    }
     try {
       let token = await Notifications.getExpoPushTokenAsync();
       firebase
