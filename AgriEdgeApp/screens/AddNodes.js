@@ -15,13 +15,13 @@ export default class AddNodes extends React.Component {
   constructor(props) {
     super(props);
     this.params = this.props.navigation.state.params;
-    console.debug(this.params.polygone)
+    console.debug("lng "+this.params.polygone[0][0].longitude)
     this.state = {
       polygon: this.params.polygone,
       uid: '',
       name: "",
-      latitude: -87877.12,
-      longitude: 99989.45,
+      latitude: this.params.polygone[0][0].latitude,
+      longitude: this.params.polygone[0][0].longitude,
       node_id: "",
       totalArea: null,
       irrigationSystem: "",
@@ -63,7 +63,7 @@ export default class AddNodes extends React.Component {
   }
   componentDidMount() {
     console.log("----------------------------------------------------------------------")
-    console.log(this.props)
+    // console.log(this.props)
     console.log("----------------------------------------------------------------------")
    
     this.getUser();
