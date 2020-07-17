@@ -98,8 +98,8 @@ export default class HomeScreen extends React.Component {
         console.log("mlawiiiiiiiiiiio")
       console.debug(res[0].poly[0][0])
         this.setState({ //
-        // polygons: res[0].poly[0],
-        // markers: res[0].poly[0][0],
+        polygons: res[0].poly[0],
+        markers: res[0].poly[0][0],
         sym: 1,
         draw: true,
         btn: true,
@@ -171,24 +171,7 @@ export default class HomeScreen extends React.Component {
     this.setState({
       sym: 0,
       coordinates: [],
-      polygons:  [
-         {
-          "latitude": 37.4261753172426,
-          "longitude": -122.08390563726424,
-        },
-         {
-          "latitude": 37.42779333259619,
-          "longitude": -122.0834057405591,
-        },
-         {
-          "latitude": 37.428418749927026,
-          "longitude": -122.08441123366354,
-        },
-         {
-          "latitude": 37.42678077911448,
-          "longitude": -122.08489738404751,
-        },
-      ],
+      polygons:  [],
     });
   }
   onPress(e) {
