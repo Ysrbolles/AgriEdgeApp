@@ -7,42 +7,11 @@ import {
   RefreshControl,
   View,
 } from "react-native";
-
+import NodeDetails from '../components/NodeDetails'
 import HeaderComponent from "../components/HeaderComponent";
 import Histogram from "../components/Histogram";
 import HistogramType from "../components/HistogramType";
 import { TabBar, TabView, SceneMap } from "react-native-tab-view";
-
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height;
-
-// const FirstRoute = () => (
-//   <ScrollView
-//   style={styles.container}
-//   contentContainerStyle={styles.containerContent}
-//   // refreshControl={
-//   //   // <RefreshControl
-//   //   //   refreshing={this.state.refreshing}
-//   //   //   onRefresh={this.onRefresh}
-//   //   // />
-//   // }
-// >
-//   {/* <HeaderComponent></HeaderComponent> */}
-//   {/* <Text>{JSON.stringify(this.props.navigation.state.params.NodeId)}</Text> */}
-//   {/* <HistogramType
-//     value={this.state.histogramType}
-//     onTypeChange={this.handleTypeChange}
-//   ></HistogramType>
-//   <Histogram
-//     type={this.state.histogramType}
-//     NodeId={this.props.navigation.state.params.NodeId}
-//   ></Histogram> */}
-//   {/* <Text style={styles.histogramTitle}>
-//   {this.getHistogramTitle(this.state.histogramType)}
-// </Text> */}
-// </ScrollView>
-
-// );
 
 export default class Charts extends React.Component {
   constructor(props) {
@@ -111,7 +80,8 @@ export default class Charts extends React.Component {
       </ScrollView>
     );
     const SecondRoute = () => (
-      <View style={[styles.scene, { backgroundColor: "#037d50" }]} />
+      // <View style={[styles.scene, { backgroundColor: "#037d50" }]} />
+      <NodeDetails NodeId={this.props.navigation.state.params.NodeId}/>
     );
 
     const initialLayout = { width: Dimensions.get("window").width };
@@ -150,15 +120,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  // tabbar: {
-  //   backgroundColor: white,
-  // },
-  // tab: {
-  //   width: screenWidth / 2,
-  // },
-  // indicator: {
-  //   backgroundColor: primarycolor,
-  // },
   label: {
     color: "white",
     fontWeight: "400",

@@ -3,13 +3,13 @@ import axios from "axios";
 
 export default {
   addnewone(Node) {
-    console.debug(Node)
+    console.debug(Node);
     return new Promise((resolve, reject) => {
       // Api()
       axios
         .post("http://10.0.2.2:4242/Home/addnewoneApp", Node)
         .then((res) => {
-          console.debug(res)
+          console.debug(res);
           resolve(res.data);
         })
         .catch((err) => reject(err));
@@ -24,18 +24,29 @@ export default {
           resolve(result.data);
         })
         .catch((err) => {
-          console.debug(err)
+          console.debug(err);
           reject(err);
         });
     });
   },
   getNodeDetails(id) {
-    console.log("Ddddddddd           " + id);
     return new Promise((resolve, reject) => {
       axios
         .get(
           `http://www.raptor.im/api/v2/items/uSuAgri/${id}?limit=10&format=json`
         )
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  getNodeDetailsDatabase(id) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`http://10.0.2.2:4242/Home/getNodeDetailsDatabase/${id}`)
         .then((res) => {
           resolve(res.data);
         })

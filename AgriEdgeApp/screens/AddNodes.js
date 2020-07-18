@@ -8,17 +8,17 @@ import DatePicker from "react-native-datepicker";
 import Nodes from "../services/Nodes";
 import axios from "axios";
 import { navigation } from "@react-navigation/native";
-import firebase from 'firebase'
+import firebase from "firebase";
 
 import { SocialIcon, Input, Overlay } from "react-native-elements";
 export default class AddNodes extends React.Component {
   constructor(props) {
     super(props);
     this.params = this.props.navigation.state.params;
-    console.debug("lng "+this.params.polygone[0][0].longitude)
+    console.debug("lng " + this.params.polygone[0][0].longitude);
     this.state = {
       polygon: this.params.polygone,
-      uid: '',
+      uid: "",
       name: "",
       latitude: this.params.polygone[0][0].latitude,
       longitude: this.params.polygone[0][0].longitude,
@@ -59,19 +59,14 @@ export default class AddNodes extends React.Component {
       displayName: "",
       profilpic: "",
     };
-  
   }
   componentDidMount() {
-    console.log("----------------------------------------------------------------------")
-    // console.log(this.props)
-    console.log("----------------------------------------------------------------------")
-   
     this.getUser();
   }
   AddNode = () => {
-    console.debug("lmlawi")
-    Nodes.addnewone(this.state)
-    this.props.navigation.goBack()
+    console.debug("lmlawi");
+    Nodes.addnewone(this.state);
+    this.props.navigation.goBack();
   };
 
   getUser = async () => {
@@ -81,7 +76,7 @@ export default class AddNodes extends React.Component {
       displayName: user.displayName,
       email: user.email,
       profilpic: user.photoURL,
-      uid: user.uid
+      uid: user.uid,
     });
     console.log(user.email);
   };

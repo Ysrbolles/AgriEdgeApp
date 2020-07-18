@@ -27,7 +27,7 @@ export default class HomeScreen extends React.Component {
   static navigationOptions = {
     headerShown: false,
   };
-  
+
   constructor(props) {
     super(props);
     // this.getUser();
@@ -54,18 +54,14 @@ export default class HomeScreen extends React.Component {
       btn: true,
       addnode: true,
       visible: false,
-      capteur: true
+      capteur: true,
     };
   }
   getUser = async () => {
     const user = await firebase.auth().currentUser;
     this.setState({
-    //   // user: user,
-    //   // displayName: user.displayName,
-    //   // email: user.email,
-    //   // profilpic: user.photoURL,
       uidAPP: user.uid,
-    });/*
+    }); /*
     Nodes.getNodes(this.state.uidAPP)
         .then((res) => {
           if (res.length > 0){
@@ -92,24 +88,34 @@ export default class HomeScreen extends React.Component {
         longitude: position.coords.longitude,
       });
       // this.getUser()
-      Nodes.getNodes("lrt070MC8hVzdJlxpL6QvyfKzS83")
-    .then((res) => {
-      if (res.length > 0){
-        console.log("mlawiiiiiiiiiiio")
-      console.debug(res[0].poly[0][0])
-        this.setState({ //
-        polygons: res[0].poly[0],
-        markers: res[0].poly[0][0],
-        sym: 1,
-        draw: true,
-        btn: true,
-        addnode: true,
-        // capteur: false 
-      })
-      }
-    })
+      Nodes.getNodes("lrt070MC8hVzdJlxpL6QvyfKzS83").then((res) => {
+        if (res.length > 0) {
+          console.log("mlawiiiiiiiiiiio");
+          // console.debug(res[0].poly[0][0])
+          // for (let i = 0; i < res[0].poly[0].length; i++) {
+          //   console.log(
+          //     "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+          //   );
+
+          //   console.log(res[0].poly[0][i]);
+          //   console.log(
+          //     "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+          //   );
+          //   this.state.polygons.push(res[0].poly[0][i]);
+          // }
+          this.setState({
+            //
+            // polygons: res[0].poly[0][0],
+            //   markers: res[0].poly[0][0],
+            //   sym: 1,
+            //   draw: true,
+            //   btn: true,
+            //   addnode: true,
+            //   // capteur: false
+          });
+        }
+      });
     });
-    
   }
   _getuserLocation = async () => {
     let { status } = await Location.requestPermissionsAsync();
@@ -138,7 +144,7 @@ export default class HomeScreen extends React.Component {
   finish() {
     if (this.state.coordinates.length > 2 && this.state.sym == 0) {
       let i = this.state.coordinates[0];
-      console.debug(i)
+      console.debug(i);
       this.setState({
         polygons: [this.state.coordinates],
       });
@@ -148,7 +154,7 @@ export default class HomeScreen extends React.Component {
         markers: i,
         coordinates: [],
         sym: 1,
-        capteur: false
+        capteur: false,
       });
     }
   }
@@ -171,7 +177,7 @@ export default class HomeScreen extends React.Component {
     this.setState({
       sym: 0,
       coordinates: [],
-      polygons:  [],
+      polygons: [],
     });
   }
   onPress(e) {
@@ -217,21 +223,25 @@ export default class HomeScreen extends React.Component {
       </View>
     );
     const ca = (
-            <Marker
-              key="cc"
-              coordinate={{
-                latitude: this.state.markers.latitude,
-                longitude: this.state.markers.longitude,
-              }}
-            >
-              <Image style={styles.cc} source={require("../assets/Capteur.png")} />
-              </Marker>
+      <Marker
+        key="cc"
+        coordinate={{
+          latitude: this.state.markers.latitude,
+          longitude: this.state.markers.longitude,
+        }}
+      >
+        <Image style={styles.cc} source={require("../assets/Capteur.png")} />
+      </Marker>
     );
     const addnode = (
       <View style={styles.buttonContainer}>
         <Icon.Button
           name="plus"
-          onPress={() => this.props.navigation.navigate("AddNode",{ polygone: this.state.polygons})}
+          onPress={() =>
+            this.props.navigation.navigate("AddNode", {
+              polygone: this.state.polygons,
+            })
+          }
         >
           Add Node
         </Icon.Button>
@@ -282,7 +292,7 @@ export default class HomeScreen extends React.Component {
               {/* <Image source={require("../assets/Capteur.png")} /> */}
             </Marker>
           ))}
-          {this.state.capteur ? null :  ca}
+          {this.state.capteur ? null : ca}
         </MapView>
         {this.state.draw ? null : addtodraw}
         {this.state.btn ? null : addbtn}
@@ -310,7 +320,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 50,
     height: 50,
-    resizeMode: 'contain'
+    resizeMode: "contain",
   },
   mapStyle: {
     ...StyleSheet.absoluteFillObject,
