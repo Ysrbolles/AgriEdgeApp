@@ -7,11 +7,12 @@ import {
   RefreshControl,
   View,
 } from "react-native";
-import NodeDetails from '../components/NodeDetails'
+import NodeDetails from "../components/NodeDetails";
 import HeaderComponent from "../components/HeaderComponent";
 import Histogram from "../components/Histogram";
 import HistogramType from "../components/HistogramType";
 import { TabBar, TabView, SceneMap } from "react-native-tab-view";
+import PureChart from "react-native-pure-chart";
 
 export default class Charts extends React.Component {
   constructor(props) {
@@ -58,6 +59,12 @@ export default class Charts extends React.Component {
     });
 
   render() {
+    let sampleData = [
+      {
+        data: [30, 200, 170, 250, 10],
+        color: "green",
+      },
+    ];
     const FirstRoute = () => (
       <ScrollView
         style={styles.container}
@@ -77,11 +84,13 @@ export default class Charts extends React.Component {
           type={this.state.histogramType}
           NodeId={this.props.navigation.state.params.NodeId}
         ></Histogram>
+
+        {/* <PureChart data={sampleData} type="bar" /> */}
       </ScrollView>
     );
     const SecondRoute = () => (
       // <View style={[styles.scene, { backgroundColor: "#037d50" }]} />
-      <NodeDetails NodeId={this.props.navigation.state.params.NodeId}/>
+      <NodeDetails NodeId={this.props.navigation.state.params.NodeId} />
     );
 
     const initialLayout = { width: Dimensions.get("window").width };
@@ -91,7 +100,6 @@ export default class Charts extends React.Component {
     });
     return (
       <TabView
-        
         navigationState={this.state}
         renderScene={SceneMap({
           first: FirstRoute,

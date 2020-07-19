@@ -8,6 +8,8 @@ const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 import dayjs from "dayjs";
 
+import PureChart from "react-native-pure-chart";
+
 export default class Histogram extends React.Component {
   constructor(props) {
     super(props);
@@ -118,6 +120,12 @@ export default class Histogram extends React.Component {
     return `Last Value of ${buttons[histogramType]} is :`;
   };
   render() {
+    const sampleData = [
+      {
+        data: this.createData(Object.values(this.state.res), histogramType),
+        color: "green",
+      },
+    ];
     const histogramType = this.props.type;
     const data = {
       labels: this.createtime(Object.values(this.state.res), histogramType),
@@ -152,7 +160,7 @@ export default class Histogram extends React.Component {
           </Text>
         </View>
         <View style={{ marginTop: 40 }}>
-          <BarChart
+          {/* <BarChart
             data={data}
             width={350}
             height={550 * 0.7}
@@ -163,8 +171,14 @@ export default class Histogram extends React.Component {
             verticalLabelRotation={90}
             fromZero={true}
             style={styles.barChartStyle}
+          /> */}
+
+          <PureChart
+            data={this.createData(Object.values(this.state.res), histogramType)}
+            type="bar"
           />
         </View>
+        <PureChart data={sampleData} type="bar" />
       </View>
     );
   }
