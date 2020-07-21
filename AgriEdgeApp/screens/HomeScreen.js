@@ -61,23 +61,23 @@ export default class HomeScreen extends React.Component {
     const user = await firebase.auth().currentUser;
     this.setState({
       uidAPP: user.uid,
-    }); /*
+    }); 
     Nodes.getNodes(this.state.uidAPP)
         .then((res) => {
           if (res.length > 0){
           console.debug("Name is :"+res.NodeId)
-          //   this.setState({ //
-          //   // polygons: res.poly,
-          //   // markers: res.poly[0],
-          //   sym: 1,
-          //   draw: true,
-          //   btn: true,
-          //   addnode: true,
-          //   // capteur: false 
-          // })
+            this.setState({ //
+            // polygons: res.poly,
+            markers: res.poly[0],
+            sym: 1,
+            draw: true,
+            btn: true,
+            addnode: true,
+            // capteur: false 
+          })
           }
         })
-        .finally(() => this.setState({ refreshing: false }));*/
+        .finally(() => this.setState({ refreshing: false }));
   };
 
   componentDidMount() {
@@ -91,7 +91,7 @@ export default class HomeScreen extends React.Component {
       Nodes.getNodes("lrt070MC8hVzdJlxpL6QvyfKzS83").then((res) => {
         if (res.length > 0) {
           console.log("mlawiiiiiiiiiiio");
-          // console.debug(res[0].poly[0][0])
+          console.debug(res[0].poly[0])
           // for (let i = 0; i < res[0].poly[0].length; i++) {
           //   console.log(
           //     "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
@@ -104,14 +104,17 @@ export default class HomeScreen extends React.Component {
           //   this.state.polygons.push(res[0].poly[0][i]);
           // }
           this.setState({
-            //
-            // polygons: res[0].poly[0][0],
-            //   markers: res[0].poly[0][0],
-            //   sym: 1,
-            //   draw: true,
-            //   btn: true,
-            //   addnode: true,
-            //   // capteur: false
+            markers: res[0].poly[0][0],
+            sym: 1,
+            draw: true,
+            btn: true,
+            addnode: true,
+            capteur: false
+          // },  
+          // () => {
+          //     this.setState({
+          //       polygons: res[0].poly[0],
+          //     });
           });
         }
       });
