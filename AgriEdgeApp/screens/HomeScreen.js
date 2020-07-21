@@ -93,14 +93,14 @@ export default class HomeScreen extends React.Component {
           console.log("mlawiiiiiiiiiiio");
           console.debug(res[0].poly[0])
           // for (let i = 0; i < res[0].poly[0].length; i++) {
-          //   console.log(
-          //     "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-          //   );
+            console.log(
+              "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+            );
 
-          //   console.log(res[0].poly[0][i]);
-          //   console.log(
-          //     "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-          //   );
+            console.log(res[0].poly);
+            console.log(
+              "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+            );
           //   this.state.polygons.push(res[0].poly[0][i]);
           // }
           this.setState({
@@ -110,11 +110,11 @@ export default class HomeScreen extends React.Component {
             btn: true,
             addnode: true,
             capteur: false
-          // },  
-          // () => {
-          //     this.setState({
-          //       polygons: res[0].poly[0],
-          //     });
+          },  
+          () => {
+              this.setState({
+                polygons: res[0].poly,
+              });
           });
         }
       });
@@ -186,7 +186,8 @@ export default class HomeScreen extends React.Component {
   onPress(e) {
     if (this.state.sym == 0) {
       this.setState({ draw: true });
-      if (this.state.coordinates.length > 2) this.setState({ btn: false });
+      if (this.state.coordinates.length > 2)
+       this.setState({ btn: false });
       this.setState(
         {
           longitude: e.nativeEvent.coordinate.longitude,
@@ -200,6 +201,7 @@ export default class HomeScreen extends React.Component {
             });
         }
       );
+      console.debug(this.state.polygons)
     }
   }
   render() {
