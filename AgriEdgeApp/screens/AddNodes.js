@@ -64,7 +64,6 @@ export default class AddNodes extends React.Component {
     this.getUser();
   }
   AddNode = () => {
-    console.debug("lmlawi");
     Nodes.addnewone(this.state);
     this.props.navigation.goBack();
   };

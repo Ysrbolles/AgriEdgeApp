@@ -8,6 +8,7 @@ import {
   ScrollView,
   SafeAreaView,
   RefreshControl,
+  TouchableOpacity,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { Col, Row, Grid } from "react-native-easy-grid";
@@ -97,6 +98,12 @@ export default class NodeDetails extends React.Component {
       this.getNodeData();
     }, 3000);
   };
+  updateNodeDetails = async () => {
+    console.log("dkheeeeeeeeeeeeeeeeeeeeeeeelt");
+    Nodes.updateNodeDetails(this.state).then(() => {
+      this.getNodeData();
+    });
+  };
   render() {
     return (
       <SafeAreaView>
@@ -123,7 +130,7 @@ export default class NodeDetails extends React.Component {
                   <Input
                     style={{ marginVertical: 10, fontSize: 17 }}
                     label="Name"
-                    placeholder={this.state.name}
+                    value={this.state.name}
                     renderErrorMessage={true}
                     onChangeText={(name) => this.setState({ name: name })}
                   />
@@ -133,7 +140,7 @@ export default class NodeDetails extends React.Component {
                     style={{ marginVertical: 10, fontSize: 17 }}
                     label="Node Id"
                     value={this.state.node_id}
-                    placeholder={this.state.node_id}
+                    value={this.state.node_id}
                     renderErrorMessage={true}
                     onChangeText={(node_id) =>
                       this.setState({ node_id: node_id })
@@ -146,7 +153,7 @@ export default class NodeDetails extends React.Component {
                   <Input
                     style={{ marginVertical: 10, fontSize: 17 }}
                     label="Total Area"
-                    placeholder={String(this.state.totalArea)}
+                    value={String(this.state.totalArea)}
                     keyboardType="phone-pad"
                     renderErrorMessage={true}
                     onChangeText={(totalArea) =>
@@ -157,7 +164,7 @@ export default class NodeDetails extends React.Component {
                 <Col style={{ marginBottom: 10, marginTop: 21 }}>
                   <Dropdown
                     label="Irrigation System"
-                    placeholder={this.state.IrrigationSystem}
+                    value={this.state.IrrigationSystem}
                     data={this.state.data}
                     error={""}
                     onChangeText={(irrigationSystem) =>
@@ -171,7 +178,7 @@ export default class NodeDetails extends React.Component {
                   <Input
                     style={{ marginVertical: 10, fontSize: 17 }}
                     label="Culture"
-                    placeholder={this.state.culture}
+                    value={this.state.culture}
                     renderErrorMessage={true}
                     onChangeText={(culture) =>
                       this.setState({ culture: culture })
@@ -186,7 +193,7 @@ export default class NodeDetails extends React.Component {
                 <Col>
                   <Input
                     style={{ marginVertical: 10, fontSize: 17 }}
-                    placeholder={String(this.state.Cropdensit1)}
+                    value={String(this.state.Cropdensit1)}
                     renderErrorMessage={true}
                     keyboardType="phone-pad"
                     onChangeText={(Cropdensit1) =>
@@ -199,7 +206,7 @@ export default class NodeDetails extends React.Component {
                   <Input
                     style={{ marginVertical: 10, fontSize: 17 }}
                     renderErrorMessage={true}
-                    placeholder={String(this.state.Cropdensit2)}
+                    value={String(this.state.Cropdensit2)}
                     keyboardType="phone-pad"
                     onChangeText={(Cropdensit2) =>
                       this.setState({ Cropdensit2: Cropdensit2 })
@@ -222,7 +229,7 @@ export default class NodeDetails extends React.Component {
                     style={{ width: 140 }}
                     date={this.state.date} //initial date from state
                     mode="date" //The enum of date, datetime and time
-                    placeholder={this.state.date}
+                    value={this.state.date}
                     format="DD-MM-YYYY"
                     minDate="01-01-2016"
                     maxDate={Date().now}
@@ -249,7 +256,7 @@ export default class NodeDetails extends React.Component {
                     style={{ marginVertical: 10, fontSize: 17 }}
                     renderErrorMessage={true}
                     label="Root depth /cm"
-                    placeholder={String(this.state.Rootdepth)}
+                    value={String(this.state.Rootdepth)}
                     keyboardType="phone-pad"
                     onChangeText={(Rootdepth) =>
                       this.setState({ Rootdepth: Rootdepth })
@@ -263,7 +270,7 @@ export default class NodeDetails extends React.Component {
                     style={{ marginVertical: 10, fontSize: 17 }}
                     renderErrorMessage={true}
                     label="Flow rate / l/h"
-                    placeholder={String(this.state.Flowrate)}
+                    value={String(this.state.Flowrate)}
                     keyboardType="phone-pad"
                     onChangeText={(Flowrate) =>
                       this.setState({ Flowrate: Flowrate })
@@ -276,7 +283,7 @@ export default class NodeDetails extends React.Component {
                     style={{ marginVertical: 10, fontSize: 17 }}
                     renderErrorMessage={true}
                     label="Spacing / m"
-                    placeholder={String(this.state.Spacing)}
+                    value={String(this.state.Spacing)}
                     keyboardType="phone-pad"
                     onChangeText={(Spacing) =>
                       this.setState({ Spacing: Spacing })
@@ -290,7 +297,7 @@ export default class NodeDetails extends React.Component {
                     style={{ marginVertical: 10, fontSize: 17 }}
                     renderErrorMessage={true}
                     label="Number of ramps / line"
-                    placeholder={String(this.state.NbrofRamps)}
+                    value={String(this.state.NbrofRamps)}
                     keyboardType="phone-pad"
                     onChangeText={(NbrofRamps) =>
                       this.setState({ NbrofRamps: NbrofRamps })
@@ -302,7 +309,7 @@ export default class NodeDetails extends React.Component {
                     style={{ marginVertical: 10, fontSize: 17 }}
                     renderErrorMessage={true}
                     label="Coefficient of uniformity /%"
-                    placeholder={String(this.state.Coefficient)}
+                    value={String(this.state.Coefficient)}
                     keyboardType="phone-pad"
                     onChangeText={(Coefficient) =>
                       this.setState({ Coefficient: Coefficient })
@@ -316,7 +323,7 @@ export default class NodeDetails extends React.Component {
                     style={{ marginVertical: 10, fontSize: 17 }}
                     renderErrorMessage={true}
                     label="Irrigation efficency"
-                    placeholder={String(this.state.Irrigationefficency)}
+                    value={String(this.state.Irrigationefficency)}
                     keyboardType="phone-pad"
                     onChangeText={(Irrigationefficency) =>
                       this.setState({
@@ -341,7 +348,7 @@ export default class NodeDetails extends React.Component {
                     style={{ marginVertical: 10, fontSize: 17 }}
                     renderErrorMessage={true}
                     label="Soil texture"
-                    placeholder={String(this.state.SoilTexture)}
+                    value={String(this.state.SoilTexture)}
                     keyboardType="phone-pad"
                     onChangeText={(SoilTexture) =>
                       this.setState({ SoilTexture: SoilTexture })
@@ -353,7 +360,7 @@ export default class NodeDetails extends React.Component {
                     style={{ marginVertical: 10, fontSize: 17 }}
                     renderErrorMessage={true}
                     label="Organic matter"
-                    placeholder={String(this.state.OrganicMater)}
+                    value={String(this.state.OrganicMater)}
                     keyboardType="phone-pad"
                     onChangeText={(OrganicMater) =>
                       this.setState({ OrganicMater: OrganicMater })
@@ -367,7 +374,7 @@ export default class NodeDetails extends React.Component {
                     style={{ marginVertical: 10, fontSize: 17 }}
                     renderErrorMessage={true}
                     label="Soil Salinity"
-                    placeholder={String(this.state.SoilSalinity)}
+                    value={String(this.state.SoilSalinity)}
                     keyboardType="phone-pad"
                     onChangeText={(SoilSalinity) =>
                       this.setState({ SoilSalinity: SoilSalinity })
@@ -379,7 +386,7 @@ export default class NodeDetails extends React.Component {
                     style={{ marginVertical: 10, fontSize: 17 }}
                     renderErrorMessage={true}
                     label="Clay Content"
-                    placeholder={String(this.state.ClayContent)}
+                    value={String(this.state.ClayContent)}
                     keyboardType="phone-pad"
                     onChangeText={(ClayContent) =>
                       this.setState({ ClayContent: ClayContent })
@@ -393,7 +400,7 @@ export default class NodeDetails extends React.Component {
                     style={{ marginVertical: 10, fontSize: 17 }}
                     renderErrorMessage={true}
                     label="Limon content"
-                    placeholder={String(this.state.Limoncontent)}
+                    value={String(this.state.Limoncontent)}
                     keyboardType="phone-pad"
                     onChangeText={(Limoncontent) =>
                       this.setState({ Limoncontent: Limoncontent })
@@ -405,7 +412,7 @@ export default class NodeDetails extends React.Component {
                     style={{ marginVertical: 10, fontSize: 17 }}
                     renderErrorMessage={true}
                     label="Sand content"
-                    placeholder={String(this.state.Sandcontent)}
+                    value={String(this.state.Sandcontent)}
                     keyboardType="phone-pad"
                     onChangeText={(Sandcontent) =>
                       this.setState({ Sandcontent: Sandcontent })
@@ -414,6 +421,19 @@ export default class NodeDetails extends React.Component {
                 </Col>
               </Grid>
             </View>
+            <View>
+              <TouchableOpacity
+                style={styles.button}
+                title="Update"
+                onPress={this.updateNodeDetails}
+              >
+                <Text
+                  style={{ fontSize: 24, alignSelf: "center", color: "#FFF" }}
+                >
+                  Update Details
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -421,4 +441,12 @@ export default class NodeDetails extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: "#037d50",
+    height: 46,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

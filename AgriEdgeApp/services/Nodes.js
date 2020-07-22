@@ -3,9 +3,7 @@ import axios from "axios";
 
 export default {
   addnewone(Node) {
-    console.debug(Node);
     return new Promise((resolve, reject) => {
-      // Api()
       axios
         .post("http://10.0.2.2:4242/Home/addnewoneApp", Node)
         .then((res) => {
@@ -52,6 +50,15 @@ export default {
         })
         .catch((err) => {
           reject(err);
+        });
+    });
+  },
+  updateNodeDetails(data) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("http://10.0.2.2:4242/Home/updateNodeDetails", data)
+        .then((result) => {
+          console.log(result);
         });
     });
   },

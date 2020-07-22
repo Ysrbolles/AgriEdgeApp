@@ -41,6 +41,7 @@
     "react-native-doorman": "^1.2.1",
     "react-native-dynamic-vector-icons": "^1.0.0",
     "react-native-easy-grid": "^0.2.2",
+    "react-native-echarts-wrapper": "^2.0.0",
     "react-native-elements": "^2.0.0",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-maps": "^0.27.1",

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Dimensions, StyleSheet, View, Text } from "react-native";
-import { BarChart } from "react-native-chart-kit";
+import { BarChart, LineChart } from "react-native-chart-kit";
 
 import data_mock from "../mock/co2_data.json";
 import Nodes from "../services/Nodes";
@@ -9,6 +9,7 @@ const screenHeight = Dimensions.get("window").height;
 import dayjs from "dayjs";
 
 import PureChart from "react-native-pure-chart";
+import { ECharts } from "react-native-echarts-wrapper";
 
 export default class Histogram extends React.Component {
   constructor(props) {
@@ -119,13 +120,8 @@ export default class Histogram extends React.Component {
     ];
     return `Last Value of ${buttons[histogramType]} is :`;
   };
+
   render() {
-    const sampleData = [
-      {
-        data: this.createData(Object.values(this.state.res), histogramType),
-        color: "green",
-      },
-    ];
     const histogramType = this.props.type;
     const data = {
       labels: this.createtime(Object.values(this.state.res), histogramType),
@@ -133,6 +129,27 @@ export default class Histogram extends React.Component {
         {
           label: ["0", "25", "50", "100", "150", "200", "250"],
           data: this.createData(Object.values(this.state.res), histogramType),
+        },
+      ],
+    };
+    const sampleData = [
+      {
+        data: this.createData(Object.values(this.state.res), histogramType),
+        color: "green",
+      },
+    ];
+    const option = {
+      xAxis: {
+        type: "category",
+        data: this.createtime(Object.values(this.state.res), histogramType),
+      },
+      yAxis: {
+        type: "value",
+      },
+      series: [
+        {
+          data: this.createData(Object.values(this.state.res), histogramType),
+          type: "line",
         },
       ],
     };
@@ -151,16 +168,40 @@ export default class Histogram extends React.Component {
       },
     };
 
+    // const chartConfig = {
+    //   backgroundGradientFrom: "#1E2923",
+    //   backgroundGradientFromOpacity: 0,
+    //   backgroundGradientTo: "#08130D",
+    //   backgroundGradientToOpacity: 0.5,
+    //   color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    //   strokeWidth: 2, // optional, default 3
+    //   barPercentage: 0.5,
+    //   useShadowColorFromDataset: false, // optional
+    // };
+
     return (
       <View style={styles.container}>
         <View>
           <Text style={styles.histogramTitle}>
-            {this.getHistogramTitle(histogramType)}{" "}
+            {this.getHistogramTitle(histogramType)}
             {this.getDataNumbers(histogramType)}
           </Text>
+          {/* <ECharts option={option} /> */}
         </View>
         <View style={{ marginTop: 40 }}>
-          {/* <BarChart
+          <BarChart
+            data={data}
+            width={350}
+            height={550 * 0.7}
+            showBarTops={true}
+            withInnerLines={false}
+            // showValuesOnTopOfBars={true}
+            chartConfig={chartConfig}
+            verticalLabelRotation={90}
+            fromZero={true}
+            style={styles.barChartStyle}
+          />
+          {/* <LineChart
             data={data}
             width={350}
             height={550 * 0.7}
@@ -173,12 +214,15 @@ export default class Histogram extends React.Component {
             style={styles.barChartStyle}
           /> */}
 
-          <PureChart
-            data={this.createData(Object.values(this.state.res), histogramType)}
-            type="bar"
-          />
+          {/* <PureChart width={30} data={sampleData} type="bar" /> */}
         </View>
-        <PureChart data={sampleData} type="bar" />
+        {/* <LineChart
+          data={data}
+          width={350}
+          height={220}
+          chartConfig={chartConfig}
+        /> */}
+        {/* <PureChart width={30} data={sampleData} type="bar" /> */}
       </View>
     );
   }
@@ -189,6 +233,7 @@ const styles = StyleSheet.create({
     // flexDirection: "row",
     paddingVertical: 15,
     marginTop: 20,
+    flex: 1,
   },
   barChartStyle: {
     borderRadius: 16,
