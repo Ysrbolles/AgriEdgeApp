@@ -62,4 +62,16 @@ export default {
         });
     });
   },
+  getAppNotif(uidApp) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`http://10.0.2.2:4242/Home/getAppNotif/${uidApp}`)
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
 };

@@ -19,6 +19,9 @@ import {
   Image,
   LayoutAnimation,
 } from "react-native";
+
+import { Notifications } from "expo";
+import * as Permissions from "expo-permissions";
 import { SocialIcon, Input, Overlay } from "react-native-elements";
 import * as firebase from "firebase";
 import Nodes from "../services/Nodes";
@@ -55,32 +58,72 @@ export default class HomeScreen extends React.Component {
       addnode: true,
       visible: false,
       capteur: true,
+      currentUser: [],
     };
   }
+  registerForPushNotificationsAsync = async () => {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+
+    if (finalStatus !== "granted") {
+      return;
+    }
+    if (Platform.OS === "android") {
+      Notifications.createChannelAndroidAsync("default", {
+        name: "default",
+        sound: true,
+        priority: "max",
+        vibrate: [0, 250, 250, 250],
+      });
+    }
+    try {
+      let token = await Notifications.getExpoPushTokenAsync();
+      firebase
+        .database()
+        .ref("users/" + this.state.currentUser.uid + "/push_token")
+        .set(token);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // async componentDidMount() {
+  //   this.state.currentUser = await firebase.auth().currentUser;
+
+  //   await this.registerForPushNotificationsAsync();
+  // }
   getUser = async () => {
     const user = await firebase.auth().currentUser;
     this.setState({
       uidAPP: user.uid,
-    }); 
+    });
     Nodes.getNodes(this.state.uidAPP)
-        .then((res) => {
-          if (res.length > 0){
-          console.debug("Name is :"+res.NodeId)
-            this.setState({ //
+      .then((res) => {
+        if (res.length > 0) {
+          console.debug("Name is :" + res.NodeId);
+          this.setState({
+            //
             // polygons: res.poly,
             markers: res.poly[0],
             sym: 1,
             draw: true,
             btn: true,
             addnode: true,
-            // capteur: false 
-          })
-          }
-        })
-        .finally(() => this.setState({ refreshing: false }));
+            // capteur: false
+          });
+        }
+      })
+      .finally(() => this.setState({ refreshing: false }));
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    this.state.currentUser = await firebase.auth().currentUser;
+    await this.registerForPushNotificationsAsync();
     this._getuserLocation().then((position) => {
       this.setState({
         userlocation: position,
@@ -91,31 +134,33 @@ export default class HomeScreen extends React.Component {
       Nodes.getNodes("hQ2UFYlNQDZL5BdpRst2oPHdKjg1").then((res) => {
         if (res.length > 0) {
           console.log("mlawiiiiiiiiiiio");
-          console.debug(res[0].poly[0])
+          console.debug(res[0].poly[0]);
           // for (let i = 0; i < res[0].poly[0].length; i++) {
-            console.log(
-              "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-            );
+          console.log(
+            "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+          );
 
-            console.log(res[0].poly);
-            console.log(
-              "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-            );
+          console.log(res[0].poly);
+          console.log(
+            "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+          );
           //   this.state.polygons.push(res[0].poly[0][i]);
           // }
-          this.setState({
-            markers: res[0].poly[0][0],
-            sym: 1,
-            draw: true,
-            btn: true,
-            addnode: true,
-            capteur: false
-          },  
-          () => {
+          this.setState(
+            {
+              markers: res[0].poly[0][0],
+              sym: 1,
+              draw: true,
+              btn: true,
+              addnode: true,
+              capteur: false,
+            },
+            () => {
               this.setState({
                 polygons: res[0].poly,
               });
-          });
+            }
+          );
         }
       });
     });
@@ -186,8 +231,7 @@ export default class HomeScreen extends React.Component {
   onPress(e) {
     if (this.state.sym == 0) {
       this.setState({ draw: true });
-      if (this.state.coordinates.length > 2)
-       this.setState({ btn: false });
+      if (this.state.coordinates.length > 2) this.setState({ btn: false });
       this.setState(
         {
           longitude: e.nativeEvent.coordinate.longitude,
@@ -201,7 +245,7 @@ export default class HomeScreen extends React.Component {
             });
         }
       );
-      console.debug(this.state.polygons)
+      console.debug(this.state.polygons);
     }
   }
   render() {
