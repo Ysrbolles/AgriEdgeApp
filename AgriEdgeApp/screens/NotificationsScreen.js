@@ -93,6 +93,8 @@ export default class NotificationsScreen extends React.Component {
         </View>
       </View>
     );
+    const laoding = <ActivityIndicator size="large"></ActivityIndicator>;
+    const body = this.state.notifications ? notification : landig;
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView
@@ -104,7 +106,7 @@ export default class NotificationsScreen extends React.Component {
             />
           }
         >
-          {this.state.notifications ? notification : landig}
+          {this.state.notifications ? body : laoding}
         </ScrollView>
       </SafeAreaView>
     );
