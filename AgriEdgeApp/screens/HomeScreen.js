@@ -25,6 +25,7 @@ import * as Permissions from "expo-permissions";
 import { SocialIcon, Input, Overlay } from "react-native-elements";
 import * as firebase from "firebase";
 import Nodes from "../services/Nodes";
+import registerForPushNotificationsAsync from "../services/Notifications";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -59,71 +60,14 @@ export default class HomeScreen extends React.Component {
       visible: false,
       capteur: true,
       currentUser: [],
+      Notification: {},
     };
   }
-  registerForPushNotificationsAsync = async () => {
-    const { status: existingStatus } = await Permissions.getAsync(
-      Permissions.NOTIFICATIONS
-    );
-    let finalStatus = existingStatus;
-    if (existingStatus !== "granted") {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-
-    if (finalStatus !== "granted") {
-      return;
-    }
-    if (Platform.OS === "android") {
-      Notifications.createChannelAndroidAsync("default", {
-        name: "default",
-        sound: true,
-        priority: "max",
-        vibrate: [0, 250, 250, 250],
-      });
-    }
-    try {
-      let token = await Notifications.getExpoPushTokenAsync();
-      firebase
-        .database()
-        .ref("users/" + this.state.currentUser.uid + "/push_token")
-        .set(token);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  // async componentDidMount() {
-  //   this.state.currentUser = await firebase.auth().currentUser;
-
-  //   await this.registerForPushNotificationsAsync();
-  // }
-  getUser = async () => {
-    const user = await firebase.auth().currentUser;
-    this.setState({
-      uidAPP: user.uid,
-    });
-    Nodes.getNodes(this.state.uidAPP)
-      .then((res) => {
-        if (res.length > 0) {
-          console.debug("Name is :" + res.NodeId);
-          this.setState({
-            //
-            // polygons: res.poly,
-            markers: res.poly[0],
-            sym: 1,
-            draw: true,
-            btn: true,
-            addnode: true,
-            // capteur: false
-          });
-        }
-      })
-      .finally(() => this.setState({ refreshing: false }));
-  };
-
   async componentDidMount() {
     this.state.currentUser = await firebase.auth().currentUser;
-    await this.registerForPushNotificationsAsync();
+    registerForPushNotificationsAsync(this.state.currentUser);
+
+    Notifications.addListener(this.handleNotification);
     this._getuserLocation().then((position) => {
       this.setState({
         userlocation: position,
@@ -165,6 +109,94 @@ export default class HomeScreen extends React.Component {
       });
     });
   }
+  handleNotification = (notification) => {
+    if (notification && notification.origin !== "received") {
+      const { data } = notification;
+      // const meetingId = data.meetingId;
+    }
+    //     if (meetingId) {
+    //         this.props.navigation.navigate('Details', { meetingId });
+    //     }
+    // }
+    console.log(notification);
+  };
+
+  // registerForPushNotificationsAsync = async () => {
+  //   const { status: existingStatus } = await Permissions.getAsync(
+  //     Permissions.NOTIFICATIONS
+  //   );
+  //   let finalStatus = existingStatus;
+  //   if (existingStatus !== "granted") {
+  //     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+  //     finalStatus = status;
+  //   }
+
+  //   if (finalStatus !== "granted") {
+  //     return;
+  //   }
+  //   if (Platform.OS === "android") {
+  //     Notifications.createChannelAndroidAsync("default", {
+  //       name: "default",
+  //       sound: true,
+  //       priority: "max",
+  //       vibrate: [0, 250, 250, 250],
+  //     });
+  //   }
+  //   if (Platform.OS === "android") {
+  //     Notifications.createChannelAndroidAsync("default", {
+  //       name: "default",
+  //       sound: true,
+  //       priority: "max",
+  //       vibrate: [0, 250, 250, 250],
+  //     });
+  //   }
+  //   try {
+  //     let token = await Notifications.getExpoPushTokenAsync();
+  //     firebase
+  //       .database()
+  //       .ref("users/" + this.state.currentUser.uid + "/push_token")
+  //       .set(token);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  _handleNotification = (notification) => {
+    this.setState({ notification: notification });
+    console.log(notification);
+  };
+
+  _handleNotificationResponse = (response) => {
+    console.log(response);
+  };
+  // async componentDidMount() {
+  //   this.state.currentUser = await firebase.auth().currentUser;
+
+  //   await this.registerForPushNotificationsAsync();
+  // }
+  getUser = async () => {
+    const user = await firebase.auth().currentUser;
+    this.setState({
+      uidAPP: user.uid,
+    });
+    Nodes.getNodes(this.state.uidAPP)
+      .then((res) => {
+        if (res.length > 0) {
+          console.debug("Name is :" + res.NodeId);
+          this.setState({
+            //
+            // polygons: res.poly,
+            markers: res.poly[0],
+            sym: 1,
+            draw: true,
+            btn: true,
+            addnode: true,
+            // capteur: false
+          });
+        }
+      })
+      .finally(() => this.setState({ refreshing: false }));
+  };
+
   _getuserLocation = async () => {
     let { status } = await Location.requestPermissionsAsync();
     if (status !== "granted") {

@@ -20,7 +20,7 @@ import * as firebase from "firebase";
 import { SocialIcon, Input, Overlay } from "react-native-elements";
 import { Notifications } from "expo";
 import * as Permissions from "expo-permissions";
-
+import _ from 'lodash'
 import { Avatar, ListItem, Header } from "react-native-elements";
 import Nodes from "../services/Nodes";
 export default class NotificationsScreen extends React.Component {
@@ -54,12 +54,15 @@ export default class NotificationsScreen extends React.Component {
     return (
       <View>
         <ListItem
-          title={item.Node}
+          title={"Warning: " + item.Node}
           subtitle={item.msg}
           bottomDivider
           friction={90}
           chevron
           activeScale={0.95}
+          onPress={() =>{
+            
+          }}
         />
       </View>
     );
@@ -94,7 +97,7 @@ export default class NotificationsScreen extends React.Component {
       </View>
     );
     const laoding = <ActivityIndicator size="large"></ActivityIndicator>;
-    const body = this.state.notifications ? notification : landig;
+    // const body = this.state.notifications ? notification : landig;
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView
@@ -106,7 +109,7 @@ export default class NotificationsScreen extends React.Component {
             />
           }
         >
-          {this.state.notifications ? body : laoding}
+          {this.state.notifications ? notification : laoding}
         </ScrollView>
       </SafeAreaView>
     );
