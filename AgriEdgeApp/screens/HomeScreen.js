@@ -74,39 +74,7 @@ export default class HomeScreen extends React.Component {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       });
-      // this.getUser()
-      Nodes.getNodes("hQ2UFYlNQDZL5BdpRst2oPHdKjg1").then((res) => {
-        if (res.length > 0) {
-          console.log("mlawiiiiiiiiiiio");
-          console.debug(res[0].poly[0]);
-          // for (let i = 0; i < res[0].poly[0].length; i++) {
-          console.log(
-            "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-          );
-
-          console.log(res[0].poly);
-          console.log(
-            "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-          );
-          //   this.state.polygons.push(res[0].poly[0][i]);
-          // }
-          this.setState(
-            {
-              markers: res[0].poly[0][0],
-              sym: 1,
-              draw: true,
-              btn: true,
-              addnode: true,
-              capteur: false,
-            },
-            () => {
-              this.setState({
-                polygons: res[0].poly,
-              });
-            }
-          );
-        }
-      });
+      this.getUser()
     });
   }
   handleNotification = (notification) => {
@@ -178,23 +146,33 @@ export default class HomeScreen extends React.Component {
     this.setState({
       uidAPP: user.uid,
     });
-    Nodes.getNodes(this.state.uidAPP)
-      .then((res) => {
-        if (res.length > 0) {
-          console.debug("Name is :" + res.NodeId);
-          this.setState({
-            //
-            // polygons: res.poly,
-            markers: res.poly[0],
+    Nodes.getNodes(this.state.uidAPP).then((res) => {
+      if (res.length > 0) {
+        console.log(
+          "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+        );
+
+        console.log(res[0].poly);
+        console.log(
+          "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+        );
+        this.setState(
+          {
+            markers: res[0].poly[0][0],
             sym: 1,
             draw: true,
             btn: true,
             addnode: true,
-            // capteur: false
-          });
-        }
-      })
-      .finally(() => this.setState({ refreshing: false }));
+            capteur: false,
+          },
+          () => {
+            this.setState({
+              polygons: res[0].poly,
+            });
+          }
+        );
+      }
+    });
   };
 
   _getuserLocation = async () => {
