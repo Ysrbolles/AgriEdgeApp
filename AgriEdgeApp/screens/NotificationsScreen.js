@@ -13,16 +13,17 @@ import {
   LayoutAnimation,
   FlatList,
   RefreshControl,
+  TouchableHighlight,
 } from "react-native";
 import { navigation } from "@react-navigation/native";
 import AddScreen from "./AddNodes";
 import * as firebase from "firebase";
-import { SocialIcon, Input, Overlay } from "react-native-elements";
 import { Notifications } from "expo";
 import * as Permissions from "expo-permissions";
-import _ from 'lodash'
-import { Avatar, ListItem, Header } from "react-native-elements";
+import _ from "lodash";
+import { Avatar, ListItem, Header, Icon, Overlay } from "react-native-elements";
 import Nodes from "../services/Nodes";
+import { Col, Row, Grid } from "react-native-easy-grid";
 export default class NotificationsScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -50,6 +51,9 @@ export default class NotificationsScreen extends React.Component {
       this.getAppNotif();
     }, 3000);
   };
+  toggleOverlay = () => {
+    this.setState({ visible: !this.state.visible });
+  };
   listDaily = ({ item }) => {
     return (
       <View>
@@ -58,10 +62,35 @@ export default class NotificationsScreen extends React.Component {
           subtitle={item.msg}
           bottomDivider
           friction={90}
-          chevron
           activeScale={0.95}
-          onPress={() =>{
-            
+          leftIcon={
+            <Icon
+              raised
+              name="warning"
+              type="font-awesome"
+              color="#f50"
+              size={20}
+              onPress={() => {
+                this.setState({ visible: true });
+              }}
+            />
+          }
+          rightIcon={
+            <Icon
+              raised
+              name="chevron-right"
+              type="font-awesome"
+              color="#5ABD8C"
+              size={15}
+              onPress={() => {
+                this.setState({ visible: true });
+              }}
+            />
+          }
+          // chevron
+
+          onPress={() => {
+            this.setState({ visible: true });
           }}
         />
       </View>
@@ -110,6 +139,30 @@ export default class NotificationsScreen extends React.Component {
           }
         >
           {this.state.notifications ? notification : laoding}
+          <Overlay
+            isVisible={this.state.visible}
+            onBackdropPress={this.toggleOverlay}
+          >
+            <View style={{ width: 300, height: 200 }}>
+              <Text
+                style={{ fontSize: 24, alignSelf: "center", color: "#red" }}
+              >
+                Done
+              </Text>
+              <TouchableOpacity
+                rounded
+                onPress={() => {
+                  this.toggleOverlay;
+                }}
+              >
+                <Text
+                  style={{ fontSize: 24, alignSelf: "center", color: "#red" }}
+                >
+                  Done
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </Overlay>
         </ScrollView>
       </SafeAreaView>
     );
