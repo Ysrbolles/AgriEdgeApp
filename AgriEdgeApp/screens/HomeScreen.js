@@ -21,12 +21,20 @@ import {
 } from "react-native";
 
 import { Notifications } from "expo";
+// import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 import { SocialIcon, Input, Overlay } from "react-native-elements";
 import * as firebase from "firebase";
 import Nodes from "../services/Nodes";
 import registerForPushNotificationsAsync from "../services/Notifications";
 
+// Notifications.setNotificationHandler({
+//   handleNotification: async () => ({
+//     shouldShowAlert: true,
+//     shouldPlaySound: false,
+//     shouldSetBadge: false,
+//   }),
+// });
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     headerShown: false,
@@ -61,6 +69,7 @@ export default class HomeScreen extends React.Component {
       capteur: true,
       currentUser: [],
       Notification: {},
+      color: "rgba(76, 166, 79, 0.5)",
     };
   }
   async componentDidMount() {
@@ -68,66 +77,34 @@ export default class HomeScreen extends React.Component {
     registerForPushNotificationsAsync(this.state.currentUser);
 
     Notifications.addListener(this.handleNotification);
+    // Notifications.addNotificationResponseReceivedListener((Notif) => {
+    //   console.log("dkheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeelt");
+    //   console.log(Notif);
+    // });
     this._getuserLocation().then((position) => {
       this.setState({
         userlocation: position,
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       });
-      this.getUser()
+      this.getUser();
     });
   }
   handleNotification = (notification) => {
     if (notification && notification.origin !== "received") {
       const { data } = notification;
+      if (data.check > 70) {
+        this.setState({ color: "rgba(209, 4, 0, 0.5)" });
+      }
+      console.log(data.check);
       // const meetingId = data.meetingId;
     }
     //     if (meetingId) {
     //         this.props.navigation.navigate('Details', { meetingId });
     //     }
     // }
-    console.log(notification);
   };
 
-  // registerForPushNotificationsAsync = async () => {
-  //   const { status: existingStatus } = await Permissions.getAsync(
-  //     Permissions.NOTIFICATIONS
-  //   );
-  //   let finalStatus = existingStatus;
-  //   if (existingStatus !== "granted") {
-  //     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-  //     finalStatus = status;
-  //   }
-
-  //   if (finalStatus !== "granted") {
-  //     return;
-  //   }
-  //   if (Platform.OS === "android") {
-  //     Notifications.createChannelAndroidAsync("default", {
-  //       name: "default",
-  //       sound: true,
-  //       priority: "max",
-  //       vibrate: [0, 250, 250, 250],
-  //     });
-  //   }
-  //   if (Platform.OS === "android") {
-  //     Notifications.createChannelAndroidAsync("default", {
-  //       name: "default",
-  //       sound: true,
-  //       priority: "max",
-  //       vibrate: [0, 250, 250, 250],
-  //     });
-  //   }
-  //   try {
-  //     let token = await Notifications.getExpoPushTokenAsync();
-  //     firebase
-  //       .database()
-  //       .ref("users/" + this.state.currentUser.uid + "/push_token")
-  //       .set(token);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
   _handleNotification = (notification) => {
     this.setState({ notification: notification });
     console.log(notification);
@@ -336,7 +313,7 @@ export default class HomeScreen extends React.Component {
               onPress={(e) => this.onPress(e)}
               coordinates={polygon}
               strokeColor="#F00"
-              fillColor={"rgba(76, 166, 79, 0.5)"}
+              fillColor={this.state.color}
               strokeWidth={1}
             />
           ))}
