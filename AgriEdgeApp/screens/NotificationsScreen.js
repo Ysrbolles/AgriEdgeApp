@@ -21,7 +21,14 @@ import * as firebase from "firebase";
 import { Notifications } from "expo";
 import * as Permissions from "expo-permissions";
 import _ from "lodash";
-import { Avatar, ListItem, Header, Icon, Overlay } from "react-native-elements";
+import {
+  Avatar,
+  ListItem,
+  Header,
+  Icon,
+  Overlay,
+  Input,
+} from "react-native-elements";
 import Nodes from "../services/Nodes";
 import { Col, Row, Grid } from "react-native-easy-grid";
 export default class NotificationsScreen extends React.Component {
@@ -34,6 +41,8 @@ export default class NotificationsScreen extends React.Component {
       currentUser: [],
       item: "",
       exist: false,
+      show: false,
+      showCon: true,
     };
   }
 
@@ -57,7 +66,11 @@ export default class NotificationsScreen extends React.Component {
     }, 3000);
   };
   toggleOverlay = () => {
-    this.setState({ visible: !this.state.visible });
+    this.setState({
+      visible: !this.state.visible,
+      show: !this.state.show,
+      showCon: !this.state.showCon,
+    });
   };
   listDaily = ({ item }) => {
     return (
@@ -123,60 +136,100 @@ export default class NotificationsScreen extends React.Component {
             isVisible={this.state.visible}
             onBackdropPress={this.toggleOverlay}
           >
-            <View style={{ width: 300, height: 200 }}>
+            <View style={{ width: 300, height: 150 }}>
               <Grid>
-                <Row>
+                <Col>
                   <Icon
                     name="warning"
                     type="font-awesome"
                     color="#f50"
-                    size={20}
+                    size={35}
                   />
 
                   <Text
                     style={{
-                      fontSize: 24,
+                      fontSize: 20,
                       alignSelf: "center",
                       color: "red",
+                      marginTop: 10,
                     }}
                   >
-                    are you watered ? {this.state.item.Node}
+                    {this.state.showCon
+                      ? "are you watered ? " + this.state.item.Node
+                      : "can you tell us why you don't watered?"}
                   </Text>
-                </Row>
-              </Grid>
-              <Grid>
-                <Col>
-                  <TouchableOpacity rounded onPress={() => {}}>
-                    <Text
-                      style={{
-                        fontSize: 24,
-                        alignSelf: "center",
-                        color: "red",
-                      }}
-                    >
-                      No
-                    </Text>
-                  </TouchableOpacity>
-                </Col>
-                <Col>
-                  <TouchableOpacity
-                    rounded
-                    onPress={() => {
-                      this.deleteNotif(this.state.item);
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 24,
-                        alignSelf: "center",
-                        color: "red",
-                      }}
-                    >
-                      Yes
-                    </Text>
-                  </TouchableOpacity>
                 </Col>
               </Grid>
+              {this.state.showCon ? (
+                <Grid style={{ marginTop: 45 }}>
+                  <Col>
+                    <TouchableOpacity
+                      rounded
+                      onPress={() => {
+                        this.setState({ show: true, showCon: false });
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: 24,
+                          alignSelf: "center",
+                          color: "red",
+                        }}
+                      >
+                        No
+                      </Text>
+                    </TouchableOpacity>
+                  </Col>
+                  <Col>
+                    <TouchableOpacity
+                      rounded
+                      onPress={() => {
+                        this.deleteNotif(this.state.item);
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: 24,
+                          alignSelf: "center",
+                          color: "red",
+                        }}
+                      >
+                        Yes
+                      </Text>
+                    </TouchableOpacity>
+                  </Col>
+                </Grid>
+              ) : null}
+              {this.state.show ? (
+                <Grid style={{ marginTop: 45 }}>
+                  <Col style={{ fontSize: 10, width: 200 }}>
+                    <Input
+                      style={{ fontSize: 5, width: 100, marginLeft: 10 }}
+                      placeholder="can you tell us why ytou don't watered?"
+                      renderErrorMessage={true}
+                      onChangeText={(msg) => this.setState({ msg: msg })}
+                    />
+                  </Col>
+                  <Col>
+                    <TouchableOpacity
+                      rounded
+                      onPress={() => {
+                        this.deleteNotif(this.state.item);
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: 24,
+                          alignSelf: "center",
+                          color: "red",
+                        }}
+                      >
+                        Send
+                      </Text>
+                    </TouchableOpacity>
+                  </Col>
+                </Grid>
+              ) : null}
             </View>
           </Overlay>
         </View>
