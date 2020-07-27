@@ -18,6 +18,7 @@ import axios from "axios";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import getForecastEmoji from "../services/getForecastEmoji";
 import dayjs from "dayjs";
+import Nodes from "../services/Nodes";
 export default class WeatherScreen extends React.Component {
   static navigationOptions = {
     headerShown: false,
@@ -181,7 +182,7 @@ export default class WeatherScreen extends React.Component {
       </View>
     );
   };
-  ss;
+ 
   renderElement = ({ item }) => {
     return (
       <View style={styles.containerForecast}>

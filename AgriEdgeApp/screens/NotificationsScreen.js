@@ -72,6 +72,12 @@ export default class NotificationsScreen extends React.Component {
       showCon: !this.state.showCon,
     });
   };
+  AddComment = async (nodeid) => {
+    Nodes.getNodeDetailsDatabase(nodeid).then(async (res) => {
+      await Nodes.AddComment(res, this.state.msg);
+      this.setState({ visible: false });
+    });
+  };
   listDaily = ({ item }) => {
     return (
       <View>
@@ -214,7 +220,8 @@ export default class NotificationsScreen extends React.Component {
                     <TouchableOpacity
                       rounded
                       onPress={() => {
-                        this.deleteNotif(this.state.item);
+                        this.AddComment(this.state.item.Node);
+                        this.setState({ visible: false });
                       }}
                     >
                       <Text

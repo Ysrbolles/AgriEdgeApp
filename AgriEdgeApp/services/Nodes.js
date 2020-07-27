@@ -86,4 +86,17 @@ export default {
         });
     });
   },
+  AddComment(res, comment) {
+    const data = {
+      data: res,
+      comment: comment,
+    };
+    return new Promise((resolve, reject) => {
+      axios
+        .post("http://10.0.2.2:4242/Home/AddComments", data)
+        .then((result) => {
+          console.log(result);
+        });
+    });
+  },
 };
