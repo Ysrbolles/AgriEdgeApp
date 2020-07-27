@@ -32,6 +32,7 @@ export default class WeatherScreen extends React.Component {
       currently: [],
       hourly: [],
       refreshing: false,
+      show: false,
     };
   }
   onRefresh = () => {
@@ -78,7 +79,7 @@ export default class WeatherScreen extends React.Component {
         `https://api.darksky.net/forecast/7efd1aae347e80f7b870e069d3d60233/${this.state.latitude},${this.state.longitude}?units=ca&&lang=ar`
       )
       .then((WeatherData) => {
-        this.setState({ currently: WeatherData.data.currently });
+        this.setState({ currently: WeatherData.data.currently, show: true });
         // get hourly data
         let hours = WeatherData.data.hourly.data;
         let hourly = [];
@@ -211,54 +212,64 @@ export default class WeatherScreen extends React.Component {
   };
   render() {
     const body = (
-      <View>
-        <View style={styles.innerupperregion}>
-          <Text style={[styles.addwhite, { fontSize: 20 }]}>
-            {dayjs(new Date(this.state.currently.time * 1000)).format(
-              "hh:mm a"
-            )}
-          </Text>
-          <Text style={styles.today}>
-            {" "}
-            {dayjs(Date.now()).format("ddd MMMM D, YYYY")}{" "}
-          </Text>
-          <Text style={styles.degrees}>
-            {this.state.currently.temperature
-              ? Math.round(this.state.currently.temperature)
-              : null}
-            °C
-          </Text>
-          <MaterialCommunityIcons
-            size={48}
-            name={getForecastEmoji(this.state.currently.icon)}
-            color={"#fff"}
-          />
-          <Text style={styles.weathercondition}>
-            {this.state.currently.summary}
-          </Text>
-        </View>
+      <ImageBackground
+        style={styles.upperregion}
+        source={require("../assets/test2.jpg")}
+      >
+        <View>
+          <View style={styles.innerupperregion}>
+            <Text style={[styles.addwhite, { fontSize: 20 }]}>
+              {dayjs(new Date(this.state.currently.time * 1000)).format(
+                "hh:mm a"
+              )}
+            </Text>
+            <Text style={styles.today}>
+              {" "}
+              {dayjs(Date.now()).format("ddd MMMM D, YYYY")}{" "}
+            </Text>
+            <Text style={styles.degrees}>
+              {this.state.currently.temperature
+                ? Math.round(this.state.currently.temperature)
+                : null}
+              °C
+            </Text>
+            <MaterialCommunityIcons
+              size={48}
+              name={getForecastEmoji(this.state.currently.icon)}
+              color={"#fff"}
+            />
+            <Text style={styles.weathercondition}>
+              {this.state.currently.summary}
+            </Text>
+          </View>
 
-        <View style={styles.lowerinnerregion}>
-          {/* <Text style={[styles.addwhite, { fontSize: 18 }]}>
+          <View style={styles.lowerinnerregion}>
+            {/* <Text style={[styles.addwhite, { fontSize: 18 }]}>
       MALMO, SWEDEN{" "}
     </Text> */}
-          <View style={[styles.addwhite, { marginTop: 20 }]}>
-            <FlatList
-              style={styles.listForecast}
-              horizontal
-              data={this.state.hourly}
-              renderItem={this.renderElement}
-              ItemSeparatorComponent={() => (
-                <View style={styles.separator}></View>
-              )}
-              keyExtractor={(item, index) => index.toString()}
-              showsHorizontalScrollIndicator={false}
-            />
+            <View style={[styles.addwhite, { marginTop: 20 }]}>
+              <FlatList
+                style={styles.listForecast}
+                horizontal
+                data={this.state.hourly}
+                renderItem={this.renderElement}
+                ItemSeparatorComponent={() => (
+                  <View style={styles.separator}></View>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
           </View>
         </View>
-      </View>
+      </ImageBackground>
     );
-    const laoding = <ActivityIndicator size="large"></ActivityIndicator>;
+    const laoding = (
+      <ActivityIndicator
+        size="large"
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      ></ActivityIndicator>
+    );
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView
@@ -270,12 +281,7 @@ export default class WeatherScreen extends React.Component {
             />
           }
         >
-          <ImageBackground
-            style={styles.upperregion}
-            source={require("../assets/test2.jpg")}
-          >
-            {this.state.currently ? body : laoding}
-          </ImageBackground>
+          {this.state.show ? body : laoding}
 
           <View>
             <FlatList

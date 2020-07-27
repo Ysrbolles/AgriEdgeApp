@@ -205,7 +205,7 @@ export default class NotificationsScreen extends React.Component {
                   <Col style={{ fontSize: 10, width: 200 }}>
                     <Input
                       style={{ fontSize: 5, width: 100, marginLeft: 10 }}
-                      placeholder="can you tell us why ytou don't watered?"
+                      placeholder="Enter your reason"
                       renderErrorMessage={true}
                       onChangeText={(msg) => this.setState({ msg: msg })}
                     />
