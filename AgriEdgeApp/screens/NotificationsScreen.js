@@ -32,6 +32,8 @@ export default class NotificationsScreen extends React.Component {
       expoPushToken: "",
       notifications: [],
       currentUser: [],
+      item: "",
+      exist: false,
     };
   }
 
@@ -41,7 +43,10 @@ export default class NotificationsScreen extends React.Component {
   }
   getAppNotif = async () => {
     Nodes.getAppNotif(this.state.currentUser.uid).then((res) => {
-      this.setState({ notifications: res });
+      if (!_.isEmpty(res)) this.setState({ notifications: res, exist: true });
+      else {
+        this.setState({ notifications: res, exist: false });
+      }
     });
   };
   onRefresh = () => {
@@ -75,26 +80,18 @@ export default class NotificationsScreen extends React.Component {
               }}
             />
           }
-          rightIcon={
-            <Icon
-              raised
-              name="chevron-right"
-              type="font-awesome"
-              color="#5ABD8C"
-              size={15}
-              onPress={() => {
-                this.setState({ visible: true });
-              }}
-            />
-          }
-          // chevron
-
           onPress={() => {
-            this.setState({ visible: true });
+            this.setState({ visible: true, item: item });
           }}
         />
       </View>
     );
+  };
+  deleteNotif = (item) => {
+    Nodes.deleteNotif(item).then((res) => {
+      this.setState({ visible: false });
+      this.getAppNotif();
+    });
   };
   render() {
     LayoutAnimation.easeInEaseOut();
@@ -122,6 +119,66 @@ export default class NotificationsScreen extends React.Component {
             refreshing={this.state.refrshing}
             onRefresh={this.getUser}
           />
+          <Overlay
+            isVisible={this.state.visible}
+            onBackdropPress={this.toggleOverlay}
+          >
+            <View style={{ width: 300, height: 200 }}>
+              <Grid>
+                <Row>
+                  <Icon
+                    name="warning"
+                    type="font-awesome"
+                    color="#f50"
+                    size={20}
+                  />
+
+                  <Text
+                    style={{
+                      fontSize: 24,
+                      alignSelf: "center",
+                      color: "red",
+                    }}
+                  >
+                    are you watered ? {this.state.item.Node}
+                  </Text>
+                </Row>
+              </Grid>
+              <Grid>
+                <Col>
+                  <TouchableOpacity rounded onPress={() => {}}>
+                    <Text
+                      style={{
+                        fontSize: 24,
+                        alignSelf: "center",
+                        color: "red",
+                      }}
+                    >
+                      No
+                    </Text>
+                  </TouchableOpacity>
+                </Col>
+                <Col>
+                  <TouchableOpacity
+                    rounded
+                    onPress={() => {
+                      this.deleteNotif(this.state.item);
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 24,
+                        alignSelf: "center",
+                        color: "red",
+                      }}
+                    >
+                      Yes
+                    </Text>
+                  </TouchableOpacity>
+                </Col>
+              </Grid>
+            </View>
+          </Overlay>
         </View>
       </View>
     );
@@ -138,31 +195,7 @@ export default class NotificationsScreen extends React.Component {
             />
           }
         >
-          {this.state.notifications ? notification : laoding}
-          <Overlay
-            isVisible={this.state.visible}
-            onBackdropPress={this.toggleOverlay}
-          >
-            <View style={{ width: 300, height: 200 }}>
-              <Text
-                style={{ fontSize: 24, alignSelf: "center", color: "#red" }}
-              >
-                Done
-              </Text>
-              <TouchableOpacity
-                rounded
-                onPress={() => {
-                  this.toggleOverlay;
-                }}
-              >
-                <Text
-                  style={{ fontSize: 24, alignSelf: "center", color: "#red" }}
-                >
-                  Done
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </Overlay>
+          {this.state.exist ? notification : landig}
         </ScrollView>
       </SafeAreaView>
     );

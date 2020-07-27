@@ -74,4 +74,16 @@ export default {
         });
     });
   },
+  deleteNotif(item) {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`http://10.0.2.2:4242/Home/deleteNotif/${item.Node}`)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
 };
