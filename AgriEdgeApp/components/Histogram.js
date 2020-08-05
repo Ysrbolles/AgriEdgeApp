@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Dimensions, StyleSheet, View, Text } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import { BarChart, LineChart } from "react-native-chart-kit";
 
 import data_mock from "../mock/co2_data.json";
@@ -7,10 +14,9 @@ import Nodes from "../services/Nodes";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 import dayjs from "dayjs";
-
+// import FuckYou from "react-chartist";
 import PureChart from "react-native-pure-chart";
 import { ECharts } from "react-native-echarts-wrapper";
-
 export default class Histogram extends React.Component {
   constructor(props) {
     super(props);
@@ -27,6 +33,9 @@ export default class Histogram extends React.Component {
   }
 
   async componentDidMount() {
+    this.getNodesDetails();
+  }
+  getNodesDetails = async () => {
     await Nodes.getNodeDetails(this.props.NodeId).then(async (res) => {
       await this.setState({ res: res });
       console.log(res[0].watermark_1);
@@ -39,7 +48,7 @@ export default class Histogram extends React.Component {
         soil_temperature: res[0].soil_temperature,
       });
     });
-  }
+  };
   /**
    * Generate data to correct format based on chosen type of histogram
    * @param {any} data input data
@@ -68,7 +77,7 @@ export default class Histogram extends React.Component {
       case 5:
         createdData = data
           .reverse()
-          .map((row) => parseFloat(row.soil_temperature));
+          .map((row) => parseFloat(row.soil_temperature.toFixed(0)));
         break;
       default:
         createdData = data.reverse().map((row) => parseFloat(row.watermark_1));
@@ -120,109 +129,127 @@ export default class Histogram extends React.Component {
     ];
     return `Last Value of ${buttons[histogramType]} is :`;
   };
-
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    setTimeout(() => {
+      this.setState({ refreshing: false });
+      this.getNodesDetails();
+    }, 3000);
+  };
   render() {
     const histogramType = this.props.type;
     const data = {
       labels: this.createtime(Object.values(this.state.res), histogramType),
       datasets: [
         {
-          label: ["0", "25", "50", "100", "150", "200", "250"],
+          labels: [0, 20, 50, 100],
           data: this.createData(Object.values(this.state.res), histogramType),
+          // data: [26, 26, 26, 26, 26, 26, 26],
         },
       ],
     };
-    const sampleData = [
-      {
-        data: this.createData(Object.values(this.state.res), histogramType),
-        color: "green",
-      },
-    ];
-    const option = {
-      xAxis: {
-        type: "category",
-        data: this.createtime(Object.values(this.state.res), histogramType),
-      },
-      yAxis: {
-        type: "value",
-      },
-      series: [
-        {
-          data: this.createData(Object.values(this.state.res), histogramType),
-          type: "line",
-        },
-      ],
-    };
-    const chartConfig = {
-      backgroundGradientFrom: "#037d50",
-      backgroundGradientFromOpacity: 0,
-      backgroundGradientTo: "#037d50",
-      backgroundGradientToOpacity: 0,
-      color: (opacity = 1) => `rgba(20, 125, 80, ${opacity})`,
-      labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-      fillShadowGradient: "#037d50",
-      fillShadowGradientOpacity: 0.8,
-      barPercentage: 0.5,
-      style: {
-        fontSize: 20,
-      },
-    };
-
+    // const sampleData = [
+    //   {
+    //     data: this.createData(Object.values(this.state.res), histogramType),
+    //     color: "green",
+    //   },
+    // ];
+    // const option = {
+    //   xAxis: {
+    //     type: "category",
+    //     data: this.createtime(Object.values(this.state.res), histogramType),
+    //   },
+    //   yAxis: {
+    //     type: "value",
+    //   },
+    //   series: [
+    //     {
+    //       data: this.createData(Object.values(this.state.res), histogramType),
+    //       type: "line",
+    //     },
+    //   ],
+    // };
     // const chartConfig = {
-    //   backgroundGradientFrom: "#1E2923",
+    //   backgroundGradientFrom: "#037d50",
     //   backgroundGradientFromOpacity: 0,
-    //   backgroundGradientTo: "#08130D",
-    //   backgroundGradientToOpacity: 0.5,
-    //   color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    //   strokeWidth: 2, // optional, default 3
+    //   backgroundGradientTo: "#037d50",
+    //   backgroundGradientToOpacity: 0,
+    //   color: (opacity = 1) => `rgba(20, 125, 80, ${opacity})`,
+    //   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    //   fillShadowGradient: "#037d50",
+    //   fillShadowGradientOpacity: 0.8,
     //   barPercentage: 0.5,
-    //   useShadowColorFromDataset: false, // optional
+    //   style: {
+    //     fontSize: 20,
+    //   },
     // };
 
+    const chartConfig = {
+      backgroundColor: "#1cc910",
+      backgroundGradientFrom: "#eff3ff",
+      backgroundGradientTo: "#efefef",
+      decimalPlaces: 2,
+      color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+      fillShadowGradient: "#037d50",
+      fillShadowGradientOpacity: 0.8,
+      barPercentage: 0.8,
+      style: {
+        borderRadius: 20,
+      },
+    };
+    // var data = {
+    //   labels: this.createtime(Object.values(this.state.res), histogramType),
+    //   series: [this.createData(Object.values(this.state.res), histogramType)],
+    // };
+
+    var options = {
+      high: 100,
+      low: 0,
+      axisX: {
+        labelInterpolationFnc: function (value, index) {
+          return index % 2 === 0 ? value : null;
+        },
+      },
+    };
+
+    var type = "Bar";
     return (
       <View style={styles.container}>
-        <View>
-          <Text style={styles.histogramTitle}>
-            {this.getHistogramTitle(histogramType)}
-            {this.getDataNumbers(histogramType)}
-          </Text>
-          {/* <ECharts option={option} /> */}
-        </View>
-        <View style={{ marginTop: 40 }}>
-          <BarChart
-            data={data}
-            width={350}
-            height={550 * 0.7}
-            showBarTops={true}
-            withInnerLines={false}
-            // showValuesOnTopOfBars={true}
-            chartConfig={chartConfig}
-            verticalLabelRotation={90}
-            fromZero={true}
-            style={styles.barChartStyle}
-          />
-          {/* <LineChart
-            data={data}
-            width={350}
-            height={550 * 0.7}
-            showBarTops={true}
-            withInnerLines={false}
-            // showValuesOnTopOfBars={true}
-            chartConfig={chartConfig}
-            verticalLabelRotation={90}
-            fromZero={true}
-            style={styles.barChartStyle}
-          /> */}
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.containerContent}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
+        >
+          <View>
+            <Text style={styles.histogramTitle}>
+              {this.getHistogramTitle(histogramType)}
+              {this.getDataNumbers(histogramType)}
+            </Text>
+            {/* <ECharts option={option} /> */}
+          </View>
 
-          {/* <PureChart width={30} data={sampleData} type="bar" /> */}
-        </View>
-        {/* <LineChart
-          data={data}
-          width={350}
-          height={220}
-          chartConfig={chartConfig}
-        /> */}
-        {/* <PureChart width={30} data={sampleData} type="bar" /> */}
+          {/* <FuckYou data={data} options={options} type={"Line"} /> */}
+
+          <View style={{ marginTop: 40 }}>
+            <BarChart
+              data={data}
+              width={350}
+              height={550 * 0.7}
+              showBarTops={true}
+              withInnerLines={true}
+              // showValuesOnTopOfBars={true}
+              chartConfig={chartConfig}
+              verticalLabelRotation={90}
+              fromZero={true}
+              style={styles.barChartStyle}
+            />
+          </View>
+        </ScrollView>
       </View>
     );
   }

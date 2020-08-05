@@ -161,8 +161,8 @@ export default class NotificationsScreen extends React.Component {
                     }}
                   >
                     {this.state.showCon
-                      ? "are you watered ? " + this.state.item.Node
-                      : "can you tell us why you don't watered?"}
+                      ? "did you irrigate ? " + this.state.item.Node
+                      : "can you tell us why you didn't irrigate ?"}
                   </Text>
                 </Col>
               </Grid>

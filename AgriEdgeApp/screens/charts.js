@@ -60,7 +60,7 @@ export default class Charts extends React.Component {
     this.setState({
       index,
     });
-   
+
   render() {
     let sampleData = [
       {
@@ -87,9 +87,6 @@ export default class Charts extends React.Component {
           type={this.state.histogramType}
           NodeId={this.props.navigation.state.params.NodeId}
         ></Histogram>
-       
-
-        {/* <PureChart data={sampleData} type="bar" /> */}
       </ScrollView>
     );
     const SecondRoute = () => (
