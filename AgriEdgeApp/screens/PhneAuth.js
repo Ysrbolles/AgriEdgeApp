@@ -108,7 +108,7 @@ export default function App() {
       </TouchableOpacity>
 
       <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-        <View style={{ width: 300, height: 200 }}>
+        <View style={{ width: 300, height: 100 }}>
           <Text style={{ marginTop: 20 }}>Enter Verification code</Text>
           <TextInput
             style={{ marginVertical: 10, fontSize: 17 }}

@@ -75,9 +75,9 @@ export default class Histogram extends React.Component {
           .map((row) => parseFloat(row.air_temperature));
         break;
       case 5:
-        createdData = data
-          .reverse()
-          .map((row) => parseFloat(row.soil_temperature.toFixed(0)));
+        createdData = data.map((row) =>
+          parseFloat(row.soil_temperature.toFixed(0))
+        );
         break;
       default:
         createdData = data.reverse().map((row) => parseFloat(row.watermark_1));
@@ -136,53 +136,22 @@ export default class Histogram extends React.Component {
       this.getNodesDetails();
     }, 3000);
   };
+  handlerYAxis = (value) => {
+    alert(value);
+    return parseInt(value);
+  };
   render() {
     const histogramType = this.props.type;
     const data = {
       labels: this.createtime(Object.values(this.state.res), histogramType),
       datasets: [
         {
-          labels: [0, 20, 50, 100],
+          // labels: [0, 20, 50, 100],
           data: this.createData(Object.values(this.state.res), histogramType),
-          // data: [26, 26, 26, 26, 26, 26, 26],
+          // data: [24, 40, 26, 26, 50, 30, 26],
         },
       ],
     };
-    // const sampleData = [
-    //   {
-    //     data: this.createData(Object.values(this.state.res), histogramType),
-    //     color: "green",
-    //   },
-    // ];
-    // const option = {
-    //   xAxis: {
-    //     type: "category",
-    //     data: this.createtime(Object.values(this.state.res), histogramType),
-    //   },
-    //   yAxis: {
-    //     type: "value",
-    //   },
-    //   series: [
-    //     {
-    //       data: this.createData(Object.values(this.state.res), histogramType),
-    //       type: "line",
-    //     },
-    //   ],
-    // };
-    // const chartConfig = {
-    //   backgroundGradientFrom: "#037d50",
-    //   backgroundGradientFromOpacity: 0,
-    //   backgroundGradientTo: "#037d50",
-    //   backgroundGradientToOpacity: 0,
-    //   color: (opacity = 1) => `rgba(20, 125, 80, ${opacity})`,
-    //   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-    //   fillShadowGradient: "#037d50",
-    //   fillShadowGradientOpacity: 0.8,
-    //   barPercentage: 0.5,
-    //   style: {
-    //     fontSize: 20,
-    //   },
-    // };
 
     const chartConfig = {
       backgroundColor: "#1cc910",
@@ -213,6 +182,8 @@ export default class Histogram extends React.Component {
     };
 
     var type = "Bar";
+    const value = [0, 10, 20, 30, 40];
+
     return (
       <View style={styles.container}>
         <ScrollView
@@ -233,8 +204,6 @@ export default class Histogram extends React.Component {
             {/* <ECharts option={option} /> */}
           </View>
 
-          {/* <FuckYou data={data} options={options} type={"Line"} /> */}
-
           <View style={{ marginTop: 40 }}>
             <BarChart
               data={data}
@@ -242,10 +211,11 @@ export default class Histogram extends React.Component {
               height={550 * 0.7}
               showBarTops={true}
               withInnerLines={true}
-              // showValuesOnTopOfBars={true}
+              formatYLabel={(value) => {
+                handlerYAxis(value);
+              }}
               chartConfig={chartConfig}
               verticalLabelRotation={90}
-              fromZero={true}
               style={styles.barChartStyle}
             />
           </View>

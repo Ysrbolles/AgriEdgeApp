@@ -5,7 +5,7 @@ export default {
   addnewone(Node) {
     return new Promise((resolve, reject) => {
       axios
-        .post("http://18.218.56.63:4242/Home/addnewoneApp", Node)
+        .post("http://3.16.109.122:4242/Home/addnewoneApp", Node)
         .then((res) => {
           console.debug(res);
           resolve(res.data);
@@ -16,9 +16,8 @@ export default {
   getNodes(uidApp) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://18.218.56.63:4242/Home/getNodesApp/${uidApp}`)
+        .get(`http://3.16.109.122:4242/Home/getNodesApp/${uidApp}`)
         .then((result) => {
-          console.log(result.data);
           resolve(result.data);
         })
         .catch((err) => {
@@ -44,7 +43,7 @@ export default {
   getNodeDetailsDatabase(id) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://18.218.56.63:4242/Home/getNodeDetailsDatabase/${id}`)
+        .get(`http://3.16.109.122:4242/Home/getNodeDetailsDatabase/${id}`)
         .then((res) => {
           resolve(res.data);
         })
@@ -56,7 +55,7 @@ export default {
   updateNodeDetails(data) {
     return new Promise((resolve, reject) => {
       axios
-        .post("http://18.218.56.63:4242/Home/updateNodeDetails", data)
+        .post("http://3.16.109.122:4242/Home/updateNodeDetails", data)
         .then((result) => {
           console.log(result);
         });
@@ -65,7 +64,7 @@ export default {
   getAppNotif(uidApp) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://18.218.56.63:4242/Home/getAppNotif/${uidApp}`)
+        .get(`http://3.16.109.122:4242/Home/getAppNotif/${uidApp}`)
         .then((res) => {
           resolve(res.data);
         })
@@ -77,7 +76,7 @@ export default {
   deleteNotif(item) {
     return new Promise((resolve, reject) => {
       axios
-        .delete(`http://18.218.56.63:4242/Home/deleteNotif/${item.Node}`)
+        .delete(`http://3.16.109.122:4242/Home/deleteNotif/${item.Node}`)
         .then((res) => {
           resolve(res);
         })
@@ -93,7 +92,7 @@ export default {
     };
     return new Promise((resolve, reject) => {
       axios
-        .post("http://18.218.56.63:4242/Home/AddComments", data)
+        .post("http://3.16.109.122:4242/Home/AddComments", data)
         .then((result) => {})
         .catch((err) => reject(err));
     });
