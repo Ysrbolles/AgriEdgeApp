@@ -140,6 +140,12 @@ export default class Histogram extends React.Component {
     alert(value);
     return parseInt(value);
   };
+  verticalLableFont(y) {
+    console.log("dkheeeeeeeeeeeeeeeeeeeeeeelt")
+    console.log(y);
+    let yValue = y.toString();
+    return convertToPersianNumber(yValue);
+  }
   render() {
     const histogramType = this.props.type;
     const data = {
@@ -211,12 +217,11 @@ export default class Histogram extends React.Component {
               height={550 * 0.7}
               showBarTops={true}
               withInnerLines={true}
-              formatYLabel={(value) => {
-                handlerYAxis(value);
-              }}
+              formatYLabel={(y) => this.verticalLableFont(y)}
               chartConfig={chartConfig}
               verticalLabelRotation={90}
               style={styles.barChartStyle}
+              showValuesOnTopOfBars={true}
             />
           </View>
         </ScrollView>
