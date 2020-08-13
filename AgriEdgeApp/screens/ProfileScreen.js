@@ -13,7 +13,6 @@ import * as firebase from "firebase";
 import { Avatar, ListItem, Header } from "react-native-elements";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-
 import Nodes from "../services/Nodes";
 import { Button } from "native-base";
 
@@ -93,16 +92,15 @@ export default class ProfileScreen extends React.Component {
       ></Image>
     );
 
-    
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* <View style={styles.TitleBar}>
             <Ionicons name="md-more" size={24} color="#52575D"></Ionicons>
           </View> */}
-          <TouchableOpacity onPress={this.signOutUser}>
+          {/* <TouchableOpacity onPress={this.signOutUser}>
             <Text>Logout</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {/* <View style={{ alignSelf: "center" }}>
             <View style={styles.profileImage}>
               {this.state.profilpic ? imagedefault : imagedefault}

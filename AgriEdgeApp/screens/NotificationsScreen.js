@@ -129,7 +129,7 @@ export default class NotificationsScreen extends React.Component {
       <View style={{ marginTop: 32 }}>
         <View style={styles.lowerregion}>
           <FlatList
-            data={this.state.notifications}
+            data={this.state.notifications.reverse()}
             renderItem={this.listDaily}
             ItemSeparatorComponent={() => (
               <View style={styles.separator}></View>

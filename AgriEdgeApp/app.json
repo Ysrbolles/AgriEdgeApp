@@ -23,10 +23,9 @@
     "android": {
       "package": "expo.AgriEdgeApp.AgriEdgeApp",
       "googleServicesFile": "./google-services.json",
-      "useNextNotificationsApi": true,
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyDTekvIif2O_cVJQTTqViWOP4Y0ncD5plg"
+          "apiKey": "AIzaSyAvRdRFeEdVjGxU72wpMjRWs1BvLb1d-Hk"
         }
       },
       "versionCode": 1
