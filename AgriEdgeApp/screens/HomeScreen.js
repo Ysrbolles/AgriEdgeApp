@@ -31,7 +31,7 @@ import registerForPushNotificationsAsync from "../services/Notifications";
 // Notifications.setNotificationHandler({
 //   handleNotification: async () => ({
 //     shouldShowAlert: true,
-//     shouldPlaySound: false,
+//     shouldPlaySound: true,
 //     shouldSetBadge: false,
 //   }),
 // });
@@ -75,7 +75,14 @@ export default class HomeScreen extends React.Component {
   async componentDidMount() {
     this.state.currentUser = await firebase.auth().currentUser;
     registerForPushNotificationsAsync(this.state.currentUser);
-
+    if (Platform.OS === "android") {
+      Notifications.createChannelAndroidAsync("chat-messages", {
+        name: "Chat message",
+        sound: true,
+        priority: "max",
+        vibrate: [0, 250, 250, 250],
+      });
+    }
     Notifications.addListener(this.handleNotification);
     // Notifications.addNotificationResponseReceivedListener((Notif) => {
     //   console.log("dkheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeelt");
