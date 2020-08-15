@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "AgriEdgeApp",
+    "slug": "AgriEdgeApp",
+    "sdkVersion": "37.0.0",
+    "platforms": ["ios", "android", "web"],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "bundleIdentifier": "expo.AgriEdgeApp.AgriEdgeApp",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "expo.AgriEdgeApp.AgriEdgeApp",
+      "googleServicesFile": "./google-services.json",
+      // "useNextNotificationsApi": true,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDTekvIif2O_cVJQTTqViWOP4Y0ncD5plg"
+        }
+      },
+      "versionCode": 1
+    },
+    "description": ""
+  }
+}
