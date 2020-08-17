@@ -40,7 +40,7 @@ export default class AddNodes extends React.Component {
       ClayContent: null,
       Limoncontent: null,
       Sandcontent: null,
-      date: new Date().toISOString().substr(0, 10),
+      date: Date.now(),
       data: [
         {
           value: "Drip irrigation",
@@ -58,14 +58,67 @@ export default class AddNodes extends React.Component {
       lastname: "",
       displayName: "",
       profilpic: "",
+      errors: true,
+      nameError: "",
+      nodidError: "",
+      totalAreaError: "",
+      irrigationSystemError: "",
+      cultureError: "",
+      crop1Error: "",
+      crop2Error: "",
+      RootdepthErr: "",
+      FlowrateErr: "",
+      SpacingErr: "",
+      NbrofRampsErr: "",
+      CoefficientErr: "",
+      IrrigationefficencyErr: "",
+      ClayContentErr: "",
+      LimoncontentErr: "",
+      SandcontentErr: "",
+      OrganicMaterErr: "",
+      SoilSalinityErr: "",
+      dateErr: "",
     };
   }
   componentDidMount() {
     this.getUser();
   }
   AddNode = () => {
-    Nodes.addnewone(this.state);
-    this.props.navigation.goBack();
+    if (this.state.OrganicMater === null) {
+      this.setState({
+        errors: true,
+        OrganicMaterErr: "this field is required",
+      });
+    }
+    if (this.state.SoilSalinity === null) {
+      this.setState({
+        errors: true,
+        SoilSalinityErr: "this field is required",
+      });
+    }
+    if (this.state.ClayContent === null) {
+      this.setState({ errors: true, ClayContentErr: "this field is required" });
+    }
+    if (this.state.Limoncontent === null) {
+      this.setState({
+        errors: true,
+        LimoncontentErr: "this field is required",
+      });
+    }
+    if (this.state.Sandcontent === null) {
+      this.setState({ errors: true, SandcontentErr: "this field is required" });
+    } else {
+      this.setState({
+        errors: false,
+        OrganicMaterErr: "",
+        SoilSalinityErr: "",
+        ClayContentErr: "",
+        LimoncontentErr: "",
+        SandcontentErr: "",
+      });
+      Nodes.addnewone(this.state);
+      this.props.navigation.goBack();
+    }
   };
 
   getUser = async () => {
@@ -79,6 +132,88 @@ export default class AddNodes extends React.Component {
     });
     console.log(user.email);
   };
+  checkSecondStep = () => {
+    if (this.state.Rootdepth === null) {
+      this.setState({ errors: true, RootdepthErr: "this field is required" });
+    }
+    if (this.state.Flowrate === null) {
+      this.setState({ errors: true, FlowrateErr: "this field is required" });
+    }
+    if (this.state.Spacing === null) {
+      this.setState({ errors: true, SpacingErr: "this field is required" });
+    }
+    if (this.state.NbrofRamps === null) {
+      this.setState({ errors: true, NbrofRampsErr: "this field is required" });
+    }
+    if (this.state.Coefficient === null) {
+      this.setState({ errors: true, CoefficientErr: "this field is required" });
+    }
+    if (this.state.Irrigationefficency === null) {
+      this.setState({
+        errors: true,
+        IrrigationefficencyErr: "this field is required",
+      });
+    } else {
+      this.setState({
+        errors: false,
+        RootdepthErr: "",
+        FlowrateErr: "",
+        SpacingErr: "",
+        NbrofRampsErr: "",
+        CoefficientErr: "",
+        IrrigationefficencyErr: "",
+      });
+    }
+  };
+  checkFirstStep = () => {
+    if (this.state.name === "") {
+      this.setState({ errors: true, nameError: "this field is required" });
+    }
+    if (this.state.node_id === "") {
+      this.setState({ errors: true, nodidError: "this field is required" });
+    }
+    if (this.state.totalAreaError === "") {
+      this.setState({
+        errors: true,
+        totalAreaError: "this field is required",
+      });
+    }
+    if (this.state.irrigationSystem === "") {
+      this.setState({
+        errors: true,
+        irrigationSystemError: "this field is required",
+      });
+      if (this.state.culture === "") {
+        this.setState({
+          errors: true,
+          cultureError: "this field is required",
+        });
+      }
+    }
+    if (this.state.Cropdensit1 === null) {
+      this.setState({
+        errors: true,
+        crop1Error: "this field is required",
+      });
+    }
+    if (this.state.Cropdensit2 === null) {
+      this.setState({
+        errors: true,
+        crop2Error: "this field is required",
+      });
+    } else {
+      this.setState({
+        errors: false,
+        nameError: "",
+        nodidError: "",
+        totalAreaError: "",
+        irrigationSystemError: "",
+        cultureError: "",
+        crop1Error: "",
+        crop2Error: "",
+      });
+    }
+  };
   render() {
     const buttonTextStyle = {
       color: "#fffff",
@@ -87,7 +222,12 @@ export default class AddNodes extends React.Component {
       <NavigationContainer>
         <View style={{ flex: 1 }}>
           <ProgressSteps>
-            <ProgressStep label="First Step" nextBtnStyle={buttonTextStyle}>
+            <ProgressStep
+              label="First Step"
+              nextBtnStyle={buttonTextStyle}
+              errors={this.state.errors}
+              onNext={this.checkFirstStep}
+            >
               <View
                 style={{
                   alignItems: "center",
@@ -102,6 +242,8 @@ export default class AddNodes extends React.Component {
                       style={{ marginVertical: 10, fontSize: 17 }}
                       placeholder="Name"
                       renderErrorMessage={true}
+                      errorMessage={this.state.nameError}
+                      value={this.state.name}
                       onChangeText={(name) => this.setState({ name: name })}
                     />
                   </Col>
@@ -110,6 +252,8 @@ export default class AddNodes extends React.Component {
                       style={{ marginVertical: 10, fontSize: 17 }}
                       placeholder="Node ID"
                       renderErrorMessage={true}
+                      value={this.state.node_id}
+                      errorMessage={this.state.nodidError}
                       onChangeText={(node_id) =>
                         this.setState({ node_id: node_id })
                       }
@@ -123,6 +267,8 @@ export default class AddNodes extends React.Component {
                       placeholder="Total Area"
                       keyboardType="phone-pad"
                       renderErrorMessage={true}
+                      value={this.state.totalArea}
+                      errorMessage={this.state.totalAreaError}
                       onChangeText={(totalArea) =>
                         this.setState({ totalArea: totalArea })
                       }
@@ -132,7 +278,8 @@ export default class AddNodes extends React.Component {
                     <Dropdown
                       label="Irrigation Systeme"
                       data={this.state.data}
-                      error={""}
+                      error={this.state.irrigationSystemError}
+                      value={this.state.irrigationSystem}
                       onChangeText={(irrigationSystem) =>
                         this.setState({ irrigationSystem: irrigationSystem })
                       }
@@ -145,6 +292,8 @@ export default class AddNodes extends React.Component {
                       style={{ marginVertical: 10, fontSize: 17 }}
                       placeholder="Culture"
                       renderErrorMessage={true}
+                      value={this.state.culture}
+                      errorMessage={this.state.cultureError}
                       onChangeText={(culture) =>
                         this.setState({ culture: culture })
                       }
@@ -159,6 +308,8 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
+                      value={this.state.Cropdensit1}
+                      errorMessage={this.state.crop1Error}
                       keyboardType="phone-pad"
                       onChangeText={(Cropdensit1) =>
                         this.setState({ Cropdensit1: Cropdensit1 })
@@ -170,6 +321,8 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
+                      value={this.state.Cropdensit2}
+                      errorMessage={this.state.crop2Error}
                       keyboardType="phone-pad"
                       onChangeText={(Cropdensit2) =>
                         this.setState({ Cropdensit2: Cropdensit2 })
@@ -179,7 +332,11 @@ export default class AddNodes extends React.Component {
                 </Grid>
               </View>
             </ProgressStep>
-            <ProgressStep label="Second Step">
+            <ProgressStep
+              label="Second Step"
+              onNext={this.checkSecondStep}
+              errors={this.state.errors}
+            >
               <View
                 style={{
                   alignItems: "center",
@@ -222,6 +379,8 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Root depth /cm"
                       keyboardType="phone-pad"
+                      errorMessage={this.state.RootdepthErr}
+                      value={this.state.Rootdepth}
                       onChangeText={(Rootdepth) =>
                         this.setState({ Rootdepth: Rootdepth })
                       }
@@ -235,6 +394,8 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Flow rate / l/h"
                       keyboardType="phone-pad"
+                      errorMessage={this.state.FlowrateErr}
+                      value={this.state.Flowrate}
                       onChangeText={(Flowrate) =>
                         this.setState({ Flowrate: Flowrate })
                       }
@@ -247,6 +408,8 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Spacing / m"
                       keyboardType="phone-pad"
+                      value={this.state.Spacing}
+                      errorMessage={this.state.SpacingErr}
                       onChangeText={(Spacing) =>
                         this.setState({ Spacing: Spacing })
                       }
@@ -260,6 +423,8 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Number of ramps / line"
                       keyboardType="phone-pad"
+                      value={this.state.NbrofRamps}
+                      errorMessage={this.state.NbrofRampsErr}
                       onChangeText={(NbrofRamps) =>
                         this.setState({ NbrofRamps: NbrofRamps })
                       }
@@ -271,6 +436,8 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Coefficient of uniformity /%"
                       keyboardType="phone-pad"
+                      value={this.state.Coefficient}
+                      errorMessage={this.state.CoefficientErr}
                       onChangeText={(Coefficient) =>
                         this.setState({ Coefficient: Coefficient })
                       }
@@ -284,6 +451,8 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Irrigation efficency"
                       keyboardType="phone-pad"
+                      value={this.state.Irrigationefficency}
+                      errorMessage={this.state.IrrigationefficencyErr}
                       onChangeText={(Irrigationefficency) =>
                         this.setState({
                           Irrigationefficency: Irrigationefficency,
@@ -294,7 +463,11 @@ export default class AddNodes extends React.Component {
                 </Grid>
               </View>
             </ProgressStep>
-            <ProgressStep label="Third Step" onSubmit={this.AddNode}>
+            <ProgressStep
+              label="Third Step"
+              onSubmit={this.AddNode}
+              errors={this.state.errors}
+            >
               <View
                 style={{
                   alignItems: "center",
@@ -305,7 +478,7 @@ export default class AddNodes extends React.Component {
               >
                 <Grid>
                   <Col>
-                    <Input
+                    {/* <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
                       placeholder="Soil texture"
@@ -313,7 +486,7 @@ export default class AddNodes extends React.Component {
                       onChangeText={(SoilTexture) =>
                         this.setState({ SoilTexture: SoilTexture })
                       }
-                    />
+                    /> */}
                   </Col>
                   <Col>
                     <Input
@@ -321,6 +494,8 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Organic matter"
                       keyboardType="phone-pad"
+                      errorMessage={this.state.OrganicMaterErr}
+                      value={this.state.OrganicMater}
                       onChangeText={(OrganicMater) =>
                         this.setState({ OrganicMater: OrganicMater })
                       }
@@ -334,6 +509,8 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Soil Salinity"
                       keyboardType="phone-pad"
+                      errorMessage={this.state.SoilSalinityErr}
+                      value={this.state.SoilSalinity}
                       onChangeText={(SoilSalinity) =>
                         this.setState({ SoilSalinity: SoilSalinity })
                       }
@@ -344,7 +521,9 @@ export default class AddNodes extends React.Component {
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
                       placeholder="Clay Content"
+                      errorMessage={this.state.ClayContentErr}
                       keyboardType="phone-pad"
+                      value={this.state.ClayContent}
                       onChangeText={(ClayContent) =>
                         this.setState({ ClayContent: ClayContent })
                       }
@@ -358,6 +537,8 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Limon content"
                       keyboardType="phone-pad"
+                      value={this.state.Limoncontent}
+                      errorMessage={this.state.LimoncontentErr}
                       onChangeText={(Limoncontent) =>
                         this.setState({ Limoncontent: Limoncontent })
                       }
@@ -369,6 +550,8 @@ export default class AddNodes extends React.Component {
                       renderErrorMessage={true}
                       placeholder="Sand content"
                       keyboardType="phone-pad"
+                      errorMessage={this.state.SandcontentErr}
+                      value={this.state.Sandcontent}
                       onChangeText={(Sandcontent) =>
                         this.setState({ Sandcontent: Sandcontent })
                       }
