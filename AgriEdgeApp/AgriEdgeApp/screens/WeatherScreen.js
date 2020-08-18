@@ -212,6 +212,7 @@ export default class WeatherScreen extends React.Component {
     );
   };
   render() {
+   
     const body = (
       <ImageBackground
         style={styles.upperregion}

@@ -110,6 +110,14 @@ export default class AddNodes extends React.Component {
     if (this.state.Sandcontent === null) {
       this.setState({ errors: true, SandcontentErr: "this field is required" });
     } else {
+      this.setState({
+        errors: false,
+        OrganicMaterErr: "",
+        SoilSalinityErr: "",
+        ClayContentErr: "",
+        LimoncontentErr: "",
+        SandcontentErr: "",
+      });
       Nodes.addnewone(this.state).then((data) => {
         if (data === "Already Exist!") {
           this.setState({
@@ -117,18 +125,9 @@ export default class AddNodes extends React.Component {
             NodeExistErr: "This NodeID is" + data + " try another one",
           });
           alert("This NodeID is " + data + " try another one");
-        } else {
-          this.setState({
-            errors: false,
-            OrganicMaterErr: "",
-            SoilSalinityErr: "",
-            ClayContentErr: "",
-            LimoncontentErr: "",
-            SandcontentErr: "",
-          });
-
-          this.props.navigation.goBack();
         }
+        this.setState({errors: false, NodeExistErr: ""})
+        this.props.navigation.goBack();
       });
     }
   };

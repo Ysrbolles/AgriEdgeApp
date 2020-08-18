@@ -1,5 +1,6 @@
 import Api from "./Api";
 import axios from "axios";
+import { reject } from "lodash";
 
 export default {
   addnewone(Node) {
@@ -63,7 +64,7 @@ export default {
   getAppNotif(uidApp) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://3.16.109.122:4242/Home/getAppNotif/${uidApp}`)
+        .get(`http://192.168.43.95:4242/Home/getAppNotif/${uidApp}`)
         .then((res) => {
           resolve(res.data);
         })
@@ -75,7 +76,7 @@ export default {
   deleteNotif(item) {
     return new Promise((resolve, reject) => {
       axios
-        .delete(`http://3.16.109.122:4242/Home/deleteNotif/${item.Node}`)
+        .delete(`http://192.168.43.95:4242/Home/deleteNotif/${item.Node}`)
         .then((res) => {
           resolve(res);
         })
@@ -93,6 +94,16 @@ export default {
       axios
         .post("http://3.16.109.122:4242/Home/AddComments", data)
         .then((result) => {})
+        .catch((err) => reject(err));
+    });
+  },
+  deleteNode(nodeID) {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`http://192.168.43.95:4242/Home/deleteNode/${nodeID}`)
+        .then((data) => {
+          resolve(data.data);
+        })
         .catch((err) => reject(err));
     });
   },

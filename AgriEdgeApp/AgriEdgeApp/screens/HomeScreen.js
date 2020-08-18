@@ -77,10 +77,7 @@ export default class HomeScreen extends React.Component {
     registerForPushNotificationsAsync(this.state.currentUser);
 
     Notifications.addListener(this.handleNotification);
-    // Notifications.addNotificationResponseReceivedListener((Notif) => {
-    //   console.log("dkheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeelt");
-    //   console.log(Notif);
-    // });
+   
     this._getuserLocation().then((position) => {
       this.setState({
         userlocation: position,

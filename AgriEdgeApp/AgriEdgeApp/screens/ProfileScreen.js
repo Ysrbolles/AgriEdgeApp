@@ -8,11 +8,11 @@ import {
   FlatList,
   SafeAreaView,
   ScrollView,
+  RefreshControl,
 } from "react-native";
 import * as firebase from "firebase";
 import { Avatar, ListItem, Header } from "react-native-elements";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-
 
 import Nodes from "../services/Nodes";
 import { Button } from "native-base";
@@ -37,23 +37,15 @@ export default class ProfileScreen extends React.Component {
   };
 
   async componentDidMount() {
-    this.getUser().then(async () => {
-      await Nodes.getNodes(this.state.uidAPP)
-        .then((res) => {
-          this.setState({ refreshing: true });
-          this.setState({ list: res });
-        })
-        .finally(() => this.setState({ refreshing: false }));
-    });
+    this.getUser();
   }
   getUser = async () => {
     const user = await firebase.auth().currentUser;
     this.setState({
-      user: user,
-      displayName: user.displayName,
-      email: user.email,
-      profilpic: user.photoURL,
       uidAPP: user.uid,
+    });
+    await Nodes.getNodes(this.state.uidAPP).then((res) => {
+      this.setState({ list: res });
     });
   };
   signOutUser = () => {
@@ -76,7 +68,13 @@ export default class ProfileScreen extends React.Component {
       </View>
     );
   };
-
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    setTimeout(() => {
+      this.setState({ refreshing: false });
+      this.getUser();
+    }, 3000);
+  };
   render() {
     const imageauth = (
       <Image
@@ -93,10 +91,17 @@ export default class ProfileScreen extends React.Component {
       ></Image>
     );
 
-    
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
+        >
           {/* <View style={styles.TitleBar}>
             <Ionicons name="md-more" size={24} color="#52575D"></Ionicons>
           </View> */}
