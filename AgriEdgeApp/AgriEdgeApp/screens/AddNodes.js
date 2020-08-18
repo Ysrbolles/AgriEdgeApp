@@ -11,6 +11,7 @@ import { navigation } from "@react-navigation/native";
 import firebase from "firebase";
 
 import { SocialIcon, Input, Overlay } from "react-native-elements";
+import { Toast } from "native-base";
 export default class AddNodes extends React.Component {
   constructor(props) {
     super(props);
@@ -78,6 +79,7 @@ export default class AddNodes extends React.Component {
       OrganicMaterErr: "",
       SoilSalinityErr: "",
       dateErr: "",
+      NodeExistErr: "",
     };
   }
   componentDidMount() {
@@ -108,16 +110,26 @@ export default class AddNodes extends React.Component {
     if (this.state.Sandcontent === null) {
       this.setState({ errors: true, SandcontentErr: "this field is required" });
     } else {
-      this.setState({
-        errors: false,
-        OrganicMaterErr: "",
-        SoilSalinityErr: "",
-        ClayContentErr: "",
-        LimoncontentErr: "",
-        SandcontentErr: "",
+      Nodes.addnewone(this.state).then((data) => {
+        if (data === "Already Exist!") {
+          this.setState({
+            errors: true,
+            NodeExistErr: "This NodeID is" + data + " try another one",
+          });
+          alert("This NodeID is " + data + " try another one");
+        } else {
+          this.setState({
+            errors: false,
+            OrganicMaterErr: "",
+            SoilSalinityErr: "",
+            ClayContentErr: "",
+            LimoncontentErr: "",
+            SandcontentErr: "",
+          });
+
+          this.props.navigation.goBack();
+        }
       });
-      Nodes.addnewone(this.state);
-      this.props.navigation.goBack();
     }
   };
 
@@ -302,7 +314,7 @@ export default class AddNodes extends React.Component {
                 </Grid>
                 <Grid>
                   <Col style={{ marginTop: 21 }}>
-                    <Text>Crop Densit :</Text>
+                    <Text>Crop Densit /m :</Text>
                   </Col>
                   <Col>
                     <Input
@@ -421,7 +433,7 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Number of ramps / line"
+                      placeholder="Number of ramps/line"
                       keyboardType="phone-pad"
                       value={this.state.NbrofRamps}
                       errorMessage={this.state.NbrofRampsErr}
@@ -449,7 +461,7 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Irrigation efficency"
+                      placeholder="Irrigation efficency / %"
                       keyboardType="phone-pad"
                       value={this.state.Irrigationefficency}
                       errorMessage={this.state.IrrigationefficencyErr}
@@ -478,21 +490,10 @@ export default class AddNodes extends React.Component {
               >
                 <Grid>
                   <Col>
-                    {/* <Input
-                      style={{ marginVertical: 10, fontSize: 17 }}
-                      renderErrorMessage={true}
-                      placeholder="Soil texture"
-                      keyboardType="phone-pad"
-                      onChangeText={(SoilTexture) =>
-                        this.setState({ SoilTexture: SoilTexture })
-                      }
-                    /> */}
-                  </Col>
-                  <Col>
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Organic matter"
+                      placeholder="Organic matter / %"
                       keyboardType="phone-pad"
                       errorMessage={this.state.OrganicMaterErr}
                       value={this.state.OrganicMater}
@@ -507,7 +508,7 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Soil Salinity"
+                      placeholder="Soil Salinity / %"
                       keyboardType="phone-pad"
                       errorMessage={this.state.SoilSalinityErr}
                       value={this.state.SoilSalinity}
@@ -520,7 +521,7 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Clay Content"
+                      placeholder="Clay Content / %"
                       errorMessage={this.state.ClayContentErr}
                       keyboardType="phone-pad"
                       value={this.state.ClayContent}
@@ -535,7 +536,7 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Limon content"
+                      placeholder="Limon content / %"
                       keyboardType="phone-pad"
                       value={this.state.Limoncontent}
                       errorMessage={this.state.LimoncontentErr}
@@ -548,7 +549,7 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Sand content"
+                      placeholder="Sand content / %"
                       keyboardType="phone-pad"
                       errorMessage={this.state.SandcontentErr}
                       value={this.state.Sandcontent}
@@ -556,6 +557,39 @@ export default class AddNodes extends React.Component {
                         this.setState({ Sandcontent: Sandcontent })
                       }
                     />
+                  </Col>
+                </Grid>
+                <Grid>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      placeholder="Latitiude"
+                      keyboardType="phone-pad"
+                      value={this.state.latitude}
+                      onChangeText={(latitude) =>
+                        this.setState({ latitude: latitude })
+                      }
+                    />
+                  </Col>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      placeholder="Longitude"
+                      keyboardType="phone-pad"
+                      value={this.state.longitude}
+                      onChangeText={(longitude) =>
+                        this.setState({ longitude: longitude })
+                      }
+                    />
+                  </Col>
+                </Grid>
+                <Grid>
+                  <Col>
+                    <Text style={{ color: "red", fontSize: 25 }}>
+                      {this.state.NodeExistErr}
+                    </Text>
                   </Col>
                 </Grid>
               </View>

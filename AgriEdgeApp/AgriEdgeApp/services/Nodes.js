@@ -7,7 +7,6 @@ export default {
       axios
         .post("http://3.16.109.122:4242/Home/addnewoneApp", Node)
         .then((res) => {
-          console.debug(res);
           resolve(res.data);
         })
         .catch((err) => reject(err));
