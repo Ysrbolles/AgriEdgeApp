@@ -118,16 +118,18 @@ export default class AddNodes extends React.Component {
         LimoncontentErr: "",
         SandcontentErr: "",
       });
-      Nodes.addnewone(this.state).then((data) => {
+      Nodes.addnewone(this.state).then(async (data) => {
+        this.props.navigation.goBack();
         if (data === "Already Exist!") {
           this.setState({
             errors: true,
             NodeExistErr: "This NodeID is" + data + " try another one",
           });
           alert("This NodeID is " + data + " try another one");
+        } else {
+          this.setState({ errors: false, NodeExistErr: "" });
+          this.props.navigation.goBack();
         }
-        this.setState({errors: false, NodeExistErr: ""})
-        this.props.navigation.goBack();
       });
     }
   };

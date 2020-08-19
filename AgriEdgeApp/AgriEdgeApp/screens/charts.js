@@ -62,8 +62,9 @@ export default class Charts extends React.Component {
     });
   closeScreen = () => {
     this.props.navigation.goBack();
+    this.props.navigation.state.params.on();
   };
-  
+
   render() {
     let sampleData = [
       {
@@ -94,7 +95,10 @@ export default class Charts extends React.Component {
     );
     const SecondRoute = () => (
       // <View style={[styles.scene, { backgroundColor: "#037d50" }]} />
-      <NodeDetails closeScreen={this.closeScreen}  NodeId={this.props.navigation.state.params.NodeId} />
+      <NodeDetails
+        closeScreen={this.closeScreen}
+        NodeId={this.props.navigation.state.params.NodeId}
+      />
     );
 
     const initialLayout = { width: Dimensions.get("window").width };
