@@ -6,7 +6,7 @@ export default {
   addnewone(Node) {
     return new Promise((resolve, reject) => {
       axios
-        .post("http://3.16.109.122:4242/Home/addnewoneApp", Node)
+        .post("http://192.168.43.95:4242/Home/addnewoneApp", Node)
         .then((res) => {
           resolve(res.data);
         })
@@ -16,7 +16,7 @@ export default {
   getNodes(uidApp) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://3.16.109.122:4242/Home/getNodesApp/${uidApp}`)
+        .get(`http://192.168.43.95:4242/Home/getNodesApp/${uidApp}`)
         .then((result) => {
           resolve(result.data);
         })
@@ -43,7 +43,7 @@ export default {
   getNodeDetailsDatabase(id) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://3.16.109.122:4242/Home/getNodeDetailsDatabase/${id}`)
+        .get(`http://192.168.43.95:4242/Home/getNodeDetailsDatabase/${id}`)
         .then((res) => {
           resolve(res.data);
         })
@@ -55,7 +55,7 @@ export default {
   updateNodeDetails(data) {
     return new Promise((resolve, reject) => {
       axios
-        .post("http://3.16.109.122:4242/Home/updateNodeDetails", data)
+        .post("http://192.168.43.95:4242/Home/updateNodeDetails", data)
         .then((result) => {
           console.log(result);
         });
@@ -92,7 +92,7 @@ export default {
     };
     return new Promise((resolve, reject) => {
       axios
-        .post("http://3.16.109.122:4242/Home/AddComments", data)
+        .post("http://192.168.43.95:4242/Home/AddComments", data)
         .then((result) => {})
         .catch((err) => reject(err));
     });

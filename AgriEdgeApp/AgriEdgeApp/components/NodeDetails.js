@@ -47,7 +47,7 @@ export default class NodeDetails extends React.Component {
       Sandcontent: null,
       IrrigationSystem: "",
       newDate: "",
-      date: new Date().toISOString().substr(0, 10),
+      date: null,
       data: [
         {
           value: "Drip irrigation",
@@ -101,7 +101,14 @@ export default class NodeDetails extends React.Component {
     }, 3000);
   };
   updateNodeDetails = async () => {
-    Nodes.updateNodeDetails(this.state).then(() => {
+    await Nodes.updateNodeDetails(this.state).then((Data) => {
+      Alert.alert("Data Updated", "Your Node Data is updated ", [
+        {
+          text: "ok",
+          onPress: () => {},
+          style: "cancel",
+        },
+      ]);
       this.getNodeData();
     });
   };
@@ -267,9 +274,9 @@ export default class NodeDetails extends React.Component {
                       date={this.state.date} //initial date from state
                       mode="date" //The enum of date, datetime and time
                       value={this.state.date}
-                      format="DD-MM-YYYY"
+                      format="YYYY-MM-DD"
                       minDate="01-01-2016"
-                      maxDate={Date().now}
+                      maxDate={new Date()}
                       confirmBtnText="Confirm"
                       cancelBtnText="Cancel"
                       customStyles={{
@@ -441,6 +448,32 @@ export default class NodeDetails extends React.Component {
                       keyboardType="phone-pad"
                       onChangeText={(Sandcontent) =>
                         this.setState({ Sandcontent: Sandcontent })
+                      }
+                    />
+                  </Col>
+                </Grid>
+                <Grid>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      label="latitude"
+                      value={String(this.state.latitude)}
+                      keyboardType="phone-pad"
+                      onChangeText={(latitude) =>
+                        this.setState({ latitude: latitude })
+                      }
+                    />
+                  </Col>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      label="longitude"
+                      value={String(this.state.longitude)}
+                      keyboardType="phone-pad"
+                      onChangeText={(longitude) =>
+                        this.setState({ longitude: longitude })
                       }
                     />
                   </Col>

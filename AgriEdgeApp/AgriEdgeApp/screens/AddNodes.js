@@ -41,7 +41,7 @@ export default class AddNodes extends React.Component {
       ClayContent: null,
       Limoncontent: null,
       Sandcontent: null,
-      date: Date.now(),
+      date: null,
       data: [
         {
           value: "Drip irrigation",
@@ -85,7 +85,7 @@ export default class AddNodes extends React.Component {
   componentDidMount() {
     this.getUser();
   }
-  AddNode = () => {
+  AddNode = async () => {
     if (this.state.OrganicMater === null) {
       this.setState({
         errors: true,
@@ -118,8 +118,7 @@ export default class AddNodes extends React.Component {
         LimoncontentErr: "",
         SandcontentErr: "",
       });
-      Nodes.addnewone(this.state).then(async (data) => {
-        this.props.navigation.goBack();
+      await Nodes.addnewone(this.state).then(async (data) => {
         if (data === "Already Exist!") {
           this.setState({
             errors: true,
@@ -131,6 +130,7 @@ export default class AddNodes extends React.Component {
           this.props.navigation.goBack();
         }
       });
+      this.props.navigation.goBack();
     }
   };
 
@@ -365,9 +365,9 @@ export default class AddNodes extends React.Component {
                       date={this.state.date} //initial date from state
                       mode="date" //The enum of date, datetime and time
                       placeholder="Select Date"
-                      format="DD-MM-YYYY"
-                      minDate="01-01-2016"
-                      maxDate={Date().now}
+                      format="YYYY-MM-DD"
+                      minDate="01-01-2000"
+                      maxDate={new Date()}
                       confirmBtnText="Confirm"
                       cancelBtnText="Cancel"
                       customStyles={{
