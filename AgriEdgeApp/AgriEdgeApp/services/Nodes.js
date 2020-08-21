@@ -6,7 +6,7 @@ export default {
   addnewone(Node) {
     return new Promise((resolve, reject) => {
       axios
-        .post("http://192.168.43.95:4242/Home/addnewoneApp", Node)
+        .post("http://3.16.109.122:4242/Home/addnewoneApp", Node)
         .then((res) => {
           resolve(res.data);
         })
@@ -16,7 +16,7 @@ export default {
   getNodes(uidApp) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://192.168.43.95:4242/Home/getNodesApp/${uidApp}`)
+        .get(`http://3.16.109.122:4242/Home/getNodesApp/${uidApp}`)
         .then((result) => {
           resolve(result.data);
         })
@@ -29,9 +29,7 @@ export default {
   getNodeDetails(id) {
     return new Promise((resolve, reject) => {
       axios
-        .get(
-          `http://www.raptor.im/api/v2/items/uSuAgri/${id}?limit=5&format=json`
-        )
+        .get(`http://192.168.43.95:4242/Home/nodehours/${id}`)
         .then((res) => {
           resolve(res.data);
         })
@@ -43,7 +41,7 @@ export default {
   getNodeDetailsDatabase(id) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://192.168.43.95:4242/Home/getNodeDetailsDatabase/${id}`)
+        .get(`http://3.16.109.122:4242/Home/getNodeDetailsDatabase/${id}`)
         .then((res) => {
           resolve(res.data);
         })
@@ -55,7 +53,7 @@ export default {
   updateNodeDetails(data) {
     return new Promise((resolve, reject) => {
       axios
-        .post("http://192.168.43.95:4242/Home/updateNodeDetails", data)
+        .post("http://3.16.109.122:4242/Home/updateNodeDetails", data)
         .then((result) => {
           console.log(result);
         });
@@ -64,7 +62,7 @@ export default {
   getAppNotif(uidApp) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://192.168.43.95:4242/Home/getAppNotif/${uidApp}`)
+        .get(`http://3.16.109.122:4242/Home/getAppNotif/${uidApp}`)
         .then((res) => {
           resolve(res.data);
         })
@@ -76,7 +74,7 @@ export default {
   deleteNotif(item) {
     return new Promise((resolve, reject) => {
       axios
-        .delete(`http://192.168.43.95:4242/Home/deleteNotif/${item.Node}`)
+        .delete(`http://3.16.109.122:4242/Home/deleteNotif/${item.Node}`)
         .then((res) => {
           resolve(res);
         })
@@ -92,7 +90,7 @@ export default {
     };
     return new Promise((resolve, reject) => {
       axios
-        .post("http://192.168.43.95:4242/Home/AddComments", data)
+        .post("http://3.16.109.122:4242/Home/AddComments", data)
         .then((result) => {})
         .catch((err) => reject(err));
     });
@@ -100,7 +98,7 @@ export default {
   deleteNode(nodeID) {
     return new Promise((resolve, reject) => {
       axios
-        .delete(`http://192.168.43.95:4242/Home/deleteNode/${nodeID}`)
+        .delete(`http://3.16.109.122:4242/Home/deleteNode/${nodeID}`)
         .then((data) => {
           resolve(data.data);
         })

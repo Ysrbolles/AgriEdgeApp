@@ -166,8 +166,8 @@ export default class Histogram extends React.Component {
       decimalPlaces: 2,
       color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
       fillShadowGradient: "#037d50",
-      fillShadowGradientOpacity: 0.8,
-      barPercentage: 0.8,
+      fillShadowGradientOpacity: 0.9,
+      barPercentage: 0.4,
       style: {
         borderRadius: 20,
       },

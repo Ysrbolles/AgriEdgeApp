@@ -62,7 +62,10 @@ export default class ProfileScreen extends React.Component {
           chevron
           activeScale={0.95}
           onPress={() =>
-            this.props.navigation.navigate("Node", { NodeId: item.NodeId, on: this.onRefresh })
+            this.props.navigation.navigate("Node", {
+              NodeId: item.NodeId,
+              on: this.onRefresh,
+            })
           }
         />
       </View>
@@ -87,10 +90,6 @@ export default class ProfileScreen extends React.Component {
             />
           }
         >
-          <TouchableOpacity onPress={this.signOutUser}>
-            <Text>Logout</Text>
-          </TouchableOpacity>
-
           <View style={{ marginTop: 32 }}>
             <View style={styles.lowerregion}>
               <FlatList
