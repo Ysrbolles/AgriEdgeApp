@@ -1,4 +1,4 @@
- import React from "react";
+import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MapView, {
   AnimatedRegion,
@@ -77,14 +77,13 @@ export default class HomeScreen extends React.Component {
     registerForPushNotificationsAsync(this.state.currentUser);
 
     Notifications.addListener(this.handleNotification);
-   
+
     this._getuserLocation().then((position) => {
       this.setState({
         userlocation: position,
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       });
-      
     });
     this.getUser();
   }
@@ -233,13 +232,15 @@ export default class HomeScreen extends React.Component {
       console.debug(this.state.polygons);
     }
   }
+  closeScreen = () => {
+    this.props.navigation.goBack();
+    this.props.navigation.state.params.on();
+  };
   render() {
     const addtodraw = (
       <View style={styles.buttonContainer}>
-        <Icon.Button>
-          Tap in the map to draw
-        </Icon.Button>
-        </View>
+        <Icon.Button>Tap in the map to draw</Icon.Button>
+      </View>
     );
     const addbtn = (
       <View style={styles.buttonContainer}>

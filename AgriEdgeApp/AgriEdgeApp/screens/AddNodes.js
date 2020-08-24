@@ -59,7 +59,7 @@ export default class AddNodes extends React.Component {
       lastname: "",
       displayName: "",
       profilpic: "",
-      errors: false,
+      errors: true,
       nameError: "",
       nodidError: "",
       totalAreaError: "",
@@ -80,7 +80,6 @@ export default class AddNodes extends React.Component {
       SoilSalinityErr: "",
       dateErr: "",
       NodeExistErr: "",
-      suberrors: false,
     };
   }
   componentDidMount() {
@@ -89,57 +88,49 @@ export default class AddNodes extends React.Component {
   AddNode = async () => {
     if (this.state.OrganicMater === null) {
       this.setState({
-        suberrors: true,
+        errors: true,
         OrganicMaterErr: "this field is required",
       });
     }
     if (this.state.SoilSalinity === null) {
       this.setState({
-        suberrors: true,
+        errors: true,
         SoilSalinityErr: "this field is required",
       });
     }
     if (this.state.ClayContent === null) {
-      this.setState({
-        suberrors: true,
-        ClayContentErr: "this field is required",
-      });
+      this.setState({ errors: true, ClayContentErr: "this field is required" });
     }
     if (this.state.Limoncontent === null) {
       this.setState({
-        suberrors: true,
+        errors: true,
         LimoncontentErr: "this field is required",
       });
     }
     if (this.state.Sandcontent === null) {
-      this.setState({
-        suberrors: true,
-        SandcontentErr: "this field is required",
-      });
+      this.setState({ errors: true, SandcontentErr: "this field is required" });
     } else {
       this.setState({
-        suberrors: false,
+        errors: false,
         OrganicMaterErr: "",
         SoilSalinityErr: "",
         ClayContentErr: "",
         LimoncontentErr: "",
         SandcontentErr: "",
       });
-      await Nodes.addnewone(this.state).then((data) => {
-        // this.props.navigation.goBack();
+      await Nodes.addnewone(this.state).then(async (data) => {
         if (data === "Already Exist!") {
           this.setState({
-            suberrors: true,
+            errors: true,
             NodeExistErr: "This NodeID is" + data + " try another one",
           });
           alert("This NodeID is " + data + " try another one");
         } else {
-          this.setState({ suberrors: false, NodeExistErr: "" });
+          this.setState({ errors: false, NodeExistErr: "" });
+          this.props.navigation.goBack()
         }
-        // this.props.navigation.goBack();
       });
     }
-    this.state.suberrors === false ? this.props.navigation.goBack() : null;
   };
 
   getUser = async () => {
@@ -487,7 +478,7 @@ export default class AddNodes extends React.Component {
             <ProgressStep
               label="Third Step"
               onSubmit={this.AddNode}
-              errors={this.state.suberrors}
+              errors={this.state.errors}
             >
               <View
                 style={{
