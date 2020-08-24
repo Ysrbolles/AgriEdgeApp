@@ -29,7 +29,7 @@ export default {
   getNodeDetails(id) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://192.168.43.95:4242/Home/nodehours/${id}`)
+        .get(`http://3.16.109.122:4242/Home/nodehours/${id}`)
         .then((res) => {
           resolve(res.data);
         })

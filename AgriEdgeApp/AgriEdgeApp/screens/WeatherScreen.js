@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   container: {
-    flex: 1,
+    flex: 2,
   },
   upperregion: {
     flex: 2,

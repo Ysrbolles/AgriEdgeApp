@@ -13,11 +13,11 @@ import NotificationsScreen from "./screens/NotificationsScreen";
 import AddNodes from "./screens/AddNodes";
 import Chart from "./screens/charts";
 // import MainScreen from "./screens/MainTabs"
-
+import { NavigationContainer } from '@react-navigation/native';
 import * as firebase from "firebase";
 
 import config from "./config";
-
+import AppNavigation from './Root'
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 firebase.initializeApp(config);
@@ -65,9 +65,10 @@ const AppTabNavigator = createBottomTabNavigator(
     },
   },
   {
+    tabBarComponent: AppNavigation,
     tabBarOptions: {
-      activeTintColor: "#5ABD8C",
-      inactiveTintColor: "#ffff",
+      activeTintColor: "#eeeeee",
+      inactiveTintColor: "#222222",
       showLabel: true,
       headerTitle: false,
       tabBarVisible: false,
