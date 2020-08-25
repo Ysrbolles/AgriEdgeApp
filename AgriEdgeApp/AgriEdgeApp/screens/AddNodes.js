@@ -86,6 +86,24 @@ export default class AddNodes extends React.Component {
     this.getUser();
   }
   AddNode = async () => {
+    await this.checksubmit();
+    if (this.state.errors === false) {
+      await Nodes.addnewone(this.state).then(async (data) => {
+        if (data === "Already Exist!") {
+          this.setState({
+            errors: true,
+            NodeExistErr: "This NodeID is" + data + " try another one",
+          });
+          alert("This NodeID is " + data + " try another one");
+        } else {
+          this.setState({ errors: false, NodeExistErr: "" });
+          this.props.navigation.goBack();
+        }
+      });
+      this.props.navigation.goBack();
+    }
+  };
+  checksubmit = () => {
     if (this.state.OrganicMater === null) {
       this.setState({
         errors: true,
@@ -117,18 +135,6 @@ export default class AddNodes extends React.Component {
         ClayContentErr: "",
         LimoncontentErr: "",
         SandcontentErr: "",
-      });
-      await Nodes.addnewone(this.state).then(async (data) => {
-        if (data === "Already Exist!") {
-          this.setState({
-            errors: true,
-            NodeExistErr: "This NodeID is" + data + " try another one",
-          });
-          alert("This NodeID is " + data + " try another one");
-        } else {
-          this.setState({ errors: false, NodeExistErr: "" });
-          this.props.navigation.goBack()
-        }
       });
     }
   };
