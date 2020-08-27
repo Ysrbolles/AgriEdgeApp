@@ -53,9 +53,10 @@ export default {
   updateNodeDetails(data) {
     return new Promise((resolve, reject) => {
       axios
-        .post("http://192.168.1.4:4242/Home/updateNodeDetails", data)
+        .post("http://3.16.109.122:4242/Home/updateNodeDetails", data)
         .then((result) => {
-          console.log(result);
+          console.log(result.status);
+          resolve(result);
         });
     });
   },

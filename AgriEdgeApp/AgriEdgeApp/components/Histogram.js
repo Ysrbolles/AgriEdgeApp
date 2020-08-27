@@ -39,10 +39,6 @@ export default class Histogram extends React.Component {
   getNodesDetails = async () => {
     await Nodes.getNodeDetails(this.props.NodeId).then(async (res) => {
       if (!_.isNull(res[0])) {
-        console.log("|||||||||||||||||||||||||||||||||");
-        console.log(res[0]);
-        console.log("|||||||||||||||||||||||||||||||||");
-
         await this.setState({ res: res, exists: true });
         console.log(res[0].watermark_1);
         this.setState({
@@ -94,10 +90,9 @@ export default class Histogram extends React.Component {
   createtime(data, histogramType) {
     let createdData;
 
-    createdData = data.reverse().map((row) => {
-      if (row.db_timestamp != null)
-        dayjs(new Date(row.db_timestamp * 1000)).format("hh:mm a");
-    });
+    createdData = data
+      .reverse()
+      .map((row) => dayjs(new Date(row.db_timestamp * 1000)).format("hh:mm a"));
 
     return createdData;
   }

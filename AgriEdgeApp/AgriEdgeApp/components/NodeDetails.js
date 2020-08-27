@@ -103,15 +103,10 @@ export default class NodeDetails extends React.Component {
     }, 3000);
   };
   updateNodeDetails = async () => {
-    await Nodes.updateNodeDetails(this.state).then((Data) => {
-      Alert.alert("Data Updated", "Your Node Data is updated ", [
-        {
-          text: "ok",
-          onPress: () => {},
-          style: "cancel",
-        },
-      ]);
-      this.getNodeData();
+    await Nodes.updateNodeDetails(this.state).then((data) => {
+      if (data.status === 200) {
+        this.props.closeScreen();
+      }
     });
   };
   deleteNode = async () => {
