@@ -34,23 +34,26 @@ export default class Histogram extends React.Component {
   }
 
   async componentDidMount() {
-    this.getNodesDetails();
+    await this.getNodesDetails();
   }
   getNodesDetails = async () => {
     await Nodes.getNodeDetails(this.props.NodeId).then(async (res) => {
-      console.log("|||||||||||||||||||||||||||||||||");
-      console.log(res);
-      console.log("|||||||||||||||||||||||||||||||||");
-      await this.setState({ res: res, exists: true });
-      console.log(res[0].watermark_1);
-      this.setState({
-        watermark1: res[0].watermark_1,
-        watermark2: res[0].watermark_2,
-        watermark3: res[0].watermark_3,
-        air_humidity: res[0].air_humidity,
-        air_temperature: res[0].air_temperature,
-        soil_temperature: res[0].soil_temperature,
-      });
+      if (!_.isNull(res[0])) {
+        console.log("|||||||||||||||||||||||||||||||||");
+        console.log(res[0]);
+        console.log("|||||||||||||||||||||||||||||||||");
+
+        await this.setState({ res: res, exists: true });
+        console.log(res[0].watermark_1);
+        this.setState({
+          watermark1: res[0].watermark_1,
+          watermark2: res[0].watermark_2,
+          watermark3: res[0].watermark_3,
+          air_humidity: res[0].air_humidity,
+          air_temperature: res[0].air_temperature,
+          soil_temperature: res[0].soil_temperature,
+        });
+      }
     });
   };
   /**
