@@ -8,7 +8,7 @@ import {
   RefreshControl,
 } from "react-native";
 import { BarChart, LineChart } from "react-native-chart-kit";
-
+import _ from "lodash";
 import data_mock from "../mock/co2_data.json";
 import Nodes from "../services/Nodes";
 const screenWidth = Dimensions.get("window").width;
@@ -29,6 +29,7 @@ export default class Histogram extends React.Component {
       air_temperature: "",
       soil_temperature: "",
       res: [],
+      exists: false,
     };
   }
 
@@ -37,7 +38,10 @@ export default class Histogram extends React.Component {
   }
   getNodesDetails = async () => {
     await Nodes.getNodeDetails(this.props.NodeId).then(async (res) => {
-      await this.setState({ res: res });
+      console.log("|||||||||||||||||||||||||||||||||");
+      console.log(res);
+      console.log("|||||||||||||||||||||||||||||||||");
+      await this.setState({ res: res, exists: true });
       console.log(res[0].watermark_1);
       this.setState({
         watermark1: res[0].watermark_1,
@@ -86,9 +90,11 @@ export default class Histogram extends React.Component {
   }
   createtime(data, histogramType) {
     let createdData;
-    createdData = data
-      .reverse()
-      .map((row) => dayjs(new Date(row.db_timestamp * 1000)).format("hh:mm a"));
+
+    createdData = data.reverse().map((row) => {
+      if (row.db_timestamp != null)
+        dayjs(new Date(row.db_timestamp * 1000)).format("hh:mm a");
+    });
 
     return createdData;
   }
@@ -141,7 +147,7 @@ export default class Histogram extends React.Component {
     return parseInt(value);
   };
   verticalLableFont(y) {
-    console.log("dkheeeeeeeeeeeeeeeeeeeeeeelt")
+    console.log("dkheeeeeeeeeeeeeeeeeeeeeeelt");
     console.log(y);
     let yValue = y.toString();
     return convertToPersianNumber(yValue);
@@ -172,24 +178,41 @@ export default class Histogram extends React.Component {
         borderRadius: 20,
       },
     };
-    // var data = {
-    //   labels: this.createtime(Object.values(this.state.res), histogramType),
-    //   series: [this.createData(Object.values(this.state.res), histogramType)],
-    // };
-
-    var options = {
-      high: 100,
-      low: 0,
-      axisX: {
-        labelInterpolationFnc: function (value, index) {
-          return index % 2 === 0 ? value : null;
-        },
-      },
-    };
-
-    var type = "Bar";
-    const value = [0, 10, 20, 30, 40];
-
+    const chart = (
+      <View>
+        <View>
+          <Text style={styles.histogramTitle}>
+            {this.getHistogramTitle(histogramType)}
+            {this.getDataNumbers(histogramType)}
+          </Text>
+        </View>
+        <View style={{ marginTop: 40 }}>
+          <BarChart
+            data={data}
+            width={350}
+            height={550 * 0.7}
+            showBarTops={true}
+            withInnerLines={true}
+            formatYLabel={(y) => this.verticalLableFont(y)}
+            chartConfig={chartConfig}
+            verticalLabelRotation={90}
+            style={styles.barChartStyle}
+            showValuesOnTopOfBars={true}
+          />
+        </View>
+      </View>
+    );
+    const landig = (
+      <View
+        style={{
+          marginTop: 200,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Text>No Chart Data Or API is broken, try later</Text>
+      </View>
+    );
     return (
       <View style={styles.container}>
         <ScrollView
@@ -202,28 +225,7 @@ export default class Histogram extends React.Component {
             />
           }
         >
-          <View>
-            <Text style={styles.histogramTitle}>
-              {this.getHistogramTitle(histogramType)}
-              {this.getDataNumbers(histogramType)}
-            </Text>
-            {/* <ECharts option={option} /> */}
-          </View>
-
-          <View style={{ marginTop: 40 }}>
-            <BarChart
-              data={data}
-              width={350}
-              height={550 * 0.7}
-              showBarTops={true}
-              withInnerLines={true}
-              formatYLabel={(y) => this.verticalLableFont(y)}
-              chartConfig={chartConfig}
-              verticalLabelRotation={90}
-              style={styles.barChartStyle}
-              showValuesOnTopOfBars={true}
-            />
-          </View>
+          {this.state.exists ? chart : landig}
         </ScrollView>
       </View>
     );

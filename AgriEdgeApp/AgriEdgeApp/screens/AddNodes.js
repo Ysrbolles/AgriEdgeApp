@@ -59,7 +59,7 @@ export default class AddNodes extends React.Component {
       lastname: "",
       displayName: "",
       profilpic: "",
-      errors: true,
+      errors: false,
       nameError: "",
       nodidError: "",
       totalAreaError: "",
@@ -100,8 +100,11 @@ export default class AddNodes extends React.Component {
           this.props.navigation.goBack();
         }
       });
-      this.props.navigation.goBack();
+      this.gobhalek();
     }
+  };
+  gobhalek = () => {
+    this.props.navigation.navigate("App");
   };
   checksubmit = () => {
     if (this.state.OrganicMater === null) {
@@ -138,7 +141,6 @@ export default class AddNodes extends React.Component {
       });
     }
   };
-
   getUser = async () => {
     const user = await firebase.auth().currentUser;
     this.setState({
