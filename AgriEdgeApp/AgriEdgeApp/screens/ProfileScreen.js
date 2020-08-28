@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   ScrollView,
   RefreshControl,
+  ActivityIndicator
 } from "react-native";
 import * as firebase from "firebase";
 import { Avatar, ListItem, Header } from "react-native-elements";
@@ -34,6 +35,7 @@ export default class ProfileScreen extends React.Component {
     uidAPP: "",
     list: [],
     refrshing: false,
+    done: false
   };
 
   async componentDidMount() {
@@ -45,7 +47,7 @@ export default class ProfileScreen extends React.Component {
       uidAPP: user.uid,
     });
     await Nodes.getNodes(this.state.uidAPP).then((res) => {
-      this.setState({ list: res });
+      this.setState({ list: res, done: true });
     });
   };
   signOutUser = () => {
@@ -79,6 +81,29 @@ export default class ProfileScreen extends React.Component {
     }, 3000);
   };
   render() {
+    const list = (
+      <View style={{ marginTop: 32 }}>
+        <View style={styles.lowerregion}>
+          <FlatList
+            data={this.state.list}
+            renderItem={this.listDaily}
+            ItemSeparatorComponent={() => (
+              <View style={styles.separator}></View>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            refreshing={this.state.refrshing}
+            onRefresh={this.getUser}
+          />
+        </View>
+      </View>
+    );
+
+    const laoding = (
+      <ActivityIndicator
+        size="large"
+        style={styles.containerLoading}
+      ></ActivityIndicator>
+    );
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView
@@ -90,20 +115,8 @@ export default class ProfileScreen extends React.Component {
             />
           }
         >
-          <View style={{ marginTop: 32 }}>
-            <View style={styles.lowerregion}>
-              <FlatList
-                data={this.state.list}
-                renderItem={this.listDaily}
-                ItemSeparatorComponent={() => (
-                  <View style={styles.separator}></View>
-                )}
-                keyExtractor={(item, index) => index.toString()}
-                refreshing={this.state.refrshing}
-                onRefresh={this.getUser}
-              />
-            </View>
-          </View>
+
+          {this.state.done ? list : laoding}
         </ScrollView>
       </SafeAreaView>
     );
@@ -111,6 +124,12 @@ export default class ProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  containerLoading: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 300
+  },
   container: {
     flex: 1,
   },
