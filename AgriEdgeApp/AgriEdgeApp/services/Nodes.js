@@ -3,6 +3,7 @@ import axios from "axios";
 import { reject } from "lodash";
 
 export default {
+  //Add New Node after draw Polygon
   addnewone(Node) {
     return new Promise((resolve, reject) => {
       axios
@@ -13,6 +14,7 @@ export default {
         .catch((err) => reject(err));
     });
   },
+  //Get Nodes list from Database
   getNodes(uidApp) {
     return new Promise((resolve, reject) => {
       axios
@@ -26,6 +28,7 @@ export default {
         });
     });
   },
+  //Get Node Details From API
   getNodeDetails(id) {
     return new Promise((resolve, reject) => {
       axios
@@ -38,6 +41,7 @@ export default {
         });
     });
   },
+   //Get Node Details From Database
   getNodeDetailsDatabase(id) {
     return new Promise((resolve, reject) => {
       axios
@@ -50,6 +54,7 @@ export default {
         });
     });
   },
+  //Update Node Details in Database
   updateNodeDetails(data) {
     return new Promise((resolve, reject) => {
       axios
@@ -60,6 +65,7 @@ export default {
         });
     });
   },
+  //Get Notification List From Database
   getAppNotif(uidApp) {
     return new Promise((resolve, reject) => {
       axios
@@ -72,6 +78,7 @@ export default {
         });
     });
   },
+  //Delete Notification from Database
   deleteNotif(item) {
     return new Promise((resolve, reject) => {
       axios
@@ -84,6 +91,7 @@ export default {
         });
     });
   },
+  //Add Comment why Don't irrigate
   AddComment(res, comment) {
     const data = {
       data: res,
@@ -96,6 +104,7 @@ export default {
         .catch((err) => reject(err));
     });
   },
+  //Delete Node From Database
   deleteNode(nodeID) {
     return new Promise((resolve, reject) => {
       axios
@@ -106,6 +115,7 @@ export default {
         .catch((err) => reject(err));
     });
   },
+  //Get City or localisation name with latitude & longitude
   getlocationName(lat, long) {
     return new Promise((resolve, reject) => {
       axios
@@ -113,9 +123,7 @@ export default {
           `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=AIzaSyCn4wibiY5B9CW_EvO2aKDByH3D3aiHRmQ`
         )
         .then((data) => {
-          console.log("||||||||||||||||||||||||||||||||||||||||||||||");
           resolve(data.data.plus_code.compound_code.substr(7));
-          console.log("||||||||||||||||||||||||||||||||||||||||||||||");
         });
     });
   },

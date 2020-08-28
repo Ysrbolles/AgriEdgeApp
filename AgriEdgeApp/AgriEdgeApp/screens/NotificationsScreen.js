@@ -128,6 +128,7 @@ export default class NotificationsScreen extends React.Component {
     const notification = (
       <View style={{ marginTop: 32 }}>
         <View style={styles.lowerregion}>
+          <Text style={styles.histogramTitle}>Notifications</Text>
           <FlatList
             data={this.state.notifications}
             renderItem={this.listDaily}
@@ -262,6 +263,13 @@ export default class NotificationsScreen extends React.Component {
   }
 }
 const styles = StyleSheet.create({
+  histogramTitle: {
+    fontWeight: "bold",
+    fontSize: 20,
+    alignSelf: "center",
+    alignItems: "center",
+    marginBottom: 15,
+  },
   container: {
     flex: 1,
   },

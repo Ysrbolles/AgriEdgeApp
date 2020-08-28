@@ -1,6 +1,8 @@
 import { Notifications } from "expo";
 import * as Permissions from "expo-permissions";
 import * as firebase from "firebase";
+
+//Notification Config 
 registerForPushNotificationsAsync = async (currentUser) => {
   const { status: existingStatus } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS
