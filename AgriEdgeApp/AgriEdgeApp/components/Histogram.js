@@ -92,7 +92,7 @@ export default class Histogram extends React.Component {
 
     createdData = data
       .reverse()
-      .map((row) => dayjs(new Date(row.db_timestamp * 1000)).format("hh:mm a"));
+      .map((row) => dayjs(new Date(row.db_timestamp * 1000)).format("hh:00 a"));
 
     return createdData;
   }

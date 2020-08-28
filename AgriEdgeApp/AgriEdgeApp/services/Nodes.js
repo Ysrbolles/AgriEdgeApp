@@ -106,4 +106,17 @@ export default {
         .catch((err) => reject(err));
     });
   },
+  getlocationName(lat, long) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=AIzaSyCn4wibiY5B9CW_EvO2aKDByH3D3aiHRmQ`
+        )
+        .then((data) => {
+          console.log("||||||||||||||||||||||||||||||||||||||||||||||");
+          resolve(data.data.plus_code.compound_code.substr(7));
+          console.log("||||||||||||||||||||||||||||||||||||||||||||||");
+        });
+    });
+  },
 };

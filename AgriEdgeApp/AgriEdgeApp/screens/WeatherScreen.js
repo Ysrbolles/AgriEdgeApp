@@ -34,6 +34,7 @@ export default class WeatherScreen extends React.Component {
       hourly: [],
       refreshing: false,
       show: false,
+      place: "",
     };
   }
   onRefresh = () => {
@@ -52,9 +53,16 @@ export default class WeatherScreen extends React.Component {
         longitude: position.coords.longitude,
       });
       this.getWeatherData();
+      this.getLocationName();
     });
   }
-
+  getLocationName = () => {
+    Nodes.getlocationName(this.state.latitude, this.state.longitude).then(
+      async (result) => {
+        this.setState({ place: result });
+      }
+    );
+  };
   componentWillUnmount() {
     this._isMounted = false;
   }
@@ -182,7 +190,7 @@ export default class WeatherScreen extends React.Component {
       </View>
     );
   };
- 
+
   renderElement = ({ item }) => {
     return (
       <View style={styles.containerForecast}>
@@ -212,7 +220,6 @@ export default class WeatherScreen extends React.Component {
     );
   };
   render() {
-   
     const body = (
       <ImageBackground
         style={styles.upperregion}
@@ -225,9 +232,13 @@ export default class WeatherScreen extends React.Component {
                 "hh:mm a"
               )}
             </Text>
+
             <Text style={styles.today}>
               {" "}
               {dayjs(Date.now()).format("ddd MMMM D, YYYY")}{" "}
+            </Text>
+            <Text style={[styles.addwhite, { fontSize: 18 }]}>
+              {this.state.place}
             </Text>
             <Text style={styles.degrees}>
               {this.state.currently.temperature
@@ -246,10 +257,7 @@ export default class WeatherScreen extends React.Component {
           </View>
 
           <View style={styles.lowerinnerregion}>
-            {/* <Text style={[styles.addwhite, { fontSize: 18 }]}>
-      MALMO, SWEDEN{" "}
-    </Text> */}
-            <View style={[styles.addwhite, { marginTop: 20 }]}>
+            <View style={[styles.addwhite, { marginTop: 10 }]}>
               <FlatList
                 style={styles.listForecast}
                 horizontal
@@ -348,7 +356,7 @@ const styles = StyleSheet.create({
   },
 
   innerupperregion: {
-    marginTop: 90,
+    marginTop: 50,
     backgroundColor: "transparent",
     alignItems: "center",
     flex: 2,
@@ -451,7 +459,7 @@ const styles = StyleSheet.create({
   },
   containerForecast: {
     padding: 10,
-    paddingBottom: 20,
+    paddingBottom: 10,
     borderRadius: 8,
     justifyContent: "center",
     backgroundColor: "rgba(208, 212, 222, 0.5)",
