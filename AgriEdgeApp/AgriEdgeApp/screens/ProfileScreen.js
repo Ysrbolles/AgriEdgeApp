@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   ScrollView,
   RefreshControl,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 import * as firebase from "firebase";
 import { Avatar, ListItem, Header } from "react-native-elements";
@@ -35,7 +35,7 @@ export default class ProfileScreen extends React.Component {
     uidAPP: "",
     list: [],
     refrshing: false,
-    done: false
+    done: false,
   };
 
   async componentDidMount() {
@@ -83,6 +83,7 @@ export default class ProfileScreen extends React.Component {
   render() {
     const list = (
       <View style={{ marginTop: 32 }}>
+        <Text style={styles.histogramTitle}>Nodes List</Text>
         <View style={styles.lowerregion}>
           <FlatList
             data={this.state.list}
@@ -115,7 +116,6 @@ export default class ProfileScreen extends React.Component {
             />
           }
         >
-
           {this.state.done ? list : laoding}
         </ScrollView>
       </SafeAreaView>
@@ -124,11 +124,18 @@ export default class ProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  histogramTitle: {
+    fontWeight: "bold",
+    fontSize: 20,
+    alignSelf: "center",
+    alignItems: "center",
+    marginBottom: 15
+  },
   containerLoading: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 300
+    marginTop: 300,
   },
   container: {
     flex: 1,
