@@ -277,7 +277,7 @@ export default class WeatherScreen extends React.Component {
     const laoding = (
       <ActivityIndicator
         size="large"
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        style={styles.containerLoading}
       ></ActivityIndicator>
     );
     return (
@@ -314,6 +314,12 @@ export default class WeatherScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  containerLoading: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 300
+  },
   wrapper: {
     paddingBottom: 10,
   },
