@@ -131,7 +131,7 @@ export default class Histogram extends React.Component {
       "air_temperature",
       "soil_temperature",
     ];
-    return `Last Value of ${buttons[histogramType]} is :`;
+    return `Last Value of ${this.props.btn[histogramType]} is :`;
   };
   onRefresh = () => {
     this.setState({ refreshing: true });

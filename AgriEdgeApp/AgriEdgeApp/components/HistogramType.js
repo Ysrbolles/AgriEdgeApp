@@ -40,13 +40,13 @@ export default class HistogramType extends Component {
         showsHorizontalScrollIndicator={false}
       >
         <ButtonGroup
-          selectedButtonStyle={{ backgroundColor: "#037d50" }}
+          selectedButtonStyle={{ backgroundColor: "#037d50"}}
           onPress={this.handleChange}
           selectedIndex={histogramType}
-          buttons={buttons}
+          buttons={this.props.btn}
           containerStyle={styles.container}
           text
-          Style={{ fontSize: 12 }}
+          Style={{ fontSize: 10 }}
         />
       </ScrollView>
     );
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    height: 50,
+    height: 60,
     marginTop: 30,
     minWidth: screenWidth * 2,
   },

@@ -13,7 +13,7 @@ import Histogram from "../components/Histogram";
 import HistogramType from "../components/HistogramType";
 import { TabBar, TabView, SceneMap } from "react-native-tab-view";
 import PureChart from "react-native-pure-chart";
-
+import Nodes from "../services/Nodes";
 import { ECharts } from "react-native-echarts-wrapper";
 import Test from "../components/Test";
 
@@ -33,7 +33,24 @@ export default class Charts extends React.Component {
         { key: "first", title: "Node Charts" },
         { key: "second", title: "Node Details" },
       ],
+      button: [],
     };
+  }
+  componentDidMount() {
+    Nodes.getNodeDetailsDatabase(
+      this.props.navigation.state.params.NodeId
+    ).then((data) => {
+      this.setState({
+        button: [
+          `Soil Humidty \n(${data.Soilsensordepth1}cm)`,
+          `Soil Humidty \n(${data.Soilsensordepth2}cm)`,
+          `Soil Humidty \n(${data.Soilsensordepth3}cm)`,
+          "Air Humidity",
+          "Air Temperature",
+          "Soil Temperature",
+        ],
+      });
+    });
   }
   onRefresh = () => {
     this.setState({ refreshing: true });
@@ -84,10 +101,12 @@ export default class Charts extends React.Component {
         }
       >
         <HistogramType
+          btn={this.state.button}
           value={this.state.histogramType}
           onTypeChange={this.handleTypeChange}
         ></HistogramType>
         <Histogram
+          btn={this.state.button}
           type={this.state.histogramType}
           NodeId={this.props.navigation.state.params.NodeId}
         ></Histogram>
