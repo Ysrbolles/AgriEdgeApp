@@ -7,7 +7,7 @@ export default {
   addnewone(Node) {
     return new Promise((resolve, reject) => {
       axios
-        .post("http://3.16.109.122:4242/Home/addnewoneApp", Node)
+        .post("http://192.168.1.6:4242/Home/addnewoneApp", Node)
         .then((res) => {
           resolve(res.data);
         })

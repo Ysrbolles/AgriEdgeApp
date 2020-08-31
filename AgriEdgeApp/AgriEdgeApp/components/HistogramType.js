@@ -9,7 +9,7 @@ export default class HistogramType extends Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
   }
-
+  componentDidMount() {}
   handleChange(selectedIndex) {
     this.props.onTypeChange(selectedIndex);
   }
@@ -26,7 +26,11 @@ export default class HistogramType extends Component {
     ];
 
     return (
-      <ScrollView style={styles.Cnt} horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        style={styles.Cnt}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      >
         <ButtonGroup
           selectedButtonStyle={{ backgroundColor: "#037d50" }}
           onPress={this.handleChange}
@@ -42,7 +46,7 @@ export default class HistogramType extends Component {
 }
 
 const styles = StyleSheet.create({
-  Cnt:{
+  Cnt: {
     flex: 1,
   },
   container: {

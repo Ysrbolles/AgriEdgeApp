@@ -62,38 +62,35 @@ export default class HomeScreen extends React.Component {
       polygons: [],
       origine: [],
       temp: [
-        
-          [
-             {
-              "latitude": 32.87859181978967,
-              "longitude": -6.931004785001278,
-            },
-             {
-              "latitude": 32.878099348080596,
-              "longitude": -6.929957382380962,
-            },
-             {
-              "latitude": 32.87722899830663,
-              "longitude": -6.9303154572844505,
-            },
-          ],
+        [
+          {
+            latitude: 32.87859181978967,
+            longitude: -6.931004785001278,
+          },
+          {
+            latitude: 32.878099348080596,
+            longitude: -6.929957382380962,
+          },
+          {
+            latitude: 32.87722899830663,
+            longitude: -6.9303154572844505,
+          },
+        ],
         ,
-        
-           [
-             {
-              "latitude": 32.876904339602746,
-              "longitude": -6.931948252022266,
-            },
-             {
-              "latitude": 32.876395526908944,
-              "longitude": -6.930911913514137,
-            },
-             {
-              "latitude": 32.87556261083896,
-              "longitude": -6.931161694228649,
-            },
-          ],
-        
+        [
+          {
+            latitude: 32.876904339602746,
+            longitude: -6.931948252022266,
+          },
+          {
+            latitude: 32.876395526908944,
+            longitude: -6.930911913514137,
+          },
+          {
+            latitude: 32.87556261083896,
+            longitude: -6.931161694228649,
+          },
+        ],
       ],
       editing: null,
       test: [],
@@ -153,28 +150,27 @@ export default class HomeScreen extends React.Component {
   getUser = async () => {
     let i = null;
     let c = {
-      "latitude": null,
-      "longitude": null,
+      latitude: null,
+      longitude: null,
     };
-    let t = []
+    let t = [];
     const user = await firebase.auth().currentUser;
-    console.log(user.uid)
+    console.log(user.uid);
     this.setState({
       uidAPP: user.uid,
     });
     Nodes.getNodes(this.state.uidAPP).then((res) => {
       if (res.length > 0) {
+        for (let x = 0; x < res.length; x++) {
+          c.latitude = res[x].latitude;
+          c.longitude = res[x].longitude;
+          t.push(c);
+          i = res[0].poly.concat(res[x].poly);
+        }
         console.log(
           "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
         );
-        for(let x = 0; x < res.length; x++){
-          c.latitude = res[x].latitude
-          c.longitude = res[x].longitude
-          t.push(c)
-          i = res[0].poly.concat(res[x].poly)
-        }
-        console.log(t)
-        // console.log(i)
+        console.log(i);
         console.log(
           "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
         );
@@ -188,13 +184,13 @@ export default class HomeScreen extends React.Component {
           },
           () => {
             this.setState({
-              polygons: i,//[res[0].poly[0], res[2].poly[0]],
+              polygons: i, //[res[0].poly[0], res[2].poly[0]],
               // origine: res[0].poly,
             });
           }
         );
-        console.log('*************')
-        console.log(this.state.markers)
+        console.log("*************");
+        console.log(this.state.markers);
       }
     });
   };
@@ -228,7 +224,7 @@ export default class HomeScreen extends React.Component {
       this.setState({
         polygons: [...this.state.polygons, this.state.coordinates],
         // temp: [...this.state.origine, this.state.polygons[this.state.polygons.length - 1]]
-        temp: [this.state.polygons[this.state.polygons.length - 1]]
+        temp: [this.state.polygons[this.state.polygons.length - 1]],
       });
       this.setState({
         btn: true,
@@ -264,12 +260,12 @@ export default class HomeScreen extends React.Component {
     });
   }
   onPress(e) {
-      if(this.state.sym == 1){
-        this.props.navigation.navigate("AddNode", {
-          polygone: this.state.temp,
-          clocal: e.nativeEvent.coordinate
-        })
-      }else{
+    if (this.state.sym == 1) {
+      this.props.navigation.navigate("AddNode", {
+        polygone: this.state.temp,
+        clocal: e.nativeEvent.coordinate,
+      });
+    } else {
       this.setState({ draw: true });
       if (this.state.coordinates.length > 2) this.setState({ btn: false });
       this.setState(
@@ -324,12 +320,7 @@ export default class HomeScreen extends React.Component {
     );
     const addnode = (
       <View style={styles.buttonContainer}>
-        <Icon.Button
-          name="plus"
-          onPress={() =>
-            alert('Click on the polygone')
-          }
-        >
+        <Icon.Button name="plus" onPress={() => alert("Click on the polygone")}>
           Add Node
         </Icon.Button>
       </View>

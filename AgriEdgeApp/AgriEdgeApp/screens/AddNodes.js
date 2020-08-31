@@ -80,6 +80,9 @@ export default class AddNodes extends React.Component {
       SoilSalinityErr: "",
       dateErr: "",
       NodeExistErr: "",
+      Soilsensordepth1: null,
+      Soilsensordepth2: null,
+      Soilsensordepth3: null,
     };
   }
   componentDidMount() {
@@ -563,6 +566,46 @@ export default class AddNodes extends React.Component {
                       value={this.state.Sandcontent}
                       onChangeText={(Sandcontent) =>
                         this.setState({ Sandcontent: Sandcontent })
+                      }
+                    />
+                  </Col>
+                </Grid>
+                <Grid>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      placeholder="Soil humidity sensor depth 1"
+                      keyboardType="phone-pad"
+                      value={this.state.Soilsensordepth1}
+                      onChangeText={(Soilsensordepth1) =>
+                        this.setState({ Soilsensordepth1: Soilsensordepth1 })
+                      }
+                    />
+                  </Col>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      placeholder="Soil humidity sensor depth 2"
+                      keyboardType="phone-pad"
+                      value={this.state.Soilsensordepth2}
+                      onChangeText={(Soilsensordepth2) =>
+                        this.setState({ Soilsensordepth2: Soilsensordepth2 })
+                      }
+                    />
+                  </Col>
+                </Grid>
+                <Grid>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      placeholder="Soil humidity sensor depth 3"
+                      keyboardType="phone-pad"
+                      value={this.state.Soilsensordepth3}
+                      onChangeText={(Soilsensordepth3) =>
+                        this.setState({ Soilsensordepth3: Soilsensordepth3 })
                       }
                     />
                   </Col>
