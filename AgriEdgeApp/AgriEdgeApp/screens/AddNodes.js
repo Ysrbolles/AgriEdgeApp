@@ -575,7 +575,7 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Soil humidity sensor depth 1"
+                      placeholder="Soil humidity sensor depth 1/cm"
                       keyboardType="phone-pad"
                       value={this.state.Soilsensordepth1}
                       onChangeText={(Soilsensordepth1) =>
@@ -587,7 +587,7 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Soil humidity sensor depth 2"
+                      placeholder="Soil humidity sensor depth 2/cm"
                       keyboardType="phone-pad"
                       value={this.state.Soilsensordepth2}
                       onChangeText={(Soilsensordepth2) =>
@@ -601,7 +601,7 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Soil humidity sensor depth 3"
+                      placeholder="Soil humidity sensor depth 3/cm"
                       keyboardType="phone-pad"
                       value={this.state.Soilsensordepth3}
                       onChangeText={(Soilsensordepth3) =>

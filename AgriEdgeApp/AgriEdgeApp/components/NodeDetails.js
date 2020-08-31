@@ -48,6 +48,9 @@ export default class NodeDetails extends React.Component {
       Sandcontent: null,
       IrrigationSystem: "",
       newDate: "",
+      Soilsensordepth1: null,
+      Soilsensordepth2: null,
+      Soilsensordepth3: null,
       date: null,
       data: [
         {
@@ -92,6 +95,9 @@ export default class NodeDetails extends React.Component {
         Sandcontent: res.Sand,
         date: new Date(res.Date),
         IrrigationSystem: res.IrrigationSystem,
+        Soilsensordepth1: res.Soilsensordepth1,
+        Soilsensordepth2: res.Soilsensordepth2,
+        Soilsensordepth3: res.Soilsensordepth3,
       });
     });
   };

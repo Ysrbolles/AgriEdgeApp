@@ -17,14 +17,22 @@ export default class HistogramType extends Component {
   render() {
     const histogramType = this.props.value != undefined ? this.props.value : 0;
     const buttons = [
-      "WaterMark1",
-      "WaterMark2",
-      "WaterMark3",
-      "air_humidity",
-      "air_temperature",
-      "soil_temperature",
+      "Soil Humidity (10cm)",
+      "Soil Humidity (20cm)",
+      "Soil Humidity (30cm)",
+      "Air Humidity",
+      "Air Temperature",
+      "Soil Temperature",
     ];
 
+    const buttonsII = [
+      "Soil Humidity (20cm)",
+      "Soil Humidity (40cm)",
+      "Soil Humidity (60cm)",
+      "Air Humidity",
+      "Air Temperature",
+      "Soil Temperature",
+    ];
     return (
       <ScrollView
         style={styles.Cnt}
