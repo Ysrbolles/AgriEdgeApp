@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   lowerregion: {
-    height: 400,
+    height: 'auto',
     borderRadius: 12,
     overflow: "hidden",
     marginHorizontal: 10,

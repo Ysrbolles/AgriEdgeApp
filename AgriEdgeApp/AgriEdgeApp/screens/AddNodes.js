@@ -83,6 +83,9 @@ export default class AddNodes extends React.Component {
       Soilsensordepth1: null,
       Soilsensordepth2: null,
       Soilsensordepth3: null,
+      Soilsensordepth1Err: "",
+      Soilsensordepth2Err: "",
+      Soilsensordepth3Err: "",
     };
   }
   componentDidMount() {
@@ -133,6 +136,24 @@ export default class AddNodes extends React.Component {
     }
     if (this.state.Sandcontent === null) {
       this.setState({ errors: true, SandcontentErr: "this field is required" });
+    }
+    if (this.state.Soilsensordepth1 === null) {
+      this.setState({
+        errors: true,
+        Soilsensordepth1Err: "this field is required",
+      });
+    }
+    if (this.state.Soilsensordepth2 === null) {
+      this.setState({
+        errors: true,
+        Soilsensordepth2Err: "this field is required",
+      });
+    }
+    if (this.state.Soilsensordepth3 === null) {
+      this.setState({
+        errors: true,
+        Soilsensordepth3Err: "this field is required",
+      });
     } else {
       this.setState({
         errors: false,
@@ -141,6 +162,9 @@ export default class AddNodes extends React.Component {
         ClayContentErr: "",
         LimoncontentErr: "",
         SandcontentErr: "",
+        Soilsensordepth1Err: "",
+        Soilsensordepth2Err: "",
+        Soilsensordepth3Err: "",
       });
     }
   };
@@ -195,7 +219,7 @@ export default class AddNodes extends React.Component {
     if (this.state.node_id === "") {
       this.setState({ errors: true, nodidError: "this field is required" });
     }
-    if (this.state.totalAreaError === "") {
+    if (this.state.totalArea === null) {
       this.setState({
         errors: true,
         totalAreaError: "this field is required",
@@ -299,7 +323,7 @@ export default class AddNodes extends React.Component {
                   </Col>
                   <Col style={{ marginBottom: 20 }}>
                     <Dropdown
-                      label="Irrigation Systeme"
+                      label="Irrigation System"
                       data={this.state.data}
                       error={this.state.irrigationSystemError}
                       value={this.state.irrigationSystem}
@@ -374,7 +398,8 @@ export default class AddNodes extends React.Component {
                       style={{ width: 140 }}
                       date={this.state.date} //initial date from state
                       mode="date" //The enum of date, datetime and time
-                      placeholder="Select Date"
+                      label="Planting Date"
+                      placeholder="Planting Date"
                       format="YYYY-MM-DD"
                       minDate="01-01-2000"
                       maxDate={new Date()}
@@ -547,7 +572,7 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Limon content / %"
+                      placeholder="Silt content / %"
                       keyboardType="phone-pad"
                       value={this.state.Limoncontent}
                       errorMessage={this.state.LimoncontentErr}
@@ -575,9 +600,10 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Soil humidity sensor depth 1/cm"
+                      placeholder="Soil sensor depth 1/cm"
                       keyboardType="phone-pad"
                       value={this.state.Soilsensordepth1}
+                      errorMessage={this.state.Soilsensordepth1Err}
                       onChangeText={(Soilsensordepth1) =>
                         this.setState({ Soilsensordepth1: Soilsensordepth1 })
                       }
@@ -587,9 +613,10 @@ export default class AddNodes extends React.Component {
                     <Input
                       style={{ marginVertical: 10, fontSize: 17 }}
                       renderErrorMessage={true}
-                      placeholder="Soil humidity sensor depth 2/cm"
+                      placeholder="Soil sensor depth 2/cm"
                       keyboardType="phone-pad"
                       value={this.state.Soilsensordepth2}
+                      errorMessage={this.state.Soilsensordepth2Err}
                       onChangeText={(Soilsensordepth2) =>
                         this.setState({ Soilsensordepth2: Soilsensordepth2 })
                       }
@@ -604,6 +631,7 @@ export default class AddNodes extends React.Component {
                       placeholder="Soil humidity sensor depth 3/cm"
                       keyboardType="phone-pad"
                       value={this.state.Soilsensordepth3}
+                      errorMessage={this.state.Soilsensordepth3Err}
                       onChangeText={(Soilsensordepth3) =>
                         this.setState({ Soilsensordepth3: Soilsensordepth3 })
                       }
