@@ -455,6 +455,46 @@ export default class NodeDetails extends React.Component {
                     />
                   </Col>
                 </Grid>
+                 <Grid>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      label="Soil humidity sensor depth 1/cm"
+                      keyboardType="phone-pad"
+                      value={String(this.state.Soilsensordepth1)}
+                      onChangeText={(Soilsensordepth1) =>
+                        this.setState({ Soilsensordepth1: Soilsensordepth1 })
+                      }
+                    />
+                  </Col>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      label="Soil humidity sensor depth 2/cm"
+                      keyboardType="phone-pad"
+                      value={String(this.state.Soilsensordepth2)}
+                      onChangeText={(Soilsensordepth2) =>
+                        this.setState({ Soilsensordepth2: Soilsensordepth2 })
+                      }
+                    />
+                  </Col>
+                </Grid>
+                <Grid>
+                  <Col>
+                    <Input
+                      style={{ marginVertical: 10, fontSize: 17 }}
+                      renderErrorMessage={true}
+                      label="Soil humidity sensor depth 3/cm"
+                      keyboardType="phone-pad"
+                      value={String(this.state.Soilsensordepth3)}
+                      onChangeText={(Soilsensordepth3) =>
+                        this.setState({ Soilsensordepth3: Soilsensordepth3 })
+                      }
+                    />
+                  </Col>
+                </Grid>
                 <Grid>
                   <Col>
                     <Input
