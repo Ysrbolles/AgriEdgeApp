@@ -223,7 +223,6 @@ export default class HomeScreen extends React.Component {
       this.setState({
         btn: true,
         addnode: false,
-        markers: [this.state.markers],
         coordinates: [],
         sym: 1,
         capteur: false,
