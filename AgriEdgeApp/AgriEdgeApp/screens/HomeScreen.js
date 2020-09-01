@@ -148,11 +148,7 @@ export default class HomeScreen extends React.Component {
   //   await this.registerForPushNotificationsAsync();
   // }
   getUser = async () => {
-    let i = null;
-    let c = {
-      latitude: null,
-      longitude: null,
-    };
+    let i = [];
     let t = [];
     const user = await firebase.auth().currentUser;
     console.log(user.uid);
@@ -162,21 +158,21 @@ export default class HomeScreen extends React.Component {
     Nodes.getNodes(this.state.uidAPP).then((res) => {
       if (res.length > 0) {
         for (let x = 0; x < res.length; x++) {
-          c.latitude = res[x].latitude;
-          c.longitude = res[x].longitude;
-          t.push(c);
-          i = res[0].poly.concat(res[x].poly);
+          t.push({latitude : res[x].latitude, longitude : res[x].longitude });
+          // i = i.push(res[x].poly)
+          i = i.concat(res[x].poly);
         }
         console.log(
           "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
         );
+        console.log(res.length)
         console.log(i);
         console.log(
           "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
         );
         this.setState(
           {
-            markers: res[0].poly[0][0],
+            markers: t,
             draw: true,
             btn: true,
             addnode: true,
@@ -189,8 +185,6 @@ export default class HomeScreen extends React.Component {
             });
           }
         );
-        console.log("*************");
-        console.log(this.state.markers);
       }
     });
   };
@@ -261,6 +255,9 @@ export default class HomeScreen extends React.Component {
   }
  
   onPress(e) {
+    console.log('*****************')
+    console.log(this.state.polygons)
+    console.log('*****************')
     if (this.state.sym == 1) {
       this.props.navigation.navigate("AddNode", {
         polygone: this.state.temp,
@@ -315,15 +312,17 @@ export default class HomeScreen extends React.Component {
       </View>
     );
     const ca = (
-      <Marker
-        key="cc"
-        coordinate={{
-          latitude: this.state.markers.latitude,
-          longitude: this.state.markers.longitude,
-        }}
-      >
-        <Image style={styles.cc} source={require("../assets/Capteur.png")} />
+      this.state.markers.map((marker) => (
+        <Marker
+          key={marker.name}
+          coordinate={{
+            latitude: marker.latitude,
+            longitude: marker.longitude,
+          }}
+        >
+         <Image style={styles.cc} source={require("../assets/Capteur.png")} />
       </Marker>
+      ))
     );
     const addnode = (
       <View style={styles.buttonContainer}>

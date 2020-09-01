@@ -16,13 +16,12 @@ export default class AddNodes extends React.Component {
   constructor(props) {
     super(props);
     this.params = this.props.navigation.state.params;
-    console.debug("lng " + this.params.polygone[0][0].longitude);
     this.state = {
       polygon: this.params.polygone,
       uid: "",
       name: "",
-      latitude: this.params.polygone[0][0].latitude,
-      longitude: this.params.polygone[0][0].longitude,
+      latitude: this.params.clocal.latitude,
+      longitude: this.params.clocal.longitude,
       node_id: "",
       totalArea: null,
       irrigationSystem: "",
