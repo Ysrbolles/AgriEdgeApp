@@ -259,11 +259,13 @@ export default class HomeScreen extends React.Component {
       polygons: [],
     });
   }
+ 
   onPress(e) {
     if (this.state.sym == 1) {
       this.props.navigation.navigate("AddNode", {
         polygone: this.state.temp,
         clocal: e.nativeEvent.coordinate,
+        g: this.khroj,
       });
     } else {
       this.setState({ draw: true });
@@ -283,9 +285,14 @@ export default class HomeScreen extends React.Component {
       );
     }
   }
+  khroj() {
+    console.log("-----------------------------------------------");
+    console.log("Ana dkhelt hna");
+    console.log("-----------------------------------------------");
+    // this.props.navigation.goBack();
+  }
   closeScreen = () => {
     this.props.navigation.goBack();
-    this.props.navigation.state.params.on();
   };
   render() {
     const addtodraw = (

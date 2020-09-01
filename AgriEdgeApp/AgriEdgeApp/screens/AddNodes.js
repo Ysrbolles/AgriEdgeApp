@@ -101,12 +101,11 @@ export default class AddNodes extends React.Component {
             NodeExistErr: "This NodeID is" + data + " try another one",
           });
           alert("This NodeID is " + data + " try another one");
-        } else {
-          this.setState({ errors: false, NodeExistErr: "" });
-          this.props.navigation.goBack();
         }
+        console.log("---------------------------------------");
+        console.log(this.props.navigation);
+        console.log("---------------------------------------");
       });
-      this.gobhalek();
     }
   };
   gobhalek = () => {
