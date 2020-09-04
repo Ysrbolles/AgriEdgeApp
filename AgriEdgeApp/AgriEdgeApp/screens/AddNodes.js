@@ -99,11 +99,9 @@ export default class AddNodes extends React.Component {
             errors: true,
             NodeExistErr: "This NodeID is" + data + " try another one",
           });
-          alert("This NodeID is " + data + " try another one");
+          // alert("This NodeID is " + data + " try another one");
         }
-        console.log("---------------------------------------");
-        console.log(this.props.navigation);
-        console.log("---------------------------------------");
+        this.props.navigation.goBack();
       });
     }
   };

@@ -125,7 +125,9 @@ export default class WeatherScreen extends React.Component {
         this.setState({ days: daily, hourly: hourly });
       })
       .catch((err) => {
+        console.log("|||||||||||||||||||");
         console.log(err);
+        console.log("|||||||||||||||||||");
       });
   };
   Item = ({ title }) => {
@@ -318,7 +320,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 300
+    marginTop: 300,
   },
   wrapper: {
     paddingBottom: 10,
