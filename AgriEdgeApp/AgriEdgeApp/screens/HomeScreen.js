@@ -61,37 +61,6 @@ export default class HomeScreen extends React.Component {
       coordinates: [],
       polygons: [],
       origine: [],
-      temp: [
-        [
-          {
-            latitude: 32.87859181978967,
-            longitude: -6.931004785001278,
-          },
-          {
-            latitude: 32.878099348080596,
-            longitude: -6.929957382380962,
-          },
-          {
-            latitude: 32.87722899830663,
-            longitude: -6.9303154572844505,
-          },
-        ],
-        ,
-        [
-          {
-            latitude: 32.876904339602746,
-            longitude: -6.931948252022266,
-          },
-          {
-            latitude: 32.876395526908944,
-            longitude: -6.930911913514137,
-          },
-          {
-            latitude: 32.87556261083896,
-            longitude: -6.931161694228649,
-          },
-        ],
-      ],
       editing: null,
       test: [],
       draw: false,
@@ -122,8 +91,16 @@ export default class HomeScreen extends React.Component {
   handleNotification = (notification) => {
     if (notification && notification.origin !== "received") {
       const { data } = notification;
+      console.debug('*****************')
+      console.log(data)
+      console.debug('*****************')
       if (data.check > 70) {
-        this.setState({ color: "rgba(209, 4, 0, 0.5)" });
+        for(let i = 0; i < this.state.polygons.length; i++){
+          if(this.state.polygons[i].NodeID == data.Id){
+          this.state.polygons[i].color= "rgba(209, 4, 0, 0.5)"
+            this.setState({polygons: this.state.polygons});
+          }
+        }
       }
       console.log(data.check);
       // const meetingId = data.meetingId;
@@ -136,7 +113,7 @@ export default class HomeScreen extends React.Component {
 
   _handleNotification = (notification) => {
     this.setState({ notification: notification });
-    console.log(notification);
+    console.log('notification');
   };
 
   _handleNotificationResponse = (response) => {
@@ -151,25 +128,16 @@ export default class HomeScreen extends React.Component {
     let i = [];
     let t = [];
     const user = await firebase.auth().currentUser;
-    console.log(user.uid);
     this.setState({
       uidAPP: user.uid,
     });
     Nodes.getNodes(this.state.uidAPP).then((res) => {
       if (res.length > 0) {
+        console.log(res[0].poly)
         for (let x = 0; x < res.length; x++) {
           t.push({latitude : res[x].latitude, longitude : res[x].longitude });
-          // i = i.push(res[x].poly)
-          i = i.concat(res[x].poly);
+          i.push(res[x].poly[0]);
         }
-        console.log(
-          "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-        );
-        console.log(res.length)
-        console.log(i);
-        console.log(
-          "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-        );
         this.setState(
           {
             markers: t,
@@ -180,8 +148,7 @@ export default class HomeScreen extends React.Component {
           },
           () => {
             this.setState({
-              polygons: i, //[res[0].poly[0], res[2].poly[0]],
-              // origine: res[0].poly,
+              polygons: i,
             });
           }
         );
@@ -215,8 +182,10 @@ export default class HomeScreen extends React.Component {
   }
   finish() {
     if (this.state.coordinates.length > 2) {
+      let i = this.state.polygons
+      i.push({coord: [this.state.coordinates], NodeID: '', color: "rgba(76, 166, 79, 0.5)"});
       this.setState({
-        polygons: [...this.state.polygons, this.state.coordinates],
+        polygons: i,//[...this.state.polygons, this.state.coordinates],
         // temp: [...this.state.origine, this.state.polygons[this.state.polygons.length - 1]]
         temp: [this.state.polygons[this.state.polygons.length - 1]],
       });
@@ -230,21 +199,6 @@ export default class HomeScreen extends React.Component {
     }
     console.debug(this.state.polygons.length);
   }
-  undo() {
-    console.debug(this.state.coordinates);
-    this.state.coordinates.slice().splice(this.state.coordinates.length, 1);
-    this.setState(
-      {
-        coordinates: [this.state.coordinates],
-      },
-      () => {
-        this.setState({
-          polygons: [this.state.coordinates],
-        });
-      }
-    );
-    // console.debug(this.state.coordinates);
-  }
   clear() {
     this.setState({
       sym: 0,
@@ -254,9 +208,7 @@ export default class HomeScreen extends React.Component {
   }
  
   onPress(e) {
-    console.log('*****************')
-    console.log(this.state.polygons)
-    console.log('*****************')
+    console.log(this.state.polygons[0].color)
     if (this.state.sym == 1) {
       this.props.navigation.navigate("AddNode", {
         polygone: this.state.temp,
@@ -273,10 +225,14 @@ export default class HomeScreen extends React.Component {
           coordinates: [...this.state.coordinates, e.nativeEvent.coordinate],
         },
         () => {
-          if (this.state.coordinates.length >= 3)
+          if (this.state.coordinates.length >= 3){
+            let i = this.state.polygons
+            i.push({coord: [this.state.coordinates], NodeID: '', color: "rgba(76, 166, 79, 0.5)"});
+            console.log(i)
             this.setState({
-              polygons: [...this.state.polygons, this.state.coordinates],
+              polygons: i,//[...this.state.polygons, {coord: this.state.coordinates, NodeID: '', color: "rgba(76, 166, 79, 0.5)"}],
             });
+          }
         }
       );
     }
@@ -358,9 +314,9 @@ export default class HomeScreen extends React.Component {
           {this.state.polygons.map((polygon) => (
             <Polygon
               onPress={(e) => this.onPress(e)}
-              coordinates={polygon}
+              coordinates={polygon.coord[0]}
               strokeColor="#F00"
-              fillColor={this.state.color}
+              fillColor={polygon.color}
               strokeWidth={1}
             />
           ))}
