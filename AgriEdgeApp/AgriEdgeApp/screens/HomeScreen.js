@@ -208,7 +208,6 @@ export default class HomeScreen extends React.Component {
   }
  
   onPress(e) {
-    console.log(this.state.polygons[0].color)
     if (this.state.sym == 1) {
       this.props.navigation.navigate("AddNode", {
         polygone: this.state.temp,
@@ -249,15 +248,16 @@ export default class HomeScreen extends React.Component {
   render() {
     const addtodraw = (
       <View style={styles.buttonContainer}>
-        <Icon.Button>Tap in the map to draw</Icon.Button>
+        <Icon.Button backgroundColor="rgba(49, 205, 38, 0.7)">Tap in the map to draw</Icon.Button>
       </View>
     );
     const addbtn = (
       <View style={styles.buttonContainer}>
-        <Icon.Button name="check" onPress={() => this.finish()}>
+        <Icon.Button backgroundColor="rgba(49, 205, 38, 0.7)" name="check" onPress={() => this.finish()}>
           Finish
         </Icon.Button>
         <Icon.Button
+        backgroundColor="rgba(49, 205, 38, 0.7)"
           iconStyle="{marginRight: 10}"
           name="eraser"
           onPress={() => this.clear()}
@@ -281,7 +281,7 @@ export default class HomeScreen extends React.Component {
     );
     const addnode = (
       <View style={styles.buttonContainer}>
-        <Icon.Button name="plus" onPress={() => alert("Click on the polygone")}>
+        <Icon.Button  backgroundColor="rgba(52, 218, 40, 0.5)" name="plus" onPress={() => alert("Click on the polygone")}>
           Add Node
         </Icon.Button>
       </View>
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     marginVertical: 20,
-    backgroundColor: "transparent",
+    backgroundColor: "transparent"
   },
   bubble: {
     backgroundColor: "rgba(153,153,255,0.7)",
